@@ -1,6 +1,15 @@
 <resources>
     <string name="app_name">FitGym</string>
-    <string name="Ejercicio">Ejercicio</string>
+    <string name="Ejercicio">Ejercicios</string>
     <string name="Rutina">Rutina</string>
     <string name="addExercise">Añadir ejercicio</string>
+    <string name="calendario_rutina_msg">Pulse sobre el día para añadir la rutina de ejercicios o ver una ya creada</string>
+    <string name="Series">Número de series:</string>
+    <string name="Repeticiones">Número de repeticiones:</string>
+    <string name="Peso">Peso (kg)</string>
+    <string name="informacion_extra">Información extra:</string>
+    <string name="msg_image">Inserta una imagen</string>
+    <string name="descripcion_nuevo_ejercicio">Descripción:</string>
+    <string name="nombre_ejercicio">Nombre del ejercicio:</string>
+    <string name="button_add_ejercicio_rutina">Salir </string>
 </resources>

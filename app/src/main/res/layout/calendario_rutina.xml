@@ -6,18 +6,29 @@
     android:layout_height="match_parent">
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="362dp"
+        android:layout_height="489dp"
+        android:layout_margin="5dp"
         android:gravity="center"
         android:orientation="vertical"
-        tools:layout_editor_absoluteX="32dp"
-        tools:layout_editor_absoluteY="63dp">
+        tools:layout_editor_absoluteX="11dp"
+        tools:layout_editor_absoluteY="13dp">
+
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="match_parent"
+            android:layout_height="94dp"
+            android:layout_marginBottom="5dp"
+            android:padding="10dp"
+            android:text="@string/calendario_rutina_msg"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
 
         <CalendarView
             android:id="@+id/calendarView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:focusedMonthDateColor="@color/colorPrimaryDark"
             tools:layout_editor_absoluteX="16dp"
             tools:layout_editor_absoluteY="42dp" />
     </LinearLayout>
