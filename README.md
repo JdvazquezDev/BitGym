@@ -1,5 +1,3 @@
 # BitGym
-task
-sadf
 
 
