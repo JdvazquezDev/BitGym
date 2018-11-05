@@ -1,2 +1,4 @@
 # BitGym
-Aplicación que gestiona ejercicios y permite crear rutinas en días concretos
+Tareas pendientes:
+ -Views
+ -Que funcione
