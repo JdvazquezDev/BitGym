@@ -12,4 +12,7 @@
     <string name="descripcion_nuevo_ejercicio">Descripción:</string>
     <string name="nombre_ejercicio">Nombre del ejercicio:</string>
     <string name="button_add_ejercicio_rutina">Salir </string>
+    <string name="añadirImagen">Añadir Imagen</string>
+    <string name="add_image">Añadir imagen</string>
+    <string name="edit_ejercicio_rutina">Editar</string>
 </resources>

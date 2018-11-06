@@ -20,7 +20,6 @@
             android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/textView4"
                 android:layout_width="wrap_content"
                 android:layout_height="40dp"
                 android:layout_weight="0.5"
@@ -32,9 +31,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.5"
+                android:autofillHints=""
                 android:ems="10"
                 android:inputType="text"
-                android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
+                android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+                tools:targetApi="o" />
         </LinearLayout>
 
         <LinearLayout
@@ -48,7 +49,7 @@
                 android:orientation="horizontal">
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:gravity="center_vertical|center_horizontal"
@@ -70,7 +71,7 @@
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:padding="5dp"
-                    android:text="Añadir imagen"
+                    android:text="@string/add_image"
                     android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
             </LinearLayout>
 
@@ -90,7 +91,6 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
                     android:text="@string/descripcion_nuevo_ejercicio"
                     android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
             </LinearLayout>
@@ -99,9 +99,11 @@
                 android:id="@+id/descripcion_nuevo_ejercicio"
                 android:layout_width="match_parent"
                 android:layout_height="100dp"
+                android:autofillHints=""
                 android:ems="10"
                 android:inputType="text|textMultiLine|textPersonName"
-                android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
+                android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+                tools:targetApi="o" />
         </LinearLayout>
 
     </LinearLayout>
