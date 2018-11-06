@@ -18,12 +18,12 @@
         android:orientation="horizontal">
 
         <Button
-            android:id="@+id/button2"
-            android:layout_width="0dp"
+            android:id="@+id/button_ejercicios"
+            style="@style/Widget.AppCompat.Button"
+            android:layout_width="match_parent"
             android:layout_height="130dp"
-            android:layout_weight="1"
             android:text="@string/Ejercicio"
-            android:textAlignment="center"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body2"
             tools:layout_marginBottom="10dp" />
     </LinearLayout>
 
@@ -34,11 +34,11 @@
         android:orientation="horizontal">
 
         <Button
-            android:id="@+id/button"
-            android:layout_width="0dp"
+            android:id="@+id/button_rutina"
+            android:layout_width="match_parent"
             android:layout_height="130dp"
-            android:layout_weight="1"
-            android:text="@string/Rutina" />
+            android:text="@string/Rutina"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
 
     </LinearLayout>
 
