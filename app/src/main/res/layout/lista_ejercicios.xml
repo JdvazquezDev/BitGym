@@ -2,14 +2,15 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/lista_ejercicios"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".ui.MainActivity">
+    tools:context="com.fitgym.ui.ListaEjerciciosActivity">
 
     <ListView
 
-        android:id="@+id/lvItems"
+        android:id="@+id/lvEjericios"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight=".9"></ListView>
@@ -30,7 +31,13 @@
             android:gravity="center"
             android:text="@string/addExercise"
             android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
-
+        <TextView
+            android:text="0"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/lblNum"
+            android:layout_weight="1"
+            android:gravity="right|center_vertical" />
     </LinearLayout>
 
 </LinearLayout>
