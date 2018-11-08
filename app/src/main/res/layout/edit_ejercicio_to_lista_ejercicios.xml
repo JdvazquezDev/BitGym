@@ -117,13 +117,13 @@
                 android:id="@+id/btGuardar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="btGuardar" />
+                android:text="@string/btGuardar" />
 
             <Button
                 android:id="@+id/btCancelar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="btCancelar" />
+                android:text="@string/btCancelar" />
         </LinearLayout>
 
     </LinearLayout>

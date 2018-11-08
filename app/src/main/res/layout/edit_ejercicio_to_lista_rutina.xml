@@ -79,11 +79,12 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="0.3"
                 android:ems="10"
+                android:importantForAutofill="no"
                 android:inputType="number"
                 android:selectAllOnFocus="false"
                 android:singleLine="false"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                android:importantForAutofill="no" tools:targetApi="o"/>
+                tools:targetApi="o" />
         </LinearLayout>
 
         <LinearLayout

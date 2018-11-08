@@ -15,4 +15,8 @@
     <string name="añadirImagen">Añadir Imagen</string>
     <string name="add_image">Añadir imagen</string>
     <string name="edit_ejercicio_rutina">Editar</string>
+    <string name="btGurdar">Guardar</string>
+    <string name="btCancelar">Cancelar</string>
+    <string name="btGuardar">Guardar</string>
+    <string name="logo">logo</string>
 </resources>
