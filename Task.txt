@@ -9,9 +9,11 @@
 -Funcionalidades:
 	- Ir a la actividad de calendario y lista de ejercicios
 	- Guardar imagenes
+	- Alamcenar ejercicios creados
 	
 
 
 Enlaces:
 https://www.youtube.com/watch?v=xs5406vApTo - Calendario con las fechas resaltadas
 https://es.stackoverflow.com/questions/74332/guardar-imagenes-en-sqlite-android - Imagenes
+http://www.androfast.com/2017/04/como-subir-una-imagen-desde-android-una.html - Almacenar imagen en sql
