@@ -3,10 +3,12 @@ package com.fitgym.ui;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
 import com.fitgym.R;
+import com.fitgym.core.DBManager;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -17,7 +19,6 @@ public class MainActivity extends AppCompatActivity {
 
         Button btEjercicios = (Button) this.findViewById( R.id.button_ejercicios);
         Button btRutina = (Button) this.findViewById( R.id.button_rutina);
-
 
         btEjercicios.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -34,5 +35,17 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        this.dbManager = ( (MiApp) this.getApplication() ).getBD();
+
     }
+
+    @Override
+    public void onPause()
+    {
+        super.onPause();
+       // ( (MiApp) this.getApplication() ).getBD().close();
+    }
+
+    private DBManager dbManager;
+
 }

@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.fitgym">
 
-    <application
+    <application android:name="com.fitgym.ui.MiApp"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -20,6 +20,7 @@
         <activity android:name=".ui.ListaEjerciciosActivity"></activity>
         <activity android:name=".ui.addEjerciciosActivity"></activity>
         <activity android:name=".ui.editEjerciciosActivity"></activity>
+        <activity android:name=".ui.ListaEjerciciosRutinaActivity"></activity>
 
         <meta-data
             android:name="preloaded_fonts"

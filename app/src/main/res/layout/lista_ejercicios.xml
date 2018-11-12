@@ -31,13 +31,13 @@
             android:gravity="center"
             android:text="@string/addExercise"
             android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
-        <TextView
+    <!--    <TextView
             android:text="0"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/lblNum"
             android:layout_weight="1"
-            android:gravity="right|center_vertical" />
+            android:gravity="right|center_vertical" />-->
     </LinearLayout>
 
 </LinearLayout>

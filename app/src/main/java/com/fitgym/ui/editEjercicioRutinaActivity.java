@@ -6,25 +6,24 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
 import com.fitgym.R;
 
-
-public class addEjerciciosActivity extends AppCompatActivity {
+public class editEjercicioRutinaActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.add_ejercicio_to_lista_ejercicio);
+        setContentView(R.layout.edit_ejercicio_to_lista_rutina);
 
         final Button btGuardar = (Button) this.findViewById( R.id.btGuardar );
         final Button btCancelar = (Button) this.findViewById( R.id.btCancelar );
         final EditText nombre_nuevo_ejercicio = (EditText) this.findViewById( R.id.nombre_nuevo_ejercicio );
-        final EditText descripcion_nuevo_ejercicio = (EditText) this.findViewById( R.id.descripcion_nuevo_ejercicio);
+        final EditText descripcion_nuevo_ejercicio = (EditText) this.findViewById( R.id.descripcion_nuevo_ejercicio );
 
         Intent datosEnviados = this.getIntent();
 
@@ -33,8 +32,8 @@ public class addEjerciciosActivity extends AppCompatActivity {
         btCancelar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                addEjerciciosActivity.this.setResult( Activity.RESULT_CANCELED );
-                addEjerciciosActivity.this.finish();
+                editEjercicioRutinaActivity.this.setResult( Activity.RESULT_CANCELED );
+                editEjercicioRutinaActivity.this.finish();
             }
         });
 
@@ -44,8 +43,10 @@ public class addEjerciciosActivity extends AppCompatActivity {
                 Intent datosRetornar = new Intent();
                 datosRetornar.putExtra( "nombre", nombre_nuevo_ejercicio.getText().toString() );
                 datosRetornar.putExtra( "descripcion", descripcion_nuevo_ejercicio.getText().toString() );
-                addEjerciciosActivity.this.setResult( Activity.RESULT_OK, datosRetornar );
-                addEjerciciosActivity.this.finish();
+                datosRetornar.putExtra( "pos", editEjercicioRutinaActivity.this.getIntent().getExtras().getInt( "pos" ) );
+
+                editEjercicioRutinaActivity.this.setResult( Activity.RESULT_OK, datosRetornar );
+                editEjercicioRutinaActivity.this.finish();
             }
         });
         btGuardar.setEnabled( false );
@@ -82,8 +83,6 @@ public class addEjerciciosActivity extends AppCompatActivity {
                 btGuardar.setEnabled( descripcion_nuevo_ejercicio.getText().toString().trim().length() > 0  &&  descripcion_nuevo_ejercicio.getText().toString().trim().length() > 0);
             }
         });
-
     }
 
 }
-
