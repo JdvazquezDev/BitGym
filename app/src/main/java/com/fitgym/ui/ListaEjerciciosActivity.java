@@ -33,22 +33,12 @@ public class ListaEjerciciosActivity extends AppCompatActivity  {
         protected void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
             setContentView(R.layout.lista_ejercicios);
-
-
             this.dbManager = ( (MiApp) this.getApplication() ).getBD();
 
-
-             lvEjercicios = (ListView) this.findViewById( R.id.lvEjericios );
+            lvEjercicios = (ListView) this.findViewById( R.id.lvEjericios );
             Button btNuevo = (Button) this.findViewById( R.id.btNuevo );
 
-            // Lista
-           /* this.ejercicios = new ArrayList<>();
-            this.adaptadorEjercicios = new ArrayAdapter<Ejercicio>(
-                    this,
-                    android.R.layout.simple_selectable_list_item,
-                    this.ejercicios );
-            lvEjericios.setAdapter( this.adaptadorEjercicios );
-*/
+
             // Inserta
             btNuevo.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -56,6 +46,7 @@ public class ListaEjerciciosActivity extends AppCompatActivity  {
                     Intent subActividad = new Intent( ListaEjerciciosActivity.this, addEjerciciosActivity.class );
                     subActividad.putExtra( "nombre", "" );
                     subActividad.putExtra( "descripcion", "" );
+                    subActividad.putExtra( "imagen","" );
                     ListaEjerciciosActivity.this.startActivityForResult( subActividad, CODIGO_ADICION_EJERCICIO );
                 }
             });
@@ -74,6 +65,8 @@ public class ListaEjerciciosActivity extends AppCompatActivity  {
 
                         subActividad.putExtra("nombre", cursor.getString(0));
                         subActividad.putExtra("descripcion", cursor.getString(1));
+                        subActividad.putExtra("imagen", cursor.getBlob(2));
+
                         subActividad.putExtra("pos", i);
                         ListaEjerciciosActivity.this.startActivityForResult(subActividad, CODIGO_EDIT_EJERCICIO);
 
@@ -95,55 +88,64 @@ public class ListaEjerciciosActivity extends AppCompatActivity  {
                 && resultCode == Activity.RESULT_OK)
         {
 
-            Ejercicio ejer = new Ejercicio( data.getExtras().getString( "nombre").toString() ,data.getExtras().getString( "descripcion").toString());
-            this.dbManager.insertaEjercicio( ejer.getNombre(), ejer.getDescripcion());
-            this.updateEjercicios();
-
-            //this.adaptadorEjercicios.add( ejer );
-          //  this.updateStatus();
+            Ejercicio ejer = new Ejercicio( data.getExtras().getString( "nombre").toString() ,data.getExtras().getString( "descripcion").toString(),data.getExtras().getByteArray("imagen"));
+            this.dbManager.insertaEjercicio( ejer.getNombre(), ejer.getDescripcion(),ejer.getImagen());
+            this.updateEjercicioList();
 
         }
         if ( requestCode == CODIGO_EDIT_EJERCICIO
                 && resultCode == Activity.RESULT_OK )
         {
             int pos = data.getExtras().getInt( "pos" );
-            Ejercicio ejer = new Ejercicio( data.getExtras().getString( "nombre").toString() ,data.getExtras().getString( "descripcion").toString());
-            this.dbManager.insertaEjercicio( ejer.getNombre(), ejer.getDescripcion());
-            this.updateEjercicios();
+            Ejercicio ejer = new Ejercicio( data.getExtras().getString( "nombre").toString() ,data.getExtras().getString( "descripcion").toString(),data.getExtras().getByteArray("imagen"));
+            this.dbManager.insertaEjercicio( ejer.getNombre(), ejer.getDescripcion(),ejer.getImagen());
+            this.updateEjercicioList();
 
-          ///  this.ejercicios.set( pos, ejer );
-          //  this.adaptadorEjercicios.notifyDataSetChanged();
         }
 
         return;
     }
-
-   /* private void updateStatus()
-    {
-        TextView lblNum = (TextView) this.findViewById( R.id.lblNum );
-        lblNum.setText( Integer.toString( this.mainCursorAdapter.getCount() ) );
-    }
-*/
 
 
     @Override
     protected void onStart()
     {
         super.onStart();
-
+/*
 
         this.lvEjercicios = this.findViewById( R.id.lvEjericios );
-        this.mainCursorAdapter = new SimpleCursorAdapter( this,
+        this.mainCursorAdapter = new SimpleCursorAdapter( ListaEjerciciosActivity.this,
                 R.layout.lvejercicio_context_menu,
-
                 null,
-                new String[]{ dbManager.EJERCICIO_COL_NOMBRE, dbManager.EJERCICIO_COL_DESCRIPCION },
-                new int[] { R.id.lblNombre, R.id.lblDescripcion } );
+                new String[]{ dbManager.EJERCICIO_COL_NOMBRE, dbManager.EJERCICIO_COL_DESCRIPCION,dbManager.EJERCICIO_COL_IMAGEN},
+                new int[] { R.id.lblNombre, R.id.lblDescripcion ,R.id.imgExercise} );
 
         this.lvEjercicios.setAdapter( this.mainCursorAdapter );
 
-        this.updateEjercicios();
+        //No se porque no va
+       this.updateEjercicios();
 
+       */
+
+        this.ejercicios = new ArrayList<>();
+        Cursor cursor =  dbManager.getAllEjercicios();
+        ejercicios.clear();
+        while (cursor.moveToNext()) {
+
+            String nombre = cursor.getString(0);
+            String descripcion = cursor.getString(1);
+            byte[] imagen = cursor.getBlob(2);
+
+            ejercicios.add(new Ejercicio(nombre, descripcion, imagen));
+        }
+
+        // Lista
+
+        this.adaptadorEjercicios = new ListaEjercicioActivityEntryArrayAdapter(
+                ListaEjerciciosActivity.this,
+                this.ejercicios );
+        lvEjercicios.setAdapter( this.adaptadorEjercicios );
+        adaptadorEjercicios.notifyDataSetChanged();
 
     }
 
@@ -156,14 +158,28 @@ public class ListaEjerciciosActivity extends AppCompatActivity  {
     public void onPause()
     {
         super.onPause();
-        this.mainCursorAdapter.getCursor().close();
+     //   this.mainCursorAdapter.getCursor().close();
         this.dbManager.close();
     }
 
+    private void updateEjercicioList(){
+        Cursor cursor =  dbManager.getAllEjercicios();
+        ejercicios.clear();
+        while (cursor.moveToNext()) {
+
+            String nombre = cursor.getString(0);
+            String descripcion = cursor.getString(1);
+            byte[] imagen = cursor.getBlob(2);
+
+            ejercicios.add(new Ejercicio(nombre, descripcion, imagen));
+        }
+
+        adaptadorEjercicios.notifyDataSetChanged();
+    }
 
     private CursorAdapter mainCursorAdapter;
     private DBManager dbManager;
 
- //   private ArrayAdapter<Ejercicio> adaptadorEjercicios;
- //  private ArrayList<Ejercicio> ejercicios;
+    private ArrayAdapter<Ejercicio> adaptadorEjercicios;
+   private ArrayList<Ejercicio> ejercicios;
 }

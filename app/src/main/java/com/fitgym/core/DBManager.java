@@ -7,6 +7,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+import java.sql.Blob;
+
 /** Maneja el acceso a la base de datos. */
 public class DBManager extends SQLiteOpenHelper {
     public static final String DB_NOMBRE = "GYM";
@@ -15,10 +17,12 @@ public class DBManager extends SQLiteOpenHelper {
     public static final String TABLA_EJERCICIO;
     public static final String EJERCICIO_COL_NOMBRE; //nombre
     public static final String EJERCICIO_COL_DESCRIPCION;
+    public static final String EJERCICIO_COL_IMAGEN;
     static {
         TABLA_EJERCICIO = "ejercicio";
         EJERCICIO_COL_NOMBRE = "_id";
         EJERCICIO_COL_DESCRIPCION = "descripcion";
+        EJERCICIO_COL_IMAGEN = "imagen";
     }
 
 
@@ -37,7 +41,9 @@ public class DBManager extends SQLiteOpenHelper {
             db.beginTransaction();
             db.execSQL( "CREATE TABLE IF NOT EXISTS " + TABLA_EJERCICIO + "( "
                     + EJERCICIO_COL_NOMBRE + " string(255) PRIMARY KEY NOT NULL, "
-                    + EJERCICIO_COL_DESCRIPCION + " string(255) NOT NULL" +")");
+                    + EJERCICIO_COL_DESCRIPCION + " string(255) NOT NULL,"
+                    + EJERCICIO_COL_IMAGEN + " blob NOT NULL" +
+                    ")");
             db.setTransactionSuccessful();
 
         }
@@ -75,7 +81,7 @@ public class DBManager extends SQLiteOpenHelper {
     public Cursor getAllEjercicios()
     {
         return this.getReadableDatabase().query( TABLA_EJERCICIO,
-                null, null, null, null, null, null );
+                new String[]{EJERCICIO_COL_NOMBRE, EJERCICIO_COL_DESCRIPCION,EJERCICIO_COL_IMAGEN}, null, null, null, null, null );
     }
 
     /** Inserta un nuevo ejercicio.
@@ -83,7 +89,7 @@ public class DBManager extends SQLiteOpenHelper {
      * @param descripcion La descripcion del ejercicio.
      * @return true si se pudo insertar (o modificar), false en otro caso.
      */
-    public boolean insertaEjercicio(String nombre, String descripcion)
+    public boolean insertaEjercicio(String nombre, String descripcion,byte[] imagen)
     {
         Cursor cursor = null;
         boolean toret = false;
@@ -92,7 +98,7 @@ public class DBManager extends SQLiteOpenHelper {
 
         values.put( EJERCICIO_COL_NOMBRE, nombre );
         values.put( EJERCICIO_COL_DESCRIPCION, descripcion );
-
+        values.put( EJERCICIO_COL_IMAGEN,imagen);
         try {
             db.beginTransaction();
             cursor = db.query( TABLA_EJERCICIO,

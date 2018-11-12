@@ -11,8 +11,6 @@ public class MiApp extends Application {
         public void onCreate() {
             super.onCreate();
             this.dbManager = new DBManager( this.getApplicationContext() );
-            Log.i(  "App",
-                    "Hurra");
         }
         public DBManager getBD() {
             return this.dbManager;

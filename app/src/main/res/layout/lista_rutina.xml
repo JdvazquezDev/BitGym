@@ -9,7 +9,7 @@
     tools:context="com.fitgym.ui.ListaEjerciciosRutinaActivity">
 
     <ListView
-        android:id="@+id/lvEjericios"
+        android:id="@+id/lvRutina"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight=".9"></ListView>
