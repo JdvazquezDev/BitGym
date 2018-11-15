@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
 import java.sql.Blob;
+import java.util.ArrayList;
 
 /** Maneja el acceso a la base de datos. */
 public class DBManager extends SQLiteOpenHelper {
@@ -18,6 +19,8 @@ public class DBManager extends SQLiteOpenHelper {
     public static final String EJERCICIO_COL_NOMBRE; //nombre
     public static final String EJERCICIO_COL_DESCRIPCION;
     public static final String EJERCICIO_COL_IMAGEN;
+    private static DBManager dbManager;
+
     static {
         TABLA_EJERCICIO = "ejercicio";
         EJERCICIO_COL_NOMBRE = "_id";
@@ -26,7 +29,7 @@ public class DBManager extends SQLiteOpenHelper {
     }
 
 
-    public DBManager(Context context)
+    private DBManager(Context context)
     {
         super( context, DB_NOMBRE, null, DB_VERSION);
     }
@@ -75,13 +78,53 @@ public class DBManager extends SQLiteOpenHelper {
 
         this.onCreate( db );
     }
-
+    //Singlenton
+    public static DBManager open(Context context){
+        if(dbManager == null) {
+            dbManager = new DBManager(context);
+        }
+        return dbManager;
+    }
+    //Singlenton
+    public static DBManager get(){
+        return dbManager;
+    }
     /** Devuelve todas los ejercicios en la BD
      * @return Un Cursor con los ejercicios. */
     public Cursor getAllEjercicios()
     {
         return this.getReadableDatabase().query( TABLA_EJERCICIO,
                 new String[]{EJERCICIO_COL_NOMBRE, EJERCICIO_COL_DESCRIPCION,EJERCICIO_COL_IMAGEN}, null, null, null, null, null );
+    }
+
+    public ArrayList<Ejercicio> getArrayEjercicio(){
+        SQLiteDatabase db = this.getReadableDatabase();
+        ArrayList<Ejercicio> toret = new ArrayList<>();
+        try {
+            db.beginTransaction();
+            Cursor cursor = db.query(TABLA_EJERCICIO,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null);
+
+            if (cursor.moveToFirst()) {
+                do {
+                    String nombre = cursor.getString(cursor.getColumnIndex(EJERCICIO_COL_NOMBRE));
+                    String descripcion = cursor.getString(cursor.getColumnIndex(EJERCICIO_COL_DESCRIPCION));
+                    byte[] imagen = cursor.getBlob(cursor.getColumnIndex(EJERCICIO_COL_IMAGEN));
+                    toret.add(new Ejercicio(nombre, descripcion, imagen));
+                } while (cursor.moveToNext());
+            }
+        }catch (SQLException exc){
+            Log.e("DBManager array",exc.getMessage());
+        }
+        db.setTransactionSuccessful();
+
+        return toret;
     }
 
     /** Inserta un nuevo ejercicio.

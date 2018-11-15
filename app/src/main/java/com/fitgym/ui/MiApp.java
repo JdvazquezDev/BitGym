@@ -10,11 +10,11 @@ public class MiApp extends Application {
         @Override
         public void onCreate() {
             super.onCreate();
-            this.dbManager = new DBManager( this.getApplicationContext() );
+          //  this.dbManager = DBManager.open( this.getApplicationContext() );
         }
-        public DBManager getBD() {
-            return this.dbManager;
-        }
-        private DBManager dbManager;
+       // public DBManager getBD() {
+       //     return this.dbManager;
+      //  }
+     //   private DBManager dbManager;
 
 }

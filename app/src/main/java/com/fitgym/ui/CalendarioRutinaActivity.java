@@ -22,7 +22,7 @@ public class CalendarioRutinaActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.calendario_rutina);
 
-        this.dbManager = ( (MiApp) this.getApplication() ).getBD();
+        this.dbManager = DBManager.get();
 
         CalendarView dlg = (CalendarView)this.findViewById(R.id.calendarView);
 

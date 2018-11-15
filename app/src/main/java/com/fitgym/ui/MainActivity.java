@@ -35,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        this.dbManager = ( (MiApp) this.getApplication() ).getBD();
+        this.dbManager = DBManager.open( this.getApplicationContext());
 
     }
 

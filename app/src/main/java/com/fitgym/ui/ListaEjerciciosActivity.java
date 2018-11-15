@@ -3,6 +3,8 @@ package com.fitgym.ui;
 import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -11,6 +13,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CursorAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.SimpleCursorAdapter;
@@ -33,7 +36,7 @@ public class ListaEjerciciosActivity extends AppCompatActivity  {
         protected void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
             setContentView(R.layout.lista_ejercicios);
-            this.dbManager = ( (MiApp) this.getApplication() ).getBD();
+            this.dbManager = DBManager.get();
 
             lvEjercicios = (ListView) this.findViewById( R.id.lvEjericios );
             Button btNuevo = (Button) this.findViewById( R.id.btNuevo );
@@ -111,22 +114,25 @@ public class ListaEjerciciosActivity extends AppCompatActivity  {
     protected void onStart()
     {
         super.onStart();
-/*
+
 
         this.lvEjercicios = this.findViewById( R.id.lvEjericios );
         this.mainCursorAdapter = new SimpleCursorAdapter( ListaEjerciciosActivity.this,
                 R.layout.lvejercicio_context_menu,
-                null,
+                this.dbManager.getAllEjercicios(),
                 new String[]{ dbManager.EJERCICIO_COL_NOMBRE, dbManager.EJERCICIO_COL_DESCRIPCION,dbManager.EJERCICIO_COL_IMAGEN},
-                new int[] { R.id.lblNombre, R.id.lblDescripcion ,R.id.imgExercise} );
+                new int[] { R.id.lblNombre, R.id.lblDescripcion ,R.id.imgExercise} );//Sin la ultima columna si que se ejecuta, no consigue transformar bloc a string
+
+
+        mainCursorAdapter.setViewBinder(new EjercicioViewBinder());
 
         this.lvEjercicios.setAdapter( this.mainCursorAdapter );
 
         //No se porque no va
-       this.updateEjercicios();
+       //this.updateEjercicios();
 
-       */
 
+/*
         this.ejercicios = new ArrayList<>();
         Cursor cursor =  dbManager.getAllEjercicios();
         ejercicios.clear();
@@ -139,6 +145,7 @@ public class ListaEjerciciosActivity extends AppCompatActivity  {
             ejercicios.add(new Ejercicio(nombre, descripcion, imagen));
         }
 
+    //    this.ejercicios = dbManager.getArrayEjercicio();
         // Lista
 
         this.adaptadorEjercicios = new ListaEjercicioActivityEntryArrayAdapter(
@@ -146,7 +153,7 @@ public class ListaEjerciciosActivity extends AppCompatActivity  {
                 this.ejercicios );
         lvEjercicios.setAdapter( this.adaptadorEjercicios );
         adaptadorEjercicios.notifyDataSetChanged();
-
+*/
     }
 
     private void updateEjercicios()
@@ -174,10 +181,33 @@ public class ListaEjerciciosActivity extends AppCompatActivity  {
             ejercicios.add(new Ejercicio(nombre, descripcion, imagen));
         }
 
+      //  this.ejercicios = dbManager.getArrayEjercicio();
         adaptadorEjercicios.notifyDataSetChanged();
     }
+    class EjercicioViewBinder implements SimpleCursorAdapter.ViewBinder
+    {
+        public boolean setViewValue(View view, Cursor cursor, int columnIndex)
+        {
+            try
+            {
+                if (view instanceof ImageView)
+                {
+                    byte[] result = cursor.getBlob(cursor.getColumnIndex("imagen"));//my image is stored as blob in db at 3
+                    Bitmap bmp = BitmapFactory.decodeByteArray(result, 0, result.length);
+                    ImageView imgExercise=(ImageView)view.findViewById(R.id.imgExercise);
+                    imgExercise.setImageBitmap(bmp);
+                    return true;
+                }
 
-    private CursorAdapter mainCursorAdapter;
+            }
+            catch(Exception e)
+            {
+                Toast.makeText(ListaEjerciciosActivity.this, e.toString()+" err", Toast.LENGTH_LONG).show();
+            }
+            return false;
+        }
+    }
+    private SimpleCursorAdapter mainCursorAdapter;
     private DBManager dbManager;
 
     private ArrayAdapter<Ejercicio> adaptadorEjercicios;

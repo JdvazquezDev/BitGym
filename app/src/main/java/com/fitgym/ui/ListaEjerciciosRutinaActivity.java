@@ -35,7 +35,7 @@ public class ListaEjerciciosRutinaActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.lista_rutina);
 
-        this.dbManager = ( (MiApp) this.getApplication() ).getBD();
+        this.dbManager = DBManager.get();
 
 
         lvRutina = (ListView) this.findViewById( R.id.lvRutina );
