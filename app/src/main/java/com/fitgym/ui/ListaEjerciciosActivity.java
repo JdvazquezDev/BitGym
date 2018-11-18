@@ -93,7 +93,7 @@ public class ListaEjerciciosActivity extends AppCompatActivity  {
 
             Ejercicio ejer = new Ejercicio( data.getExtras().getString( "nombre").toString() ,data.getExtras().getString( "descripcion").toString(),data.getExtras().getByteArray("imagen"));
             this.dbManager.insertaEjercicio( ejer.getNombre(), ejer.getDescripcion(),ejer.getImagen());
-            this.updateEjercicioList();
+            this.updateEjercicios();
 
         }
         if ( requestCode == CODIGO_EDIT_EJERCICIO
@@ -102,7 +102,7 @@ public class ListaEjerciciosActivity extends AppCompatActivity  {
             int pos = data.getExtras().getInt( "pos" );
             Ejercicio ejer = new Ejercicio( data.getExtras().getString( "nombre").toString() ,data.getExtras().getString( "descripcion").toString(),data.getExtras().getByteArray("imagen"));
             this.dbManager.insertaEjercicio( ejer.getNombre(), ejer.getDescripcion(),ejer.getImagen());
-            this.updateEjercicioList();
+            this.updateEjercicios();
 
         }
 
@@ -168,7 +168,7 @@ public class ListaEjerciciosActivity extends AppCompatActivity  {
      //   this.mainCursorAdapter.getCursor().close();
         this.dbManager.close();
     }
-
+/*
     private void updateEjercicioList(){
         Cursor cursor =  dbManager.getAllEjercicios();
         ejercicios.clear();
@@ -183,7 +183,7 @@ public class ListaEjerciciosActivity extends AppCompatActivity  {
 
       //  this.ejercicios = dbManager.getArrayEjercicio();
         adaptadorEjercicios.notifyDataSetChanged();
-    }
+    }*/
     class EjercicioViewBinder implements SimpleCursorAdapter.ViewBinder
     {
         public boolean setViewValue(View view, Cursor cursor, int columnIndex)
@@ -207,9 +207,11 @@ public class ListaEjerciciosActivity extends AppCompatActivity  {
             return false;
         }
     }
+
+
     private SimpleCursorAdapter mainCursorAdapter;
     private DBManager dbManager;
 
-    private ArrayAdapter<Ejercicio> adaptadorEjercicios;
-   private ArrayList<Ejercicio> ejercicios;
+  //  private ArrayAdapter<Ejercicio> adaptadorEjercicios;
+  //  private ArrayList<Ejercicio> ejercicios;
 }

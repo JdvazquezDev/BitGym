@@ -3,6 +3,8 @@ package com.fitgym.ui;
 import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -11,6 +13,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CursorAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
@@ -41,15 +44,7 @@ public class ListaEjerciciosRutinaActivity extends AppCompatActivity {
         lvRutina = (ListView) this.findViewById( R.id.lvRutina );
         Button btNuevo = (Button) this.findViewById( R.id.btNuevo );
 
-        Intent datosEnviados = this.getIntent();
-        fecha = (Date) datosEnviados.getExtras().get("fecha");
 
-/*
-        if(this.ejercicios == null){
-            this.ejercicios = new ArrayList<>();
-            CalendarioRutinaActivity.ejericios.addRutina(fecha,new Rutina(this.ejercicios));
-        }
-*/
         // Inserta
         btNuevo.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -57,11 +52,10 @@ public class ListaEjerciciosRutinaActivity extends AppCompatActivity {
                 //Cambiar por la actividad de seleccionar ejercicios
                 Intent subActividad = new Intent( ListaEjerciciosRutinaActivity.this, addEjerciciosActivity.class );
                 subActividad.putExtra( "nombre", "" );
-                subActividad.putExtra( "descripcion", "" );
                 ListaEjerciciosRutinaActivity.this.startActivityForResult( subActividad, CODIGO_ADICION_EJERCICIO );
             }
         });
-
+/*
         // Modifica
         lvRutina.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
@@ -90,7 +84,7 @@ public class ListaEjerciciosRutinaActivity extends AppCompatActivity {
                 }
             }
         });
-
+*/
     }
     protected void onActivityResult(int requestCode, int resultCode, Intent data)
     {
@@ -121,27 +115,62 @@ public class ListaEjerciciosRutinaActivity extends AppCompatActivity {
     {
         super.onStart();
 
+        Intent datosEnviados = this.getIntent();
+        fecha = (Date) datosEnviados.getExtras().get("fecha");
+
+        dbManager.insertaRutina(fecha);
 
         this.lvRutina = this.findViewById( R.id.lvRutina );
-        this.mainCursorAdapter = new SimpleCursorAdapter( this,
-                R.layout.lvejercicio_context_menu,
+        this.mainCursorAdapter = new SimpleCursorAdapter( ListaEjerciciosRutinaActivity.this,
+                R.layout.lvrutina_context_menu,
 
-                null,
-                new String[]{ dbManager.EJERCICIO_COL_NOMBRE, dbManager.EJERCICIO_COL_DESCRIPCION },
-                new int[] { R.id.lblNombre, R.id.lblDescripcion } );
+                this.dbManager.getAllEjerRutina(fecha),
+                new String[]{ dbManager.EJERCICIO_COL_IMAGEN, dbManager.EJERCICIO_RUTINA_COL_NOMBRE,dbManager.EJERCICIO_RUTINA_COL_REPETICIONES },
+                new int[] { R.id.imgExercise, R.id.lblNombre, R.id.lblNumRepeticion } );
 
-        this.lvRutina.setAdapter( this.mainCursorAdapter );
+        mainCursorAdapter.setViewBinder(new RutinaViewBinder());
 
-        this.updateRutina();
+        this.lvRutina.setAdapter(this.mainCursorAdapter);
 
     }
 
     private void updateRutina()
     {
-        this.mainCursorAdapter.changeCursor( this.dbManager.getAllEjercicios() );
+        this.mainCursorAdapter.changeCursor( this.dbManager.getAllEjerRutina(fecha) );
+    }
+    @Override
+    public void onPause()
+    {
+        super.onPause();
+        // this.mainCursorAdapter.getCursor().close();
+        this.dbManager.close();
     }
 
-    private CursorAdapter mainCursorAdapter;
+    class RutinaViewBinder implements SimpleCursorAdapter.ViewBinder
+    {
+        public boolean setViewValue(View view, Cursor cursor, int columnIndex)
+        {
+            try
+            {
+                if (view instanceof ImageView)
+                {
+                    byte[] result = cursor.getBlob(cursor.getColumnIndex("imagen"));//my image is stored as blob in db at 3
+                    Bitmap bmp = BitmapFactory.decodeByteArray(result, 0, result.length);
+                    ImageView imgExercise=(ImageView)view.findViewById(R.id.imgExercise);
+                    imgExercise.setImageBitmap(bmp);
+                    return true;
+                }
+
+            }
+            catch(Exception e)
+            {
+                Toast.makeText(ListaEjerciciosRutinaActivity.this, e.toString()+" err", Toast.LENGTH_LONG).show();
+            }
+            return false;
+        }
+    }
+
+    private SimpleCursorAdapter mainCursorAdapter;
     private DBManager dbManager;
 
     //private ArrayAdapter<Ejercicio> adaptadorRutina;
