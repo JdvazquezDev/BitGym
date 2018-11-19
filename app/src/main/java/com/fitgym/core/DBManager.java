@@ -7,9 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
-import java.sql.Blob;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
+
 import java.util.Date;
 import java.util.ArrayList;
 
@@ -131,11 +129,13 @@ public class DBManager extends SQLiteOpenHelper {
      * @return Un Cursor con los ejercicios de la rutina. */
     public Cursor getAllEjerRutina(String fecha){
 
-     String SELECT_QUERY = "SELECT t2.imagen AS imagen, t1.nombre AS nombre ,t1.num_repeticiones  AS num_repeticiones" +
+        String SELECT_QUERY = "SELECT *" +
                 " FROM ejercicioRutina t1 , ejercicio t2 " +
              "WHERE t1.nombre = t2." + EJERCICIO_COL_NOMBRE + " AND t1.fecha = " + fecha;
-
-            return this.getReadableDatabase().rawQuery(SELECT_QUERY, null);
+//t2.imagen AS imagen, t1.nombre AS nombre ,t1.num_repeticiones  AS num_repeticiones
+            Cursor c = this.getReadableDatabase().rawQuery(SELECT_QUERY, null);
+Log.i("aqui",SELECT_QUERY);
+            return c;
 
     }
 
