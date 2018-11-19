@@ -1,16 +1,14 @@
 -Views:
-	- Escoger imagen
-	- Vista inicial
-	- Vista calendario
+		
+	- Vista calendario que se marquen los dias
 	- Vista lista de ejercicios
 	- Vista lista de rutinas
-	- Vistas add y edit
+	- Vistas add y edit de rutinas
 
 -Funcionalidades:
-	- Ir a la actividad de calendario y lista de ejercicios
-	- Guardar imagenes
-	- Alamcenar ejercicios creados
-	
+	- Cargar la lista de rutinas
+	- Añadir
+	- 
 
 
 Enlaces:

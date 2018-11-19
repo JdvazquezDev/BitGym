@@ -43,7 +43,6 @@ public class MainActivity extends AppCompatActivity {
     public void onPause()
     {
         super.onPause();
-       // ( (MiApp) this.getApplication() ).getBD().close();
     }
 
     private DBManager dbManager;

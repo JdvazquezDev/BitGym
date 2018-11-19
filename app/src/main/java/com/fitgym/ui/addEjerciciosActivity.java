@@ -51,12 +51,6 @@ public class addEjerciciosActivity extends AppCompatActivity {
         nombre_nuevo_ejercicio.setText( datosEnviados.getExtras().getString(( "nombre" ) ) );
         descripcion_nuevo_ejercicio.setText(datosEnviados.getExtras().getString(("descripcion")));
 
-/*
-        byte[] ExerciseImagen = (datosEnviados.getExtras().getByteArray("imagen"));
-        Bitmap bitmap = BitmapFactory.decodeByteArray(ExerciseImagen, 0, ExerciseImagen.length);
-        imageView.setImageBitmap(bitmap);
-*/
-
         btImagen.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

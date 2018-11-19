@@ -4,6 +4,7 @@ package com.fitgym.ui;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.widget.CalendarView;
 
 
@@ -11,6 +12,8 @@ import com.fitgym.R;
 import com.fitgym.core.DBManager;
 
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 
@@ -30,10 +33,11 @@ public class CalendarioRutinaActivity extends AppCompatActivity {
             @Override
             public void onSelectedDayChange( CalendarView view, int year, int month, int dayOfMonth) {
 
-                Date fecha = new Date(year,month,dayOfMonth);
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+                String selectedDate = sdf.format(new Date(view.getDate()));
 
                 Intent subActividad = new Intent( CalendarioRutinaActivity.this, ListaEjerciciosRutinaActivity.class );
-                subActividad.putExtra( "fecha", fecha);
+                subActividad.putExtra( "fecha", selectedDate);
                 CalendarioRutinaActivity.this.startActivity(subActividad);
 
             }

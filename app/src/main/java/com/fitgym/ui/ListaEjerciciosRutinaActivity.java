@@ -33,58 +33,27 @@ public class ListaEjerciciosRutinaActivity extends AppCompatActivity {
     protected static final int CODIGO_ADICION_EJERCICIO = 100;
     protected static final int CODIGO_EDIT_EJERCICIO= 101;
     protected ListView lvRutina;
-    protected Date fecha;
+    protected String fecha;
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.lista_rutina);
 
         this.dbManager = DBManager.get();
 
-
         lvRutina = (ListView) this.findViewById( R.id.lvRutina );
         Button btNuevo = (Button) this.findViewById( R.id.btNuevo );
-
 
         // Inserta
         btNuevo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 //Cambiar por la actividad de seleccionar ejercicios
-                Intent subActividad = new Intent( ListaEjerciciosRutinaActivity.this, addEjerciciosActivity.class );
+                Intent subActividad = new Intent( ListaEjerciciosRutinaActivity.this, addEjerciciosToRutinaActivity.class );
                 subActividad.putExtra( "nombre", "" );
                 ListaEjerciciosRutinaActivity.this.startActivityForResult( subActividad, CODIGO_ADICION_EJERCICIO );
             }
         });
-/*
-        // Modifica
-        lvRutina.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-            @Override
-            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
-                //Cambiar por la actividad de editar ejercicios de la rutina
 
-                Cursor cursor = ListaEjerciciosRutinaActivity.this.mainCursorAdapter.getCursor();
-                if ( cursor.moveToPosition( i ) ) {
-
-                    Intent subActividad = new Intent(ListaEjerciciosRutinaActivity.this, editEjerciciosActivity.class);
-
-                    Ejercicio ejercicio = (Ejercicio) ListaEjerciciosRutinaActivity.this.mainCursorAdapter.getItem(i);
-
-                    subActividad.putExtra("nombre", cursor.getString(0));
-                    subActividad.putExtra("descripcion", cursor.getString(1));
-                    subActividad.putExtra("pos", i);
-                    ListaEjerciciosRutinaActivity.this.startActivityForResult(subActividad, CODIGO_EDIT_EJERCICIO);
-
-                    return true;
-                }else{
-
-                    String errMsg = "Error en el ejercicio de " + ": " + i;
-                    Log.e( "main.modifyContact", errMsg );
-                    Toast.makeText( ListaEjerciciosRutinaActivity.this, errMsg, Toast.LENGTH_LONG ).show();
-                    return false;
-                }
-            }
-        });
-*/
     }
     protected void onActivityResult(int requestCode, int resultCode, Intent data)
     {
@@ -108,25 +77,19 @@ public class ListaEjerciciosRutinaActivity extends AppCompatActivity {
         return;
     }
 
-
-
     @Override
-    protected void onStart()
-    {
-        super.onStart();
+    protected void onResume() {
+        super.onResume();
 
         Intent datosEnviados = this.getIntent();
-        fecha = (Date) datosEnviados.getExtras().get("fecha");
+        fecha = (String) datosEnviados.getExtras().get("fecha");
 
-        dbManager.insertaRutina(fecha);
-
-        this.lvRutina = this.findViewById( R.id.lvRutina );
-        this.mainCursorAdapter = new SimpleCursorAdapter( ListaEjerciciosRutinaActivity.this,
+        this.lvRutina = this.findViewById(R.id.lvRutina);
+        this.mainCursorAdapter = new SimpleCursorAdapter(ListaEjerciciosRutinaActivity.this,
                 R.layout.lvrutina_context_menu,
-
                 this.dbManager.getAllEjerRutina(fecha),
-                new String[]{ dbManager.EJERCICIO_COL_IMAGEN, dbManager.EJERCICIO_RUTINA_COL_NOMBRE,dbManager.EJERCICIO_RUTINA_COL_REPETICIONES },
-                new int[] { R.id.imgExercise, R.id.lblNombre, R.id.lblNumRepeticion } );
+                new String[]{"t2.imagen", "t1.nombre", "t1.num_repeticiones"},
+                new int[]{R.id.imgExercise, R.id.lblNombre, R.id.lblNumRepeticion});
 
         mainCursorAdapter.setViewBinder(new RutinaViewBinder());
 
@@ -160,7 +123,6 @@ public class ListaEjerciciosRutinaActivity extends AppCompatActivity {
                     imgExercise.setImageBitmap(bmp);
                     return true;
                 }
-
             }
             catch(Exception e)
             {
@@ -173,6 +135,5 @@ public class ListaEjerciciosRutinaActivity extends AppCompatActivity {
     private SimpleCursorAdapter mainCursorAdapter;
     private DBManager dbManager;
 
-    //private ArrayAdapter<Ejercicio> adaptadorRutina;
-    //private ArrayList<Ejercicio> ejercicios;
+
 }
