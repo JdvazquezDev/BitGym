@@ -20,7 +20,7 @@ public class editEjercicioRutinaActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.edit_ejercicio_to_lista_rutina);
 
-        final Button btGuardar = (Button) this.findViewById( R.id.btGuardar );
+        final Button btGuardar = (Button) this.findViewById( R.id.btGuardarEdit );
         final Button btCancelar = (Button) this.findViewById( R.id.btCancelar );
         final EditText nombre_nuevo_ejercicio = (EditText) this.findViewById( R.id.nombre_nuevo_ejercicio );
         final EditText descripcion_nuevo_ejercicio = (EditText) this.findViewById( R.id.descripcion_nuevo_ejercicio );

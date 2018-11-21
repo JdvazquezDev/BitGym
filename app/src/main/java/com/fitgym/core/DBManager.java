@@ -192,7 +192,7 @@ Log.i("aqui",SELECT_QUERY);
      * @param numRepes El numero de repeticiones del ejercicio de la rutina
      * @return true si se pudo insertar (o modificar), false en otro caso.
      */
-    public boolean insertaEjercicioRutina(String nombre, Date fecha,int numRepes)
+    public boolean insertaEjercicioRutina(String nombre, Date fecha, int numRepes)
     {
         Cursor cursor = null;
         boolean toret = false;

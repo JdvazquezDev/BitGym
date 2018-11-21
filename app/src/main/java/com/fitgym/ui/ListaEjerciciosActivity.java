@@ -8,23 +8,21 @@ import android.graphics.BitmapFactory;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.ContextMenu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.CursorAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.SimpleCursorAdapter;
 import android.widget.Toast;
-
 
 import com.fitgym.R;
 import com.fitgym.core.DBManager;
 import com.fitgym.core.Ejercicio;
 
-import java.util.ArrayList;
 
 public class ListaEjerciciosActivity extends AppCompatActivity  {
 
@@ -40,7 +38,8 @@ public class ListaEjerciciosActivity extends AppCompatActivity  {
 
             lvEjercicios = (ListView) this.findViewById( R.id.lvEjericios );
             Button btNuevo = (Button) this.findViewById( R.id.btNuevo );
-
+            lvEjercicios.setAdapter(mainCursorAdapter);
+            registerForContextMenu(lvEjercicios);
 
             // Inserta
             btNuevo.setOnClickListener(new View.OnClickListener() {
@@ -50,51 +49,20 @@ public class ListaEjerciciosActivity extends AppCompatActivity  {
                     subActividad.putExtra( "nombre", "" );
                     subActividad.putExtra( "descripcion", "" );
                     subActividad.putExtra( "imagen","" );
-                    ListaEjerciciosActivity.this.startActivityForResult( subActividad, CODIGO_ADICION_EJERCICIO );
+                    ListaEjerciciosActivity.this.startActivityForResult(subActividad, CODIGO_ADICION_EJERCICIO);
                 }
             });
-
-            // Modifica
-            lvEjercicios.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-                @Override
-                public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
-
-                    Cursor cursor = ListaEjerciciosActivity.this.mainCursorAdapter.getCursor();
-                    if ( cursor.moveToPosition( i ) ) {
-
-                        Intent subActividad = new Intent(ListaEjerciciosActivity.this, editEjerciciosActivity.class);
-
-                        Ejercicio ejercicio = (Ejercicio) ListaEjerciciosActivity.this.mainCursorAdapter.getItem(i);
-
-                        subActividad.putExtra("nombre", cursor.getString(0));
-                        subActividad.putExtra("descripcion", cursor.getString(1));
-                        subActividad.putExtra("imagen", cursor.getBlob(2));
-
-                        subActividad.putExtra("pos", i);
-                        ListaEjerciciosActivity.this.startActivityForResult(subActividad, CODIGO_EDIT_EJERCICIO);
-
-                        return true;
-                    }else{
-
-                        String errMsg = "Error en el ejercicio de " + ": " + i;
-                        Log.e( "main.modifyContact", errMsg );
-                        Toast.makeText( ListaEjerciciosActivity.this, errMsg, Toast.LENGTH_LONG ).show();
-                        return false;
-                    }
-                }
-            });
-
         }
+
     protected void onActivityResult(int requestCode, int resultCode, Intent data)
     {
+
         if ( requestCode == CODIGO_ADICION_EJERCICIO
                 && resultCode == Activity.RESULT_OK)
         {
-
             Ejercicio ejer = new Ejercicio( data.getExtras().getString( "nombre").toString() ,data.getExtras().getString( "descripcion").toString(),data.getExtras().getByteArray("imagen"));
             this.dbManager.insertaEjercicio( ejer.getNombre(), ejer.getDescripcion(),ejer.getImagen());
             this.updateEjercicios();
-
         }
         if ( requestCode == CODIGO_EDIT_EJERCICIO
                 && resultCode == Activity.RESULT_OK )
@@ -103,20 +71,16 @@ public class ListaEjerciciosActivity extends AppCompatActivity  {
             Ejercicio ejer = new Ejercicio( data.getExtras().getString( "nombre").toString() ,data.getExtras().getString( "descripcion").toString(),data.getExtras().getByteArray("imagen"));
             this.dbManager.insertaEjercicio( ejer.getNombre(), ejer.getDescripcion(),ejer.getImagen());
             this.updateEjercicios();
-
         }
-
         return;
     }
-
 
     @Override
     protected void onStart()
     {
         super.onStart();
 
-
-        this.lvEjercicios = this.findViewById( R.id.lvEjericios );
+        this.lvEjercicios = this.findViewById( R.id.lvEjercicios );
         this.mainCursorAdapter = new SimpleCursorAdapter( ListaEjerciciosActivity.this,
                 R.layout.lvejercicio_context_menu,
                 this.dbManager.getAllEjercicios(),
@@ -130,24 +94,20 @@ public class ListaEjerciciosActivity extends AppCompatActivity  {
 
         //No se porque no va
        //this.updateEjercicios();
-
-
 /*
         this.ejercicios = new ArrayList<>();
         Cursor cursor =  dbManager.getAllEjercicios();
         ejercicios.clear();
         while (cursor.moveToNext()) {
-
             String nombre = cursor.getString(0);
             String descripcion = cursor.getString(1);
             byte[] imagen = cursor.getBlob(2);
-
             ejercicios.add(new Ejercicio(nombre, descripcion, imagen));
         }
 
     //    this.ejercicios = dbManager.getArrayEjercicio();
-        // Lista
 
+        // Lista
         this.adaptadorEjercicios = new ListaEjercicioActivityEntryArrayAdapter(
                 ListaEjerciciosActivity.this,
                 this.ejercicios );
@@ -180,10 +140,10 @@ public class ListaEjerciciosActivity extends AppCompatActivity  {
 
             ejercicios.add(new Ejercicio(nombre, descripcion, imagen));
         }
-
       //  this.ejercicios = dbManager.getArrayEjercicio();
         adaptadorEjercicios.notifyDataSetChanged();
     }*/
+
     class EjercicioViewBinder implements SimpleCursorAdapter.ViewBinder
     {
         public boolean setViewValue(View view, Cursor cursor, int columnIndex)
@@ -207,8 +167,50 @@ public class ListaEjerciciosActivity extends AppCompatActivity  {
             return false;
         }
     }
+    //Menu contextual
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.contextual_menu, menu);
+    }
 
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
 
+        int position = ((AdapterView.AdapterContextMenuInfo) item.getMenuInfo()).position;
+        Cursor cursor = ListaEjerciciosActivity.this.mainCursorAdapter.getCursor();
+
+        switch (item.getItemId()) {
+            case R.id.menu_editar:
+                if (cursor.moveToPosition(position)) {
+
+                    Intent subActividad = new Intent(ListaEjerciciosActivity.this, editEjerciciosActivity.class);
+
+                    Ejercicio ejercicio = (Ejercicio) ListaEjerciciosActivity.this.mainCursorAdapter.getItem(position);
+
+                    subActividad.putExtra("nombre", cursor.getString(0));
+                    subActividad.putExtra("descripcion", cursor.getString(1));
+                    subActividad.putExtra("imagen", cursor.getBlob(2));
+                    subActividad.putExtra("pos", position);
+
+                    ListaEjerciciosActivity.this.startActivityForResult(subActividad, CODIGO_EDIT_EJERCICIO);
+
+                } else {
+                    String errMsg = "Error en el ejercicio de " + ": " + position;
+                    Log.e("main.modifyContact", errMsg);
+                }
+                return true;
+
+            case R.id.menu_Eliminar:
+                String nombre = cursor.getString(0);
+                dbManager.eliminaEjercicio(nombre);
+                updateEjercicios();
+                return true;
+            default:
+            return super.onContextItemSelected(item);
+        }
+    }
     private SimpleCursorAdapter mainCursorAdapter;
     private DBManager dbManager;
 

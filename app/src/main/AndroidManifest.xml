@@ -18,8 +18,8 @@
         </activity>
         <activity android:name=".ui.CalendarioRutinaActivity"></activity>
         <activity android:name=".ui.ListaEjerciciosActivity"></activity>
-        <activity android:name=".ui.addEjerciciosActivity"></activity>
         <activity android:name=".ui.editEjerciciosActivity"></activity>
+        <activity android:name=".ui.addEjerciciosActivity"></activity>
         <activity android:name=".ui.ListaEjerciciosRutinaActivity"></activity>
         <activity android:name=".ui.addEjerciciosToRutinaActivity"></activity>
         <meta-data

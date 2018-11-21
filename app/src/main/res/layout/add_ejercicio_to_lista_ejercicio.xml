@@ -110,7 +110,7 @@
             android:orientation="vertical">
 
             <Button
-                android:id="@+id/btGuardar"
+                android:id="@+id/btGuardarAdd"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/btGuardar" />

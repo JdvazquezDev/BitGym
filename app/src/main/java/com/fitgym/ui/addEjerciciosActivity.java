@@ -37,7 +37,7 @@ public class addEjerciciosActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.add_ejercicio_to_lista_ejercicio);
 
-        final Button btGuardar = (Button) this.findViewById( R.id.btGuardar );
+        final Button btGuardarAdd = (Button) this.findViewById( R.id.btGuardarAdd );
         final Button btCancelar = (Button) this.findViewById( R.id.btCancelar );
         final Button btImagen = (Button) this.findViewById(R.id.btImagen);
 
@@ -71,7 +71,7 @@ public class addEjerciciosActivity extends AppCompatActivity {
             }
         });
 
-        btGuardar.setOnClickListener(new View.OnClickListener() {
+        btGuardarAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent datosRetornar = new Intent();
@@ -83,7 +83,7 @@ public class addEjerciciosActivity extends AppCompatActivity {
                 addEjerciciosActivity.this.finish();
             }
         });
-        btGuardar.setEnabled( false );
+        btGuardarAdd.setEnabled( false );
 
         nombre_nuevo_ejercicio.addTextChangedListener(new TextWatcher() {
             @Override
@@ -98,7 +98,7 @@ public class addEjerciciosActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable editable) {
-                btGuardar.setEnabled( nombre_nuevo_ejercicio.getText().toString().trim().length() > 0 && nombre_nuevo_ejercicio.getText().toString().trim().length() > 0);
+                btGuardarAdd.setEnabled( nombre_nuevo_ejercicio.getText().toString().trim().length() > 0 && nombre_nuevo_ejercicio.getText().toString().trim().length() > 0);
             }
         });
         descripcion_nuevo_ejercicio.addTextChangedListener(new TextWatcher() {
@@ -114,7 +114,7 @@ public class addEjerciciosActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable editable) {
-                btGuardar.setEnabled( descripcion_nuevo_ejercicio.getText().toString().trim().length() > 0  &&  descripcion_nuevo_ejercicio.getText().toString().trim().length() > 0);
+                btGuardarAdd.setEnabled( descripcion_nuevo_ejercicio.getText().toString().trim().length() > 0  &&  descripcion_nuevo_ejercicio.getText().toString().trim().length() > 0);
             }
         });
 
@@ -167,4 +167,3 @@ public class addEjerciciosActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
     }
 }
-

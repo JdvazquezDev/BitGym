@@ -19,4 +19,6 @@
     <string name="btCancelar">Cancelar</string>
     <string name="btGuardar">Guardar</string>
     <string name="logo">logo</string>
+    <string name="menu_edit">Editar</string>
+    <string name="menu_Eliminar">Eliminar</string>
 </resources>
