@@ -129,12 +129,21 @@ public class DBManager extends SQLiteOpenHelper {
      * @return Un Cursor con los ejercicios de la rutina. */
     public Cursor getAllEjerRutina(String fecha){
 
-        String SELECT_QUERY = "SELECT *" +
-                " FROM ejercicioRutina t1 , ejercicio t2 " +
-             "WHERE t1.nombre = t2." + EJERCICIO_COL_NOMBRE + " AND t1.fecha = " + fecha;
-//t2.imagen AS imagen, t1.nombre AS nombre ,t1.num_repeticiones  AS num_repeticiones
-            Cursor c = this.getReadableDatabase().rawQuery(SELECT_QUERY, null);
-//Log.i("aqui",SELECT_QUERY);
+        /* String SELECT_QUERY =
+           "SELECT t2.imagen AS imagen, t2." + EJERCICIO_COL_NOMBRE + " AS nombre," +
+                    "" +
+                    " (SELECT t1.num_repeticiones FROM ejercicioRutina t1,ejercicio t2 WHERE t2." + EJERCICIO_COL_NOMBRE + "= t1.nombre AND  t1.fecha = " + fechaA + " ) AS num_repeticiones " +
+            " FROM ejercicio t2 " +
+            " WHERE  t2. " + EJERCICIO_COL_NOMBRE + "  IN( SELECT t1.nombre FROM ejercicioRutina t1 WHERE t1.fecha = " + fechaA + ")";*/
+
+        String SELECT_QUERY = "SELECT t2.imagen AS imagen, t1.nombre AS nombre ,t1.num_repeticiones  AS num_repeticiones,t2._id" +
+        " FROM ejercicio t2 INNER JOIN ejercicioRutina t1 " +
+        "ON t1.nombre = t2." + EJERCICIO_COL_NOMBRE + " WHERE t1.fecha = " + fecha
+        ;
+
+
+        Cursor c = this.getReadableDatabase().rawQuery(SELECT_QUERY, null); Log.i("aquii", String.valueOf(c.getCount()));
+Log.i("aqui3",SELECT_QUERY);
             return c;
 
     }
@@ -146,9 +155,9 @@ public class DBManager extends SQLiteOpenHelper {
                 " WHERE  t2. " + EJERCICIO_COL_NOMBRE + " NOT IN( SELECT t1.nombre FROM ejercicioRutina t1 WHERE t1.fecha = " + fecha + ")"
 
                 ;
-        Log.i("adsa",SELECT_QUERY);
+
         Cursor c = this.getReadableDatabase().rawQuery(SELECT_QUERY, null);
-//Log.i("aqui",SELECT_QUERY);
+
         return c;
     }
 
@@ -204,7 +213,7 @@ public class DBManager extends SQLiteOpenHelper {
      * @param numRepes El numero de repeticiones del ejercicio de la rutina
      * @return true si se pudo insertar (o modificar), false en otro caso.
      */
-    public boolean insertaEjercicioRutina(String nombre, Date fecha, int numRepes)
+    public boolean insertaEjercicioRutina(String nombre, String fecha, int numRepes)
     {
         Cursor cursor = null;
         boolean toret = false;
@@ -221,8 +230,11 @@ public class DBManager extends SQLiteOpenHelper {
                     EJERCICIO_RUTINA_COL_NOMBRE + "= ? AND " + EJERCICIO_RUTINA_COL_FECHA + "= ?"
                     , new String[]{nombre,fecha} ,
                     null, null, null, null );
-            Log.i("aqui","sadas");
-            if ( cursor.getCount() > 0 ) {Log.i("aqui","dsadasdsa");
+            Log.i("aqui", String.valueOf(cursor.getCount()));
+            Log.i("aqui", String.valueOf(cursor.getString(1)));
+
+            if ( cursor.getCount() > 0 ) {
+                Log.i("aqui","dsadasdsa");
                 db.update( TABLA_EJERCICIO_RUTINA,
                         values, EJERCICIO_RUTINA_COL_NOMBRE + "= ? AND " + EJERCICIO_RUTINA_COL_FECHA + "= ?", new String[]{nombre,fecha} );
             } else {
@@ -270,8 +282,6 @@ public class DBManager extends SQLiteOpenHelper {
 
         return toret;
     }
-
-
 
     public ArrayList<Ejercicio> getArrayEjercicio(){
         SQLiteDatabase db = this.getReadableDatabase();

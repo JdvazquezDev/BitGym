@@ -38,31 +38,32 @@ public class addEjerciciosToRutinaActivity extends AppCompatActivity
         list_ejercicios_to_add_rutina = (ListView) this.findViewById( R.id.list_ejercicios_to_add_rutina );
         final TextView nombre_ejercicio = (TextView) this.findViewById(R.id.lblNombre);
 
-        list_ejercicios_to_add_rutina.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+        list_ejercicios_to_add_rutina.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
-
+            public void onItemClick(AdapterView<?> parent, View view, int i, long id) {
                 Cursor cursor = addEjerciciosToRutinaActivity.this.mainCursorAdapter.getCursor();
                 if ( cursor.moveToPosition( i ) ) {
 
                     Intent datosRetornar = new Intent();
                     datosRetornar.putExtra( "nombre", cursor.getString(0) );
-                    Log.i("asdas",cursor.getString(0));
                     datosRetornar.putExtra("fecha",fecha);
 
                     addEjerciciosToRutinaActivity.this.setResult( Activity.RESULT_OK, datosRetornar );
                     addEjerciciosToRutinaActivity.this.finish();
 
-                    return true;
+                    return;
                 }else{
 
                     String errMsg = "Error en el ejercicio de " + ": " + i;
                     Log.e( "main.modifyContact", errMsg );
                     Toast.makeText( addEjerciciosToRutinaActivity.this, errMsg, Toast.LENGTH_LONG ).show();
-                    return false;
+                    return;
                 }
             }
         });
+
+
+
     }
 
 

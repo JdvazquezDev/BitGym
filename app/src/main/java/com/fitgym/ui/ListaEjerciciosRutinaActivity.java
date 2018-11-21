@@ -63,10 +63,13 @@ public class ListaEjerciciosRutinaActivity extends AppCompatActivity {
         if ( requestCode == CODIGO_ADICION_EJERCICIO_TO_RUTINA
                 && resultCode == Activity.RESULT_OK)
         {
-            String nombre = data.getExtras().getString( "nombre");
-            String fecha = data.getExtras().getString( "fecha");
+            String nombre = data.getExtras().getString( "nombre").toString();
+            fecha = data.getExtras().getString( "fecha").toString();
 
-            this.dbManager.insertaEjercicioRutina ( nombre, fecha,0);
+            int numRepes = 0;
+
+            this.dbManager.insertaEjercicioRutina(nombre,fecha,numRepes);
+
             this.updateRutina();
 
         }
