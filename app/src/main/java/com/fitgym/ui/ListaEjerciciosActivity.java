@@ -36,7 +36,7 @@ public class ListaEjerciciosActivity extends AppCompatActivity  {
             setContentView(R.layout.lista_ejercicios);
             this.dbManager = DBManager.get();
 
-            lvEjercicios = (ListView) this.findViewById( R.id.lvEjericios );
+            lvEjercicios = (ListView) this.findViewById( R.id.lvEjercicios );
             Button btNuevo = (Button) this.findViewById( R.id.btNuevo );
             lvEjercicios.setAdapter(mainCursorAdapter);
             registerForContextMenu(lvEjercicios);
