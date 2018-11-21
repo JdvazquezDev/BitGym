@@ -213,7 +213,7 @@ public class DBManager extends SQLiteOpenHelper {
         values.put( EJERCICIO_RUTINA_COL_NOMBRE,nombre);
         values.put( EJERCICIO_RUTINA_COL_FECHA, fecha);
         values.put(EJERCICIO_RUTINA_COL_REPETICIONES,numRepes);
-
+        Log.i("aqui","sadasda");
         try {
             db.beginTransaction();
             cursor = db.query( TABLA_EJERCICIO_RUTINA,
@@ -221,12 +221,13 @@ public class DBManager extends SQLiteOpenHelper {
                     EJERCICIO_RUTINA_COL_NOMBRE + "= ? AND " + EJERCICIO_RUTINA_COL_FECHA + "= ?"
                     , new String[]{nombre,fecha} ,
                     null, null, null, null );
-
-            if ( cursor.getCount() > 0 ) {
+            Log.i("aqui","sadas");
+            if ( cursor.getCount() > 0 ) {Log.i("aqui","dsadasdsa");
                 db.update( TABLA_EJERCICIO_RUTINA,
                         values, EJERCICIO_RUTINA_COL_NOMBRE + "= ? AND " + EJERCICIO_RUTINA_COL_FECHA + "= ?", new String[]{nombre,fecha} );
             } else {
                 db.insert( TABLA_EJERCICIO_RUTINA, null, values );
+                Log.i("aqui","sad");
             }
 
             db.setTransactionSuccessful();

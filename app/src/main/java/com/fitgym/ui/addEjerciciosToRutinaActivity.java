@@ -47,6 +47,7 @@ public class addEjerciciosToRutinaActivity extends AppCompatActivity
 
                     Intent datosRetornar = new Intent();
                     datosRetornar.putExtra( "nombre", cursor.getString(0) );
+                    Log.i("asdas",cursor.getString(0));
                     datosRetornar.putExtra("fecha",fecha);
 
                     addEjerciciosToRutinaActivity.this.setResult( Activity.RESULT_OK, datosRetornar );
