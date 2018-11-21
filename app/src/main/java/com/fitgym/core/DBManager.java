@@ -134,11 +134,23 @@ public class DBManager extends SQLiteOpenHelper {
              "WHERE t1.nombre = t2." + EJERCICIO_COL_NOMBRE + " AND t1.fecha = " + fecha;
 //t2.imagen AS imagen, t1.nombre AS nombre ,t1.num_repeticiones  AS num_repeticiones
             Cursor c = this.getReadableDatabase().rawQuery(SELECT_QUERY, null);
-Log.i("aqui",SELECT_QUERY);
+//Log.i("aqui",SELECT_QUERY);
             return c;
 
     }
 
+    public Cursor getAllEjerciciosNotInRutina(String fecha){
+
+        String SELECT_QUERY = "SELECT *" +
+                " FROM ejercicio t2 " +
+                " WHERE  t2. " + EJERCICIO_COL_NOMBRE + " NOT IN( SELECT t1.nombre FROM ejercicioRutina t1 WHERE t1.fecha = " + fecha + ")"
+
+                ;
+        Log.i("adsa",SELECT_QUERY);
+        Cursor c = this.getReadableDatabase().rawQuery(SELECT_QUERY, null);
+//Log.i("aqui",SELECT_QUERY);
+        return c;
+    }
 
     /** Inserta un nuevo ejercicio.
      * @param nombre El nombre del ejercicio.
@@ -199,7 +211,7 @@ Log.i("aqui",SELECT_QUERY);
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put( EJERCICIO_RUTINA_COL_NOMBRE,nombre);
-        values.put( EJERCICIO_RUTINA_COL_FECHA, fecha.toString());
+        values.put( EJERCICIO_RUTINA_COL_FECHA, fecha);
         values.put(EJERCICIO_RUTINA_COL_REPETICIONES,numRepes);
 
         try {
@@ -207,12 +219,12 @@ Log.i("aqui",SELECT_QUERY);
             cursor = db.query( TABLA_EJERCICIO_RUTINA,
                     null,
                     EJERCICIO_RUTINA_COL_NOMBRE + "= ? AND " + EJERCICIO_RUTINA_COL_FECHA + "= ?"
-                    , new String[]{nombre,fecha.toString()} ,
+                    , new String[]{nombre,fecha} ,
                     null, null, null, null );
 
             if ( cursor.getCount() > 0 ) {
                 db.update( TABLA_EJERCICIO_RUTINA,
-                        values, EJERCICIO_RUTINA_COL_NOMBRE + "= ? AND " + EJERCICIO_RUTINA_COL_FECHA + "= ?", new String[]{nombre,fecha.toString()} );
+                        values, EJERCICIO_RUTINA_COL_NOMBRE + "= ? AND " + EJERCICIO_RUTINA_COL_FECHA + "= ?", new String[]{nombre,fecha} );
             } else {
                 db.insert( TABLA_EJERCICIO_RUTINA, null, values );
             }
