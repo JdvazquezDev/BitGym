@@ -30,8 +30,9 @@ import java.util.HashMap;
 
 public class ListaEjerciciosRutinaActivity extends AppCompatActivity {
 
-    protected static final int CODIGO_ADICION_EJERCICIO = 100;
-    protected static final int CODIGO_EDIT_EJERCICIO= 101;
+    protected static final int CODIGO_ADICION_EJERCICIO_TO_RUTINA = 105;
+
+
     protected ListView lvRutina;
     protected String fecha;
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,29 +51,26 @@ public class ListaEjerciciosRutinaActivity extends AppCompatActivity {
                 //Cambiar por la actividad de seleccionar ejercicios
                 Intent subActividad = new Intent( ListaEjerciciosRutinaActivity.this, addEjerciciosToRutinaActivity.class );
                 subActividad.putExtra( "nombre", "" );
-                ListaEjerciciosRutinaActivity.this.startActivityForResult( subActividad, CODIGO_ADICION_EJERCICIO );
+                subActividad.putExtra( "fecha", fecha );
+
+                ListaEjerciciosRutinaActivity.this.startActivityForResult( subActividad, CODIGO_ADICION_EJERCICIO_TO_RUTINA );
             }
         });
 
     }
     protected void onActivityResult(int requestCode, int resultCode, Intent data)
     {
-        if ( requestCode == CODIGO_ADICION_EJERCICIO
+        if ( requestCode == CODIGO_ADICION_EJERCICIO_TO_RUTINA
                 && resultCode == Activity.RESULT_OK)
         {
-            Ejercicio ejer = new Ejercicio( data.getExtras().getString( "nombre").toString() ,data.getExtras().getString( "descripcion").toString(),data.getExtras().getByteArray("imagen"));
-            this.dbManager.insertaEjercicio( ejer.getNombre(), ejer.getDescripcion(),ejer.getImagen());
+            String nombre = data.getExtras().getString( "nombre").toString();
+            String fecha = data.getExtras().getString( "fecha").toString();
+
+            this.dbManager.insertaEjercicioRutina ( nombre, fecha,0);
             this.updateRutina();
 
         }
-        if ( requestCode == CODIGO_EDIT_EJERCICIO
-                && resultCode == Activity.RESULT_OK )
-        {
-            int pos = data.getExtras().getInt( "pos" );
-            Ejercicio ejer = new Ejercicio( data.getExtras().getString( "nombre").toString() ,data.getExtras().getString( "descripcion").toString(),data.getExtras().getByteArray("imagen"));
-            this.dbManager.insertaEjercicio( ejer.getNombre(), ejer.getDescripcion(),ejer.getImagen());
-            this.updateRutina();
-        }
+
 
         return;
     }

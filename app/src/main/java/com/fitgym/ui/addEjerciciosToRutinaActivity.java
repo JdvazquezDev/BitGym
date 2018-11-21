@@ -14,17 +14,21 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.fitgym.R;
 import com.fitgym.core.DBManager;
 import com.fitgym.core.Ejercicio;
 
+import org.w3c.dom.Text;
+
 public class addEjerciciosToRutinaActivity extends AppCompatActivity
 {
-    protected static final int CODIGO_ADICION_EJERCICIO = 100;
-    protected static final int CODIGO_EDIT_EJERCICIO= 101;
+
     protected ListView list_ejercicios_to_add_rutina;
+    private String fecha;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,11 +36,32 @@ public class addEjerciciosToRutinaActivity extends AppCompatActivity
         this.dbManager = DBManager.get();
 
         list_ejercicios_to_add_rutina = (ListView) this.findViewById( R.id.list_ejercicios_to_add_rutina );
+        final TextView nombre_ejercicio = (TextView) this.findViewById(R.id.lblNombre);
 
+        list_ejercicios_to_add_rutina.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
 
+                Cursor cursor = addEjerciciosToRutinaActivity.this.mainCursorAdapter.getCursor();
+                if ( cursor.moveToPosition( i ) ) {
 
+                    Intent datosRetornar = new Intent();
+                    datosRetornar.putExtra( "nombre", cursor.getString(0) );
+                    datosRetornar.putExtra("fecha",fecha);
 
+                    addEjerciciosToRutinaActivity.this.setResult( Activity.RESULT_OK, datosRetornar );
+                    addEjerciciosToRutinaActivity.this.finish();
 
+                    return true;
+                }else{
+
+                    String errMsg = "Error en el ejercicio de " + ": " + i;
+                    Log.e( "main.modifyContact", errMsg );
+                    Toast.makeText( addEjerciciosToRutinaActivity.this, errMsg, Toast.LENGTH_LONG ).show();
+                    return false;
+                }
+            }
+        });
     }
 
 
@@ -45,11 +70,13 @@ public class addEjerciciosToRutinaActivity extends AppCompatActivity
     {
         super.onResume();
 
+        Intent datosEnviados = this.getIntent();
+        fecha = (String) datosEnviados.getExtras().get("fecha");
 
         this.list_ejercicios_to_add_rutina = this.findViewById( R.id.list_ejercicios_to_add_rutina );
         this.mainCursorAdapter = new SimpleCursorAdapter( addEjerciciosToRutinaActivity.this,
                 R.layout.lvejercicio_context_menu,
-                this.dbManager.getAllEjercicios(),
+                this.dbManager.getAllEjerciciosNotInRutina(fecha),
                 new String[]{ dbManager.EJERCICIO_COL_NOMBRE, dbManager.EJERCICIO_COL_DESCRIPCION,dbManager.EJERCICIO_COL_IMAGEN},
                 new int[] { R.id.lblNombre, R.id.lblDescripcion ,R.id.imgExercise} );
 
