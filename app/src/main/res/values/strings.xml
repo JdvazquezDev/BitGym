@@ -1,9 +1,9 @@
 <resources>
-    <string name="app_name">FitGym</string>
+    <string name="app_name">BitGym</string>
     <string name="Ejercicio">Ejercicios</string>
     <string name="Rutina">Rutina</string>
     <string name="addExercise">Añadir ejercicio</string>
-    <string name="calendario_rutina_msg">Pulse sobre el día para añadir la rutina de ejercicios o ver una ya creada</string>
+    <string name="calendario_rutina_msg">Seleccione el día para ver o crear una rutina</string>
     <string name="Series">Número de series:</string>
     <string name="Repeticiones">Número de repeticiones:</string>
     <string name="Peso">Peso (kg)</string>
@@ -21,4 +21,6 @@
     <string name="logo">logo</string>
     <string name="menu_edit">Editar</string>
     <string name="menu_Eliminar">Eliminar</string>
+    <string name="ImageDesc">Imagen del ejercicio</string>
+    <string name="ListaEjercicios">Lista de ejercicios</string>
 </resources>

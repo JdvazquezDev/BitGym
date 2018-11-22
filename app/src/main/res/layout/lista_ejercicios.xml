@@ -6,7 +6,29 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:padding="10dp"
     tools:context="com.fitgym.ui.ListaEjerciciosActivity">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="25dp"
+        android:gravity="center_vertical|center_horizontal"
+        android:text="@string/ListaEjercicios"
+        android:textAllCaps="true"
+        android:textColor="@color/colorAccent"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_marginLeft="0dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginRight="0dp"
+        android:layout_marginBottom="5dp"
+        android:background="@color/colorAccent"
+        android:orientation="horizontal"
+        tools:background="@color/colorAccent"></LinearLayout>
 
     <ListView
 
@@ -19,7 +41,7 @@
     <LinearLayout
 
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="55dp"
         android:gravity="end"
         android:orientation="horizontal">
 
@@ -27,11 +49,11 @@
             android:id="@+id/btNuevo"
             style="@style/Widget.AppCompat.Button"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:gravity="center"
             android:text="@string/addExercise"
-            android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
-    <!--    <TextView
+            android:textAppearance="@style/TextAppearance.AppCompat.Button" />
+        <!--    <TextView
             android:text="0"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
