@@ -34,7 +34,7 @@ public class CalendarioRutinaActivity extends AppCompatActivity {
             public void onSelectedDayChange( CalendarView view, int year, int month, int dayOfMonth) {
 
                 SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-                String selectedDate = sdf.format(new Date(view.getDate()));
+                String selectedDate = sdf.format(new Date(year - 1900,month,dayOfMonth));
 
                 Intent subActividad = new Intent( CalendarioRutinaActivity.this, ListaEjerciciosRutinaActivity.class );
                 subActividad.putExtra( "fecha", selectedDate);

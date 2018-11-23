@@ -140,9 +140,10 @@ public class DBManager extends SQLiteOpenHelper {
         " FROM ejercicio t2 INNER JOIN ejercicioRutina t1 " +
         "ON t1.nombre = t2." + EJERCICIO_COL_NOMBRE + " WHERE t1.fecha = " + fecha
         ;
+        SELECT_QUERY = "SELECT * FROM ejercicioRutina WHERE fecha = " + fecha;
 
-
-        Cursor c = this.getReadableDatabase().rawQuery(SELECT_QUERY, null); Log.i("aquii", String.valueOf(c.getCount()));
+        Cursor c = this.getReadableDatabase().rawQuery(SELECT_QUERY, null);
+        Log.i("aquii", String.valueOf(c.getCount()));
 Log.i("aqui3",SELECT_QUERY);
             return c;
 
@@ -231,7 +232,7 @@ Log.i("aqui3",SELECT_QUERY);
                     , new String[]{nombre,fecha} ,
                     null, null, null, null );
             Log.i("aqui", String.valueOf(cursor.getCount()));
-            Log.i("aqui", String.valueOf(cursor.getString(1)));
+         //   Log.i("aqui", String.valueOf(cursor.getString(1)));
 
             if ( cursor.getCount() > 0 ) {
                 Log.i("aqui","dsadasdsa");
