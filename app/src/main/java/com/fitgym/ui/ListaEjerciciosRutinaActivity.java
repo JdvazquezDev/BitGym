@@ -89,8 +89,9 @@ public class ListaEjerciciosRutinaActivity extends AppCompatActivity {
         this.mainCursorAdapter = new SimpleCursorAdapter(ListaEjerciciosRutinaActivity.this,
                 R.layout.lvrutina_context_menu,
                 this.dbManager.getAllEjerRutina(fecha),
-                new String[]{ "nombre", "num_repeticiones"},
-                new int[]{R.id.lblNombre, R.id.lblNumRepeticion});
+                new String[]{"imagen","fecha", "nombre", "num_repeticiones"},
+                new int[]{R.id.imgExercise, R.id.lblFecha,R.id.lblNombre, R.id.lblNumRepeticion});
+
 
         mainCursorAdapter.setViewBinder(new RutinaViewBinder());
 

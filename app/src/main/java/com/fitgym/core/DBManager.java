@@ -129,23 +129,19 @@ public class DBManager extends SQLiteOpenHelper {
      * @return Un Cursor con los ejercicios de la rutina. */
     public Cursor getAllEjerRutina(String fecha){
 
-        /* String SELECT_QUERY =
-           "SELECT t2.imagen AS imagen, t2." + EJERCICIO_COL_NOMBRE + " AS nombre," +
-                    "" +
-                    " (SELECT t1.num_repeticiones FROM ejercicioRutina t1,ejercicio t2 WHERE t2." + EJERCICIO_COL_NOMBRE + "= t1.nombre AND  t1.fecha = " + fechaA + " ) AS num_repeticiones " +
-            " FROM ejercicio t2 " +
-            " WHERE  t2. " + EJERCICIO_COL_NOMBRE + "  IN( SELECT t1.nombre FROM ejercicioRutina t1 WHERE t1.fecha = " + fechaA + ")";*/
+        String SELECT_QUERY;
 
-        String SELECT_QUERY = "SELECT t2.imagen AS imagen, t1.nombre AS nombre ,t1.num_repeticiones  AS num_repeticiones,t2._id" +
+        SELECT_QUERY = "SELECT t2.imagen AS imagen,t1.fecha AS fecha , t1.nombre AS nombre ,t1.num_repeticiones  AS num_repeticiones,t2._id" +
         " FROM ejercicio t2 INNER JOIN ejercicioRutina t1 " +
-        "ON t1.nombre = t2." + EJERCICIO_COL_NOMBRE + " WHERE t1.fecha = " + fecha
+        "ON t1.nombre = t2." + EJERCICIO_COL_NOMBRE + " WHERE t1.fecha = ?"
         ;
-        SELECT_QUERY = "SELECT * FROM ejercicioRutina WHERE fecha = " + fecha;
+       // Log.i("bd","all rutinas " + fecha);
+       // SELECT_QUERY = "SELECT * FROM ejercicioRutina WHERE fecha = ?";
 
-        Cursor c = this.getReadableDatabase().rawQuery(SELECT_QUERY, null);
-        Log.i("aquii", String.valueOf(c.getCount()));
-Log.i("aqui3",SELECT_QUERY);
-            return c;
+        Cursor c = this.getReadableDatabase().rawQuery(SELECT_QUERY, new String[]{fecha});
+        //Log.i("bd","all rutinas " + SELECT_QUERY);
+
+        return c;
 
     }
 
@@ -153,12 +149,9 @@ Log.i("aqui3",SELECT_QUERY);
 
         String SELECT_QUERY = "SELECT *" +
                 " FROM ejercicio t2 " +
-                " WHERE  t2. " + EJERCICIO_COL_NOMBRE + " NOT IN( SELECT t1.nombre FROM ejercicioRutina t1 WHERE t1.fecha = " + fecha + ")"
-
+                " WHERE  t2. " + EJERCICIO_COL_NOMBRE + " NOT IN( SELECT t1.nombre FROM ejercicioRutina t1 WHERE t1.fecha = ?" + ")"
                 ;
-
-        Cursor c = this.getReadableDatabase().rawQuery(SELECT_QUERY, null);
-
+        Cursor c = this.getReadableDatabase().rawQuery(SELECT_QUERY, new String[]{fecha});
         return c;
     }
 
@@ -216,6 +209,10 @@ Log.i("aqui3",SELECT_QUERY);
      */
     public boolean insertaEjercicioRutina(String nombre, String fecha, int numRepes)
     {
+     //   Log.i("bd","nombre" + nombre);
+     //   Log.i("bd","fecha" + fecha);
+      //  Log.i("bd","numRepes " + String.valueOf(numRepes));
+
         Cursor cursor = null;
         boolean toret = false;
         SQLiteDatabase db = this.getWritableDatabase();
@@ -223,7 +220,6 @@ Log.i("aqui3",SELECT_QUERY);
         values.put( EJERCICIO_RUTINA_COL_NOMBRE,nombre);
         values.put( EJERCICIO_RUTINA_COL_FECHA, fecha);
         values.put(EJERCICIO_RUTINA_COL_REPETICIONES,numRepes);
-        Log.i("aqui","sadasda");
         try {
             db.beginTransaction();
             cursor = db.query( TABLA_EJERCICIO_RUTINA,
@@ -231,16 +227,15 @@ Log.i("aqui3",SELECT_QUERY);
                     EJERCICIO_RUTINA_COL_NOMBRE + "= ? AND " + EJERCICIO_RUTINA_COL_FECHA + "= ?"
                     , new String[]{nombre,fecha} ,
                     null, null, null, null );
-            Log.i("aqui", String.valueOf(cursor.getCount()));
-         //   Log.i("aqui", String.valueOf(cursor.getString(1)));
+        //    Log.i("bd", "try" + String.valueOf(cursor.getCount()));
 
             if ( cursor.getCount() > 0 ) {
-                Log.i("aqui","dsadasdsa");
+              //  Log.i("bd","mayor que 0");
                 db.update( TABLA_EJERCICIO_RUTINA,
                         values, EJERCICIO_RUTINA_COL_NOMBRE + "= ? AND " + EJERCICIO_RUTINA_COL_FECHA + "= ?", new String[]{nombre,fecha} );
             } else {
                 db.insert( TABLA_EJERCICIO_RUTINA, null, values );
-                Log.i("aqui","sad");
+            //    Log.i("bd","igual que 0");
             }
 
             db.setTransactionSuccessful();
@@ -253,7 +248,6 @@ Log.i("aqui3",SELECT_QUERY);
             if ( cursor != null ) {
                 cursor.close();
             }
-
             db.endTransaction();
         }
 
