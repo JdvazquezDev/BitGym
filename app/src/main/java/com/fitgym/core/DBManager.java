@@ -155,6 +155,16 @@ public class DBManager extends SQLiteOpenHelper {
         return c;
     }
 
+    public Cursor getAllDatesRutina(){
+
+        String SELECT_QUERY = "SELECT DISTINCT fecha" +
+                " FROM ejercicioRutina ";
+        Cursor c = this.getReadableDatabase().rawQuery(SELECT_QUERY, null);
+        return c;
+    }
+
+
+
     /** Inserta un nuevo ejercicio.
      * @param nombre El nombre del ejercicio.
      * @param descripcion La descripcion del ejercicio.
