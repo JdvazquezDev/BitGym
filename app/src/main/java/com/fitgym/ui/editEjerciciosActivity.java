@@ -85,7 +85,7 @@ public class editEjerciciosActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent datosRetornar = new Intent();
 
-                datosRetornar.putExtra( "id", id );
+                datosRetornar.putExtra( "_id", id );
                 datosRetornar.putExtra( "nombre", nombre_nuevo_ejercicio.getText().toString() );
                 datosRetornar.putExtra( "descripcion", descripcion_nuevo_ejercicio.getText().toString() );
                 datosRetornar.putExtra( "imagen", imageViewToByte(imagenView) );

@@ -64,7 +64,7 @@ public class ListaEjerciciosActivity extends AppCompatActivity  {
         if ( requestCode == CODIGO_EDIT_EJERCICIO
                 && resultCode == Activity.RESULT_OK )
         {
-            int pos = data.getExtras().getInt( "pos" );
+         //   int pos = data.getExtras().getInt( "pos" );
             this.dbManager.editEjercicio( data.getExtras().getInt( "_id"),data.getExtras().getString( "nombre").toString(), data.getExtras().getString( "descripcion").toString(),data.getExtras().getByteArray("imagen"));
             this.updateEjercicios();
         }
@@ -145,12 +145,11 @@ public class ListaEjerciciosActivity extends AppCompatActivity  {
                 if (cursor.moveToPosition(position)) {
 
                     Intent subActividad = new Intent(ListaEjerciciosActivity.this, editEjerciciosActivity.class);
-                    Log.i("lista", String.valueOf(cursor.getInt(0)));
+
                     subActividad.putExtra("_id", cursor.getInt(0));
                     subActividad.putExtra("nombre", cursor.getString(1));
                     subActividad.putExtra("descripcion", cursor.getString(2));
                     subActividad.putExtra("imagen", cursor.getBlob(3));
-                    subActividad.putExtra("pos", position);
 
                     ListaEjerciciosActivity.this.startActivityForResult(subActividad, CODIGO_EDIT_EJERCICIO);
 
@@ -162,7 +161,7 @@ public class ListaEjerciciosActivity extends AppCompatActivity  {
 
             case R.id.menu_Eliminar:
                 int id = cursor.getInt(0);
-                Log.i("eliminar", String.valueOf(id));
+
                 dbManager.eliminaEjercicio(id);
                 updateEjercicios();
                 return true;

@@ -72,7 +72,7 @@ public class DBManager extends SQLiteOpenHelper {
             db.execSQL("CREATE TABLE IF NOT EXISTS " + TABLA_EJERCICIO_RUTINA + "( "
                     + EJERCICIO_RUTINA_COL_CLAVE + " INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "
                     + EJERCICIO_RUTINA_COL_FECHA + " string(255) NOT NULL, " +
-                     EJERCICIO_RUTINA_COL_EJERCICIO + " string(255) NOT NULL, " +
+                     EJERCICIO_RUTINA_COL_EJERCICIO + " INTEGER NOT NULL, " +
                     EJERCICIO_RUTINA_COL_REPETICIONES + " int NOT NULL," +
                     "FOREIGN KEY(" + EJERCICIO_RUTINA_COL_EJERCICIO + ") REFERENCES ejercicio(_id) " +
                     ")");
@@ -109,6 +109,7 @@ public class DBManager extends SQLiteOpenHelper {
 
         this.onCreate( db );
     }
+
     //Singlenton
     public static DBManager open(Context context){
         if(dbManager == null) {
@@ -125,7 +126,7 @@ public class DBManager extends SQLiteOpenHelper {
     public Cursor getAllEjercicios()
     {
         return this.getReadableDatabase().query( TABLA_EJERCICIO,
-                new String[]{EJERCICIO_COL_NOMBRE, EJERCICIO_COL_DESCRIPCION, EJERCICIO_COL_IMAGEN}, null, null, null, null,null );
+                null, null, null, null, null,null );
     }
 
     /** Devuelve todos los ejercicios de una rutina en la BD
@@ -134,7 +135,7 @@ public class DBManager extends SQLiteOpenHelper {
 
         String SELECT_QUERY;
 
-        SELECT_QUERY = "SELECT t2.imagen AS imagen,t1.fecha AS fecha , t1.nombre AS nombre ,t1.num_repeticiones  AS num_repeticiones,t2._id" +
+        SELECT_QUERY = "SELECT t2.imagen AS imagen,t1.fecha AS fecha , t2.nombre AS nombre ,t1.num_repeticiones  AS num_repeticiones,t2._id" +
         " FROM ejercicio t2 INNER JOIN ejercicioRutina t1 " +
         "ON t1.nombre = t2." + EJERCICIO_COL_CLAVE + " WHERE t1.fecha = ?"
         ;
