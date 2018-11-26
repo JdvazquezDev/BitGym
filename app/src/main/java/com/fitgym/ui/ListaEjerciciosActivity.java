@@ -21,8 +21,6 @@ import android.widget.Toast;
 
 import com.fitgym.R;
 import com.fitgym.core.DBManager;
-import com.fitgym.core.Ejercicio;
-
 
 public class ListaEjerciciosActivity extends AppCompatActivity  {
 
@@ -60,16 +58,14 @@ public class ListaEjerciciosActivity extends AppCompatActivity  {
         if ( requestCode == CODIGO_ADICION_EJERCICIO
                 && resultCode == Activity.RESULT_OK)
         {
-            Ejercicio ejer = new Ejercicio( data.getExtras().getString( "nombre").toString() ,data.getExtras().getString( "descripcion").toString(),data.getExtras().getByteArray("imagen"));
-            this.dbManager.insertaEjercicio( ejer.getNombre(), ejer.getDescripcion(),ejer.getImagen());
+            this.dbManager.insertaEjercicio( data.getExtras().getString( "nombre").toString(), data.getExtras().getString( "descripcion").toString(),data.getExtras().getByteArray("imagen"));
             this.updateEjercicios();
         }
         if ( requestCode == CODIGO_EDIT_EJERCICIO
                 && resultCode == Activity.RESULT_OK )
         {
             int pos = data.getExtras().getInt( "pos" );
-            Ejercicio ejer = new Ejercicio( data.getExtras().getString( "nombre").toString() ,data.getExtras().getString( "descripcion").toString(),data.getExtras().getByteArray("imagen"));
-            this.dbManager.insertaEjercicio( ejer.getNombre(), ejer.getDescripcion(),ejer.getImagen());
+            this.dbManager.editEjercicio( data.getExtras().getInt( "_id"),data.getExtras().getString( "nombre").toString(), data.getExtras().getString( "descripcion").toString(),data.getExtras().getByteArray("imagen"));
             this.updateEjercicios();
         }
         return;
@@ -85,35 +81,13 @@ public class ListaEjerciciosActivity extends AppCompatActivity  {
                 R.layout.lvejercicio_context_menu,
                 this.dbManager.getAllEjercicios(),
                 new String[]{ dbManager.EJERCICIO_COL_NOMBRE, dbManager.EJERCICIO_COL_DESCRIPCION,dbManager.EJERCICIO_COL_IMAGEN},
-                new int[] { R.id.lblNombre, R.id.lblDescripcion ,R.id.imgExercise} );//Sin la ultima columna si que se ejecuta, no consigue transformar bloc a string
+                new int[] {R.id.lblNombre, R.id.lblDescripcion ,R.id.imgExercise} );//Sin la ultima columna si que se ejecuta, no consigue transformar bloc a string
 
 
         mainCursorAdapter.setViewBinder(new EjercicioViewBinder());
 
         this.lvEjercicios.setAdapter( this.mainCursorAdapter );
 
-        //No se porque no va
-       //this.updateEjercicios();
-/*
-        this.ejercicios = new ArrayList<>();
-        Cursor cursor =  dbManager.getAllEjercicios();
-        ejercicios.clear();
-        while (cursor.moveToNext()) {
-            String nombre = cursor.getString(0);
-            String descripcion = cursor.getString(1);
-            byte[] imagen = cursor.getBlob(2);
-            ejercicios.add(new Ejercicio(nombre, descripcion, imagen));
-        }
-
-    //    this.ejercicios = dbManager.getArrayEjercicio();
-
-        // Lista
-        this.adaptadorEjercicios = new ListaEjercicioActivityEntryArrayAdapter(
-                ListaEjerciciosActivity.this,
-                this.ejercicios );
-        lvEjercicios.setAdapter( this.adaptadorEjercicios );
-        adaptadorEjercicios.notifyDataSetChanged();
-*/
     }
 
     private void updateEjercicios()
@@ -128,21 +102,7 @@ public class ListaEjerciciosActivity extends AppCompatActivity  {
      //   this.mainCursorAdapter.getCursor().close();
         this.dbManager.close();
     }
-/*
-    private void updateEjercicioList(){
-        Cursor cursor =  dbManager.getAllEjercicios();
-        ejercicios.clear();
-        while (cursor.moveToNext()) {
 
-            String nombre = cursor.getString(0);
-            String descripcion = cursor.getString(1);
-            byte[] imagen = cursor.getBlob(2);
-
-            ejercicios.add(new Ejercicio(nombre, descripcion, imagen));
-        }
-      //  this.ejercicios = dbManager.getArrayEjercicio();
-        adaptadorEjercicios.notifyDataSetChanged();
-    }*/
 
     class EjercicioViewBinder implements SimpleCursorAdapter.ViewBinder
     {
@@ -158,7 +118,6 @@ public class ListaEjerciciosActivity extends AppCompatActivity  {
                     imgExercise.setImageBitmap(bmp);
                     return true;
                 }
-
             }
             catch(Exception e)
             {
@@ -186,12 +145,11 @@ public class ListaEjerciciosActivity extends AppCompatActivity  {
                 if (cursor.moveToPosition(position)) {
 
                     Intent subActividad = new Intent(ListaEjerciciosActivity.this, editEjerciciosActivity.class);
-
-                    Ejercicio ejercicio = (Ejercicio) ListaEjerciciosActivity.this.mainCursorAdapter.getItem(position);
-
-                    subActividad.putExtra("nombre", cursor.getString(0));
-                    subActividad.putExtra("descripcion", cursor.getString(1));
-                    subActividad.putExtra("imagen", cursor.getBlob(2));
+                    Log.i("lista", String.valueOf(cursor.getInt(0)));
+                    subActividad.putExtra("_id", cursor.getInt(0));
+                    subActividad.putExtra("nombre", cursor.getString(1));
+                    subActividad.putExtra("descripcion", cursor.getString(2));
+                    subActividad.putExtra("imagen", cursor.getBlob(3));
                     subActividad.putExtra("pos", position);
 
                     ListaEjerciciosActivity.this.startActivityForResult(subActividad, CODIGO_EDIT_EJERCICIO);
@@ -203,17 +161,17 @@ public class ListaEjerciciosActivity extends AppCompatActivity  {
                 return true;
 
             case R.id.menu_Eliminar:
-                String nombre = cursor.getString(0);
-                dbManager.eliminaEjercicio(nombre);
+                int id = cursor.getInt(0);
+                Log.i("eliminar", String.valueOf(id));
+                dbManager.eliminaEjercicio(id);
                 updateEjercicios();
                 return true;
             default:
             return super.onContextItemSelected(item);
         }
     }
+
     private SimpleCursorAdapter mainCursorAdapter;
     private DBManager dbManager;
 
-  //  private ArrayAdapter<Ejercicio> adaptadorEjercicios;
-  //  private ArrayList<Ejercicio> ejercicios;
 }

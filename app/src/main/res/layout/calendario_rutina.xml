@@ -28,22 +28,12 @@
             android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
 
     </LinearLayout>
-<!--
-    <CalendarView
-        android:id="@+id/calendarView"
-        style="@android:style/Widget.Material.CalendarView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginTop="20dp"
-        android:focusedMonthDateColor="@color/colorPrimary"
-        android:selectedWeekBackgroundColor="@color/colorPrimaryDark"
-        tools:layout_editor_absoluteX="16dp"
-        tools:layout_editor_absoluteY="42dp" />-->
-    <sun.bob.mcalendarview.MCalendarView
+        <sun.bob.mcalendarview.MCalendarView
         android:layout_width="400dp"
         android:layout_height="400dp"
         tools:context=".MainActivity"
         android:id="@+id/calendarView"
         />
+
+
 </LinearLayout>

@@ -35,7 +35,7 @@ public class editEjerciciosActivity extends AppCompatActivity {
 
     final int REQUEST_CODE_GALLERY = 999;
     ImageView imagenView;
-
+    int id;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,6 +51,7 @@ public class editEjerciciosActivity extends AppCompatActivity {
         imagenView = findViewById(R.id.imageView);
 
         Intent datosEnviados = this.getIntent();
+        id = datosEnviados.getExtras().getInt("_id");
 
         nombre_nuevo_ejercicio.setText(datosEnviados.getExtras().getString(("nombre")));
         descripcion_nuevo_ejercicio.setText(datosEnviados.getExtras().getString(("descripcion")));
@@ -83,6 +84,8 @@ public class editEjerciciosActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent datosRetornar = new Intent();
+
+                datosRetornar.putExtra( "id", id );
                 datosRetornar.putExtra( "nombre", nombre_nuevo_ejercicio.getText().toString() );
                 datosRetornar.putExtra( "descripcion", descripcion_nuevo_ejercicio.getText().toString() );
                 datosRetornar.putExtra( "imagen", imageViewToByte(imagenView) );
@@ -125,7 +128,6 @@ public class editEjerciciosActivity extends AppCompatActivity {
                 btGuardarEdit.setEnabled( descripcion_nuevo_ejercicio.getText().toString().trim().length() > 0 );
             }
         });
-
     }
 
 

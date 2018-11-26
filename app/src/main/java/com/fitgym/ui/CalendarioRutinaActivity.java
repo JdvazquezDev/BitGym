@@ -20,6 +20,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.Locale;
 
 import sun.bob.mcalendarview.MCalendarView;
 import sun.bob.mcalendarview.MarkStyle;
@@ -35,12 +36,10 @@ public class CalendarioRutinaActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.calendario_rutina);
 
-
         //CalendarView c = (CalendarView)this.findViewById(R.id.calendarView);
 
         dlg = ((MCalendarView) findViewById(R.id.calendarView));
         dlg.hasTitle(false);
-
 
         dlg.setOnDateClickListener(new OnDateClickListener() {
             @Override
@@ -52,7 +51,6 @@ public class CalendarioRutinaActivity extends AppCompatActivity {
                 Intent subActividad = new Intent( CalendarioRutinaActivity.this, ListaEjerciciosRutinaActivity.class );
                 subActividad.putExtra( "fecha", selectedDate);
                 CalendarioRutinaActivity.this.startActivity(subActividad);
-
             }
         });
     }
@@ -63,7 +61,6 @@ public class CalendarioRutinaActivity extends AppCompatActivity {
 
         this.dbManager = DBManager.get();
         Cursor c = this.dbManager.getAllDatesRutina();
-
 
         if (c.moveToFirst()) {
             do {
@@ -83,9 +80,6 @@ public class CalendarioRutinaActivity extends AppCompatActivity {
                 new DateData(new GregorianCalendar().get(Calendar.YEAR)  - 1900, new GregorianCalendar().get(Calendar.MONTH) ,new GregorianCalendar().get(Calendar.DAY_OF_MONTH)).setMarkStyle(new MarkStyle(MarkStyle.LEFTSIDEBAR, Color.BLUE)));
 
     }
-
-
-
 
     private DBManager dbManager;
 

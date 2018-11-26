@@ -19,7 +19,7 @@ import android.widget.Toast;
 
 import com.fitgym.R;
 import com.fitgym.core.DBManager;
-import com.fitgym.core.Ejercicio;
+//import com.fitgym.core.Ejercicio;
 
 import org.w3c.dom.Text;
 
