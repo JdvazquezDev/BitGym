@@ -36,7 +36,6 @@ public class addEjerciciosToRutinaActivity extends AppCompatActivity
         this.dbManager = DBManager.get();
 
         list_ejercicios_to_add_rutina = (ListView) this.findViewById( R.id.list_ejercicios_to_add_rutina );
-        final TextView nombre_ejercicio = (TextView) this.findViewById(R.id.lblNombre);
 
         list_ejercicios_to_add_rutina.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -45,7 +44,7 @@ public class addEjerciciosToRutinaActivity extends AppCompatActivity
                 if ( cursor.moveToPosition( i ) ) {
 
                     Intent datosRetornar = new Intent();
-                    datosRetornar.putExtra( "nombre", cursor.getString(0) );
+                    datosRetornar.putExtra( "_id", cursor.getInt(0) );
                     datosRetornar.putExtra("fecha",fecha);
 
                     addEjerciciosToRutinaActivity.this.setResult( Activity.RESULT_OK, datosRetornar );
@@ -85,11 +84,6 @@ public class addEjerciciosToRutinaActivity extends AppCompatActivity
         mainCursorAdapter.setViewBinder(new addEjerciciosToRutinaActivity.EjercicioViewBinder());
 
         this.list_ejercicios_to_add_rutina.setAdapter( this.mainCursorAdapter );
-    }
-
-    private void updateEjercicios()
-    {
-        this.mainCursorAdapter.changeCursor( this.dbManager.getAllEjercicios() );
     }
 
     @Override

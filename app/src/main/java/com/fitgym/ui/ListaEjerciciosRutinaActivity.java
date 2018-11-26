@@ -44,7 +44,7 @@ public class ListaEjerciciosRutinaActivity extends AppCompatActivity {
             public void onClick(View view) {
                 //Cambiar por la actividad de seleccionar ejercicios
                 Intent subActividad = new Intent( ListaEjerciciosRutinaActivity.this, addEjerciciosToRutinaActivity.class );
-                subActividad.putExtra( "nombre", "" );
+                subActividad.putExtra( "_id", "" );
                 subActividad.putExtra( "fecha", fecha );
 
                 ListaEjerciciosRutinaActivity.this.startActivityForResult( subActividad, CODIGO_ADICION_EJERCICIO_TO_RUTINA );
@@ -57,17 +57,13 @@ public class ListaEjerciciosRutinaActivity extends AppCompatActivity {
         if ( requestCode == CODIGO_ADICION_EJERCICIO_TO_RUTINA
                 && resultCode == Activity.RESULT_OK)
         {
-            String nombre = data.getExtras().getString( "nombre").toString();
+            int id = data.getExtras().getInt( "_id");
             fecha = data.getExtras().getString( "fecha").toString();
 
             int numRepes = 0;
-
-            this.dbManager.insertaEjercicioRutina(nombre,fecha,numRepes);
-
+            this.dbManager.insertaEjercicioRutina(id,fecha,numRepes);
             this.updateRutina();
-
         }
-
 
         return;
     }
@@ -127,10 +123,6 @@ public class ListaEjerciciosRutinaActivity extends AppCompatActivity {
             return false;
         }
     }
-    private void updateEjercicios()
-    {
-        this.mainCursorAdapter.changeCursor( this.dbManager.getAllEjercicios() );
-    }
 
     //Menu contextual
     @Override
@@ -158,8 +150,6 @@ public class ListaEjerciciosRutinaActivity extends AppCompatActivity {
                     subActividad.putExtra("peso", cursor.getString(3));
                     subActividad.putExtra("infoExtra", cursor.getString(4));
 
-                    subActividad.putExtra("pos", position);
-
                     ListaEjerciciosRutinaActivity.this.startActivityForResult(subActividad, CODIGO_ADICION_EJERCICIO_TO_RUTINA);
 
                 } else {
@@ -170,9 +160,9 @@ public class ListaEjerciciosRutinaActivity extends AppCompatActivity {
 
             case R.id.menu_Eliminar:
                 int id = cursor.getInt(0);
-                Log.i("eliminar", String.valueOf(id));
-                dbManager.eliminaEjercicioRutina(id);
-                updateEjercicios();
+
+                dbManager.eliminaEjercicioRutina(id,fecha);
+                updateRutina();
                 return true;
             default:
                 return super.onContextItemSelected(item);

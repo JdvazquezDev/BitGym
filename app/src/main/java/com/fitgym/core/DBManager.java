@@ -135,7 +135,7 @@ public class DBManager extends SQLiteOpenHelper {
 
         String SELECT_QUERY;
 
-        SELECT_QUERY = "SELECT t2.imagen AS imagen,t1.fecha AS fecha , t2.nombre AS nombre ,t1.num_repeticiones  AS num_repeticiones,t2._id" +
+        SELECT_QUERY = "SELECT t1._id as _id ,t2.imagen AS imagen,t1.fecha AS fecha , t2.nombre AS nombre ,t1.num_repeticiones  AS num_repeticiones,t2._id" +
         " FROM ejercicio t2 INNER JOIN ejercicioRutina t1 " +
         "ON t1.nombre = t2." + EJERCICIO_COL_CLAVE + " WHERE t1.fecha = ?"
         ;
@@ -263,12 +263,12 @@ public class DBManager extends SQLiteOpenHelper {
         return toret;
     }
     /** Inserta un nuevo ejercicio en la rutina.
-     * @param nombre El nombre del ejercicio.
+     * @param id El nombre del ejercicio.
      * @param fecha La fecha de la rutina.s
      * @param numRepes El numero de repeticiones del ejercicio de la rutina
      * @return true si se pudo insertar (o modificar), false en otro caso.
      */
-    public boolean insertaEjercicioRutina(String nombre, String fecha, int numRepes)
+    public boolean insertaEjercicioRutina(int id, String fecha, int numRepes)
     {
      //   Log.i("bd","nombre" + nombre);
      //   Log.i("bd","fecha" + fecha);
@@ -278,7 +278,7 @@ public class DBManager extends SQLiteOpenHelper {
         boolean toret = false;
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put( EJERCICIO_RUTINA_COL_EJERCICIO,nombre);
+        values.put( EJERCICIO_RUTINA_COL_EJERCICIO,id);
         values.put( EJERCICIO_RUTINA_COL_FECHA, fecha);
         values.put(EJERCICIO_RUTINA_COL_REPETICIONES,numRepes);
         try {
@@ -286,14 +286,14 @@ public class DBManager extends SQLiteOpenHelper {
             cursor = db.query( TABLA_EJERCICIO_RUTINA,
                     null,
                     EJERCICIO_RUTINA_COL_EJERCICIO + "= ? AND " + EJERCICIO_RUTINA_COL_FECHA + "= ?"
-                    , new String[]{nombre,fecha} ,
+                    , new String[]{String.valueOf(id),fecha} ,
                     null, null, null, null );
         //    Log.i("bd", "try" + String.valueOf(cursor.getCount()));
 
             if ( cursor.getCount() > 0 ) {
               //  Log.i("bd","mayor que 0");
                 db.update( TABLA_EJERCICIO_RUTINA,
-                        values, EJERCICIO_RUTINA_COL_EJERCICIO + "= ? AND " + EJERCICIO_RUTINA_COL_FECHA + "= ?", new String[]{nombre,fecha} );
+                        values, EJERCICIO_RUTINA_COL_EJERCICIO + "= ? AND " + EJERCICIO_RUTINA_COL_FECHA + "= ?", new String[]{String.valueOf(id),fecha} );
             } else {
                 db.insert( TABLA_EJERCICIO_RUTINA, null, values );
             //    Log.i("bd","igual que 0");
@@ -339,14 +339,14 @@ public class DBManager extends SQLiteOpenHelper {
 
         return toret;
     }
-    public boolean eliminaEjercicioRutina(int id)
+    public boolean eliminaEjercicioRutina(int id,String fecha)
     {
         boolean toret = false;
         SQLiteDatabase db = this.getWritableDatabase();
 
         try {
             db.beginTransaction();
-            db.delete( TABLA_EJERCICIO_RUTINA, EJERCICIO_RUTINA_COL_CLAVE + "=?", new String[]{String.valueOf(id)} );
+            db.delete( TABLA_EJERCICIO_RUTINA, EJERCICIO_RUTINA_COL_EJERCICIO + "= ? AND " + EJERCICIO_RUTINA_COL_FECHA + "= ?", new String[]{String.valueOf(id),fecha} );
             db.setTransactionSuccessful();
             toret = true;
         } catch(SQLException exc) {
