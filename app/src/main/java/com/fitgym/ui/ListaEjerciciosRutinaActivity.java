@@ -7,7 +7,12 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
+import android.view.ContextMenu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -79,7 +84,7 @@ public class ListaEjerciciosRutinaActivity extends AppCompatActivity {
                 R.layout.lvrutina_context_menu,
                 this.dbManager.getAllEjerRutina(fecha),
                 new String[]{"imagen","fecha", "nombre", "num_repeticiones"},
-                new int[]{R.id.imgExercise, R.id.lblFecha,R.id.lblNombre, R.id.lblNumRepeticion});
+                new int[]{R.id.imgExercise,R.id.lblNombre, R.id.lblNumRepeticion});
 
 
         mainCursorAdapter.setViewBinder(new RutinaViewBinder());
@@ -120,6 +125,57 @@ public class ListaEjerciciosRutinaActivity extends AppCompatActivity {
                 Toast.makeText(ListaEjerciciosRutinaActivity.this, e.toString()+" err", Toast.LENGTH_LONG).show();
             }
             return false;
+        }
+    }
+    private void updateEjercicios()
+    {
+        this.mainCursorAdapter.changeCursor( this.dbManager.getAllEjercicios() );
+    }
+
+    //Menu contextual
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.contextual_menu, menu);
+    }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+
+        int position = ((AdapterView.AdapterContextMenuInfo) item.getMenuInfo()).position;
+        Cursor cursor = ListaEjerciciosRutinaActivity.this.mainCursorAdapter.getCursor();
+
+        switch (item.getItemId()) {
+            case R.id.menu_editar:
+                if (cursor.moveToPosition(position)) {
+
+                    Intent subActividad = new Intent(ListaEjerciciosRutinaActivity.this, editEjercicioRutinaActivity.class);
+                    Log.i("lista", String.valueOf(cursor.getInt(0)));
+                    subActividad.putExtra("_id", cursor.getInt(0));
+                    subActividad.putExtra("series", cursor.getString(1));
+                    subActividad.putExtra("repeticiones", cursor.getString(2));
+                    subActividad.putExtra("peso", cursor.getString(3));
+                    subActividad.putExtra("infoExtra", cursor.getString(4));
+
+                    subActividad.putExtra("pos", position);
+
+                    ListaEjerciciosRutinaActivity.this.startActivityForResult(subActividad, CODIGO_ADICION_EJERCICIO_TO_RUTINA);
+
+                } else {
+                    String errMsg = "Error en el ejercicio de " + ": " + position;
+                    Log.e("main.modifyContact", errMsg);
+                }
+                return true;
+
+            case R.id.menu_Eliminar:
+                int id = cursor.getInt(0);
+                Log.i("eliminar", String.valueOf(id));
+                dbManager.eliminaEjercicioRutina(id);
+                updateEjercicios();
+                return true;
+            default:
+                return super.onContextItemSelected(item);
         }
     }
 

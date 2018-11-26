@@ -79,7 +79,7 @@ public class addEjerciciosToRutinaActivity extends AppCompatActivity
         this.mainCursorAdapter = new SimpleCursorAdapter( addEjerciciosToRutinaActivity.this,
                 R.layout.lvejercicio_context_menu,
                 this.dbManager.getAllEjerciciosNotInRutina(fecha),
-                new String[]{ dbManager.EJERCICIO_COL_NOMBRE, dbManager.EJERCICIO_COL_DESCRIPCION,dbManager.EJERCICIO_COL_IMAGEN},
+                new String[]{dbManager.EJERCICIO_COL_NOMBRE, dbManager.EJERCICIO_COL_DESCRIPCION,dbManager.EJERCICIO_COL_IMAGEN},
                 new int[] { R.id.lblNombre, R.id.lblDescripcion ,R.id.imgExercise} );
 
         mainCursorAdapter.setViewBinder(new addEjerciciosToRutinaActivity.EjercicioViewBinder());

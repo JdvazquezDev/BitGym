@@ -24,7 +24,10 @@ public class DBManager extends SQLiteOpenHelper {
 
     public static final String EJERCICIO_RUTINA_COL_EJERCICIO;
     public static final String EJERCICIO_RUTINA_COL_FECHA;
+ //   public static final String EJERCICIO_RUTINA_COL_SERIES;
     public static final String EJERCICIO_RUTINA_COL_REPETICIONES;
+  //  public static final String EJERCICIO_RUTINA_COL_PESO;
+ //   public static final String EJERCICIO_RUTINA_COL_INFO;
     public static final String EJERCICIO_RUTINA_COL_CLAVE;
 
     private static DBManager dbManager;
@@ -41,6 +44,9 @@ public class DBManager extends SQLiteOpenHelper {
         EJERCICIO_RUTINA_COL_EJERCICIO = "nombre";
         EJERCICIO_RUTINA_COL_FECHA = "fecha";
         EJERCICIO_RUTINA_COL_REPETICIONES = "num_repeticiones";
+      //EJERCICIO_RUTINA_COL_SERIES = "series"
+      //EJERCICIO_RUTINA_COL_PESO = "peso";
+      //EJERCICIO_RUTINA_COL_INFO ="infoExtra";
     }
 
     private DBManager(Context context)
@@ -57,14 +63,14 @@ public class DBManager extends SQLiteOpenHelper {
         try {
             db.beginTransaction();
             db.execSQL( "CREATE TABLE IF NOT EXISTS " + TABLA_EJERCICIO + "( "
-                    + EJERCICIO_COL_CLAVE + "  INTEGER AUTO_INCREMENT primary key NOT NULL, "
+                    + EJERCICIO_COL_CLAVE + " INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "
                     + EJERCICIO_COL_NOMBRE + " string(255) NOT NULL, "
                     + EJERCICIO_COL_DESCRIPCION + " string(255) NOT NULL,"
                     + EJERCICIO_COL_IMAGEN + " blob NOT NULL" +
                     ")");
 
             db.execSQL("CREATE TABLE IF NOT EXISTS " + TABLA_EJERCICIO_RUTINA + "( "
-                    + EJERCICIO_RUTINA_COL_CLAVE + " INTEGER AUTO_INCREMENT primary key NOT NULL, "
+                    + EJERCICIO_RUTINA_COL_CLAVE + " INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "
                     + EJERCICIO_RUTINA_COL_FECHA + " string(255) NOT NULL, " +
                      EJERCICIO_RUTINA_COL_EJERCICIO + " string(255) NOT NULL, " +
                     EJERCICIO_RUTINA_COL_REPETICIONES + " int NOT NULL," +
@@ -110,7 +116,7 @@ public class DBManager extends SQLiteOpenHelper {
         }
         return dbManager;
     }
-    //Singlenton
+    //Singleton
     public static DBManager get(){
         return dbManager;
     }
@@ -119,7 +125,7 @@ public class DBManager extends SQLiteOpenHelper {
     public Cursor getAllEjercicios()
     {
         return this.getReadableDatabase().query( TABLA_EJERCICIO,
-                new String[]{EJERCICIO_COL_CLAVE,EJERCICIO_COL_NOMBRE, EJERCICIO_COL_DESCRIPCION,EJERCICIO_COL_IMAGEN}, null, null, null, null, null );
+                new String[]{EJERCICIO_COL_NOMBRE, EJERCICIO_COL_DESCRIPCION, EJERCICIO_COL_IMAGEN}, null, null, null, null,null );
     }
 
     /** Devuelve todos los ejercicios de una rutina en la BD
@@ -332,6 +338,26 @@ public class DBManager extends SQLiteOpenHelper {
 
         return toret;
     }
+    public boolean eliminaEjercicioRutina(int id)
+    {
+        boolean toret = false;
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        try {
+            db.beginTransaction();
+            db.delete( TABLA_EJERCICIO_RUTINA, EJERCICIO_RUTINA_COL_CLAVE + "=?", new String[]{String.valueOf(id)} );
+            db.setTransactionSuccessful();
+            toret = true;
+        } catch(SQLException exc) {
+            Log.e( "DBManager.elimina", exc.getMessage() );
+        } finally {
+            Log.i( "DBManager.elimina", "bien");
+            db.endTransaction();
+        }
+
+        return toret;
+    }
+/*
 /*
     public ArrayList<Ejercicio> getArrayEjercicio(){
         SQLiteDatabase db = this.getReadableDatabase();
