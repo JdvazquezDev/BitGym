@@ -72,9 +72,9 @@ public class CalendarioRutinaActivity extends AppCompatActivity {
 
             } while (c.moveToNext());
         }
-        Log.i("calendar", String.valueOf(new GregorianCalendar().get(Calendar.YEAR)));
-        Log.i("calendar", String.valueOf(new GregorianCalendar().get(Calendar.MONTH)));
-        Log.i("calendar", String.valueOf(new GregorianCalendar().get(Calendar.DAY_OF_MONTH)));
+    //    Log.i("calendar", String.valueOf(new GregorianCalendar().get(Calendar.YEAR)));
+    //    Log.i("calendar", String.valueOf(new GregorianCalendar().get(Calendar.MONTH)));
+    //    Log.i("calendar", String.valueOf(new GregorianCalendar().get(Calendar.DAY_OF_MONTH)));
 
         dlg.markDate(
                 new DateData(new GregorianCalendar().get(Calendar.YEAR)  - 1900, new GregorianCalendar().get(Calendar.MONTH) ,new GregorianCalendar().get(Calendar.DAY_OF_MONTH)).setMarkStyle(new MarkStyle(MarkStyle.LEFTSIDEBAR, Color.BLUE)));

@@ -25,7 +25,7 @@ import com.fitgym.core.DBManager;
 public class ListaEjerciciosRutinaActivity extends AppCompatActivity {
 
     protected static final int CODIGO_ADICION_EJERCICIO_TO_RUTINA = 105;
-
+    protected static final int CODIGO_EDIT_EJERCICIO_TO_RUTINA = 106;
 
     protected ListView lvRutina;
     protected String fecha;
@@ -37,20 +37,17 @@ public class ListaEjerciciosRutinaActivity extends AppCompatActivity {
 
         lvRutina = (ListView) this.findViewById( R.id.lvRutina );
         Button btNuevo = (Button) this.findViewById( R.id.btNuevo );
-
+        registerForContextMenu(lvRutina);
         // Inserta
         btNuevo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //Cambiar por la actividad de seleccionar ejercicios
                 Intent subActividad = new Intent( ListaEjerciciosRutinaActivity.this, addEjerciciosToRutinaActivity.class );
                 subActividad.putExtra( "_id", "" );
                 subActividad.putExtra( "fecha", fecha );
-
                 ListaEjerciciosRutinaActivity.this.startActivityForResult( subActividad, CODIGO_ADICION_EJERCICIO_TO_RUTINA );
             }
         });
-
     }
     protected void onActivityResult(int requestCode, int resultCode, Intent data)
     {
@@ -58,13 +55,29 @@ public class ListaEjerciciosRutinaActivity extends AppCompatActivity {
                 && resultCode == Activity.RESULT_OK)
         {
             int id = data.getExtras().getInt( "_id");
-            fecha = data.getExtras().getString( "fecha").toString();
+            fecha = data.getExtras().getString( "fecha");
 
             int numRepes = 0;
-            this.dbManager.insertaEjercicioRutina(id,fecha,numRepes);
+            int series = 0;
+            int peso = 0;
+            String info = "";
+            this.dbManager.insertaEjercicioRutina(id,fecha,numRepes,series,peso,info);
             this.updateRutina();
         }
+        if ( requestCode == CODIGO_EDIT_EJERCICIO_TO_RUTINA
+                && resultCode == Activity.RESULT_OK)
+        {
+            int nombre = data.getExtras().getInt( "_id");
+            fecha = data.getExtras().getString( "fecha");
 
+            int numRepes = data.getExtras().getInt("numRepes");
+            int series = data.getExtras().getInt("series");
+            int peso = data.getExtras().getInt("peso");
+            String info = data.getExtras().getString("infoExtra").toString();
+
+            this.dbManager.editarEjercicioRutina(nombre,fecha,numRepes,series,peso,info);
+            this.updateRutina();
+        }
         return;
     }
 
@@ -129,7 +142,7 @@ public class ListaEjerciciosRutinaActivity extends AppCompatActivity {
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
         super.onCreateContextMenu(menu, v, menuInfo);
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.contextual_menu, menu);
+        inflater.inflate(R.menu.contextual_menu_rutina, menu);
     }
 
     @Override
@@ -143,14 +156,15 @@ public class ListaEjerciciosRutinaActivity extends AppCompatActivity {
                 if (cursor.moveToPosition(position)) {
 
                     Intent subActividad = new Intent(ListaEjerciciosRutinaActivity.this, editEjercicioRutinaActivity.class);
-                    Log.i("lista", String.valueOf(cursor.getInt(0)));
-                    subActividad.putExtra("_id", cursor.getInt(0));
-                    subActividad.putExtra("series", cursor.getString(1));
-                    subActividad.putExtra("repeticiones", cursor.getString(2));
-                    subActividad.putExtra("peso", cursor.getString(3));
-                    subActividad.putExtra("infoExtra", cursor.getString(4));
 
-                    ListaEjerciciosRutinaActivity.this.startActivityForResult(subActividad, CODIGO_ADICION_EJERCICIO_TO_RUTINA);
+                    subActividad.putExtra("_id", cursor.getInt(cursor.getColumnIndex("_id")));
+                    subActividad.putExtra("series", cursor.getInt(cursor.getColumnIndex("series")));
+                    subActividad.putExtra("repeticiones", cursor.getInt(cursor.getColumnIndex("num_repeticiones")));
+                    subActividad.putExtra("peso", cursor.getInt(cursor.getColumnIndex("peso")));
+                    subActividad.putExtra("infoExtra", cursor.getString(cursor.getColumnIndex("infoExtra")));
+                    subActividad.putExtra( "fecha", fecha );
+
+                    ListaEjerciciosRutinaActivity.this.startActivityForResult(subActividad, CODIGO_EDIT_EJERCICIO_TO_RUTINA);
 
                 } else {
                     String errMsg = "Error en el ejercicio de " + ": " + position;
@@ -159,8 +173,7 @@ public class ListaEjerciciosRutinaActivity extends AppCompatActivity {
                 return true;
 
             case R.id.menu_Eliminar:
-                int id = cursor.getInt(0);
-
+                int id = cursor.getInt(cursor.getColumnIndex("_id"));
                 dbManager.eliminaEjercicioRutina(id,fecha);
                 updateRutina();
                 return true;
