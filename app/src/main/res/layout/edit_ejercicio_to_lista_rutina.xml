@@ -114,7 +114,7 @@
             android:layout_weight="1"
             android:ems="10"
             android:importantForAutofill="no"
-            android:inputType="textMultiLine|number"
+            android:inputType="textMultiLine"
             android:selectAllOnFocus="false"
             android:singleLine="false"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1"

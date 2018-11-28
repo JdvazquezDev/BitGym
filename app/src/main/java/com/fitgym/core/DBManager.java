@@ -66,7 +66,7 @@ public class DBManager extends SQLiteOpenHelper {
                     + EJERCICIO_COL_CLAVE + " INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "
                     + EJERCICIO_COL_NOMBRE + " string(255) NOT NULL, "
                     + EJERCICIO_COL_DESCRIPCION + " string(255) NOT NULL,"
-                    + EJERCICIO_COL_IMAGEN + " blob NOT NULL" +
+                    + EJERCICIO_COL_IMAGEN + " string(255) " +
                     ")");
 
             db.execSQL("CREATE TABLE IF NOT EXISTS " + TABLA_EJERCICIO_RUTINA + "( "
@@ -173,7 +173,7 @@ public class DBManager extends SQLiteOpenHelper {
      * @param descripcion La descripcion del ejercicio.
      * @return true si se pudo insertar (o modificar), false en otro caso.
      */
-    public boolean insertaEjercicio(String nombre, String descripcion, byte[] imagen)
+    public boolean insertaEjercicio(String nombre, String descripcion, String imagen)
     {
         Cursor cursor = null;
         boolean toret = false;
@@ -221,7 +221,7 @@ public class DBManager extends SQLiteOpenHelper {
      * @param descripcion La descripcion del ejercicio.
      * @return true si se pudo insertar (o modificar), false en otro caso.
      */
-    public boolean editEjercicio(int id,String nombre, String descripcion, byte[] imagen)
+    public boolean editEjercicio(int id,String nombre, String descripcion, String imagen)
     {
         Cursor cursor = null;
         boolean toret = false;
@@ -397,4 +397,9 @@ public class DBManager extends SQLiteOpenHelper {
 
         return toret;
     }
+
+
+
+
+
 }

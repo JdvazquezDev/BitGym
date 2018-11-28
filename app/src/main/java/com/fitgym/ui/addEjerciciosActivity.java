@@ -4,11 +4,14 @@ import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -24,6 +27,7 @@ import android.widget.Toast;
 import com.fitgym.R;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 
@@ -32,6 +36,12 @@ public class addEjerciciosActivity extends AppCompatActivity {
 
     final int REQUEST_CODE_GALLERY = 999;
     ImageView imagenView;
+    //ruta base de la SDcard: /storage/sdcard0/...
+    private final String ruta_fotos = Environment.getExternalStorageDirectory().
+            getAbsolutePath() +"/BitGym/images/";
+    private File file = new File(ruta_fotos);
+
+    Uri uri;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,15 +53,18 @@ public class addEjerciciosActivity extends AppCompatActivity {
 
         final EditText nombre_nuevo_ejercicio = (EditText) this.findViewById( R.id.nombre_nuevo_ejercicio );
         final EditText descripcion_nuevo_ejercicio = (EditText) this.findViewById( R.id.descripcion_nuevo_ejercicio);
-
         imagenView = (ImageView) findViewById(R.id.imageView);
 
+        if (!file.exists()) {
+            file.mkdir();
+        }
 
         Intent datosEnviados = this.getIntent();
         nombre_nuevo_ejercicio.setText( datosEnviados.getExtras().getString(( "nombre" ) ) );
         descripcion_nuevo_ejercicio.setText(datosEnviados.getExtras().getString(("descripcion")));
 
-        btImagen.setOnClickListener(new View.OnClickListener() {
+
+       btImagen.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 ActivityCompat.requestPermissions(
@@ -77,7 +90,7 @@ public class addEjerciciosActivity extends AppCompatActivity {
                 Intent datosRetornar = new Intent();
                 datosRetornar.putExtra( "nombre", nombre_nuevo_ejercicio.getText().toString() );
                 datosRetornar.putExtra( "descripcion", descripcion_nuevo_ejercicio.getText().toString() );
-                datosRetornar.putExtra( "imagen", imageViewToByte(imagenView) );
+                datosRetornar.putExtra("imagen", path);
 
                 addEjerciciosActivity.this.setResult( Activity.RESULT_OK, datosRetornar );
                 addEjerciciosActivity.this.finish();
@@ -135,8 +148,8 @@ public class addEjerciciosActivity extends AppCompatActivity {
 
         if(requestCode == REQUEST_CODE_GALLERY){
             if(grantResults.length >0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
-                Intent intent = new Intent(Intent.ACTION_PICK);
-                intent.setType("image/*");
+                Intent intent = new Intent(Intent.ACTION_PICK,
+                        android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                 startActivityForResult(intent, REQUEST_CODE_GALLERY);
             }
             else {
@@ -147,21 +160,20 @@ public class addEjerciciosActivity extends AppCompatActivity {
 
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
+    String path;
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
         if(requestCode == REQUEST_CODE_GALLERY && resultCode == RESULT_OK && data != null){
-            Uri uri = data.getData();
-
-            try {
-                InputStream inputStream = getContentResolver().openInputStream(uri);
-
-                Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
-                imagenView.setImageBitmap(bitmap);
-
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            }
+            Uri imagenSeleccionada = data.getData();
+            String[] fillPath = {MediaStore.Images.Media.DATA};
+            Cursor cursor = getContentResolver().query(imagenSeleccionada, fillPath, null, null, null);
+            assert cursor != null;
+            cursor.moveToFirst();
+            path = cursor.getString(cursor.getColumnIndex(fillPath[0]));
+            cursor.close();
+            Bitmap bitmap = BitmapFactory.decodeFile(path);
+            imagenView.setImageBitmap(bitmap);
         }
 
         super.onActivityResult(requestCode, resultCode, data);

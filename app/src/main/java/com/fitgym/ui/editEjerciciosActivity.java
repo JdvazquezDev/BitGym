@@ -4,11 +4,14 @@ import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -26,6 +29,7 @@ import com.fitgym.core.DBManager;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.sql.Blob;
@@ -34,7 +38,11 @@ import java.sql.Blob;
 public class editEjerciciosActivity extends AppCompatActivity {
 
     final int REQUEST_CODE_GALLERY = 999;
-    ImageView imagenView;
+
+    private final String ruta_fotos = Environment.getExternalStorageDirectory().
+            getAbsolutePath() +"/BitGym/images/";ImageView imagenView;
+    private File file = new File(ruta_fotos);
+
     int id;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,10 +65,10 @@ public class editEjerciciosActivity extends AppCompatActivity {
         descripcion_nuevo_ejercicio.setText(datosEnviados.getExtras().getString(("descripcion")));
 
       //Mostrar imagen guardada en la bd
-        byte[] byteArray = datosEnviados.getExtras().getByteArray("imagen");
+       /* byte[] byteArray = datosEnviados.getExtras().getByteArray("imagen");
         Bitmap bm = BitmapFactory.decodeByteArray(byteArray, 0 ,byteArray.length);
         imagenView.setImageBitmap(bm);
-
+*/
         btImagen.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -71,6 +79,7 @@ public class editEjerciciosActivity extends AppCompatActivity {
                 );
             }
         });
+
 
         btCancelar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -88,7 +97,7 @@ public class editEjerciciosActivity extends AppCompatActivity {
                 datosRetornar.putExtra( "_id", id );
                 datosRetornar.putExtra( "nombre", nombre_nuevo_ejercicio.getText().toString() );
                 datosRetornar.putExtra( "descripcion", descripcion_nuevo_ejercicio.getText().toString() );
-                datosRetornar.putExtra( "imagen", imageViewToByte(imagenView) );
+                datosRetornar.putExtra( "imagen", path );
 
                 editEjerciciosActivity.this.setResult( Activity.RESULT_OK, datosRetornar );
                 editEjerciciosActivity.this.finish();
@@ -157,21 +166,28 @@ public class editEjerciciosActivity extends AppCompatActivity {
 
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
+    String path;
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
         if(requestCode == REQUEST_CODE_GALLERY && resultCode == RESULT_OK && data != null ){
             Uri uri = data.getData();
 
-            try {
-                InputStream inputStream = getContentResolver().openInputStream(uri);
-
-                Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
-                imagenView.setImageBitmap(bitmap);
-
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            }
+          //  try {
+                if(requestCode == REQUEST_CODE_GALLERY && resultCode == RESULT_OK && data != null){
+                    Uri imagenSeleccionada = data.getData();
+                    String[] fillPath = {MediaStore.Images.Media.DATA};
+                    Cursor cursor = getContentResolver().query(imagenSeleccionada, fillPath, null, null, null);
+                    assert cursor != null;
+                    cursor.moveToFirst();
+                    path = cursor.getString(cursor.getColumnIndex(fillPath[0]));
+                    cursor.close();
+                    Bitmap bitmap = BitmapFactory.decodeFile(path);
+                    imagenView.setImageBitmap(bitmap);
+                }
+         //   } catch (FileNotFoundException e) {
+         //       e.printStackTrace();
+           // }
         }
 
         super.onActivityResult(requestCode, resultCode, data);

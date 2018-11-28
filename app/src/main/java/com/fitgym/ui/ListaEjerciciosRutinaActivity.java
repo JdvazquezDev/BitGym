@@ -122,10 +122,10 @@ public class ListaEjerciciosRutinaActivity extends AppCompatActivity {
             {
                 if (view instanceof ImageView)
                 {
-                    byte[] result = cursor.getBlob(cursor.getColumnIndex("imagen"));//my image is stored as blob in db at 3
+                  /*  byte[] result = cursor.getBlob(cursor.getColumnIndex("imagen"));//my image is stored as blob in db at 3
                     Bitmap bmp = BitmapFactory.decodeByteArray(result, 0, result.length);
                     ImageView imgExercise=(ImageView)view.findViewById(R.id.imgExercise);
-                    imgExercise.setImageBitmap(bmp);
+                    imgExercise.setImageBitmap(bmp);*/
                     return true;
                 }
             }
