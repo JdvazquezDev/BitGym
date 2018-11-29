@@ -56,7 +56,6 @@ public class ListaEjerciciosActivity extends AppCompatActivity  {
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data)
     {
-
         if ( requestCode == CODIGO_ADICION_EJERCICIO
                 && resultCode == Activity.RESULT_OK)
         {
@@ -66,7 +65,6 @@ public class ListaEjerciciosActivity extends AppCompatActivity  {
         if ( requestCode == CODIGO_EDIT_EJERCICIO
                 && resultCode == Activity.RESULT_OK )
         {
-         //   int pos = data.getExtras().getInt( "pos" );
             this.dbManager.editEjercicio( data.getExtras().getInt( "_id"),data.getExtras().getString( "nombre").toString(), data.getExtras().getString( "descripcion").toString(),data.getExtras().getString("imagen"));
             this.updateEjercicios();
         }
@@ -85,11 +83,8 @@ public class ListaEjerciciosActivity extends AppCompatActivity  {
                 new String[]{ dbManager.EJERCICIO_COL_NOMBRE, dbManager.EJERCICIO_COL_DESCRIPCION,dbManager.EJERCICIO_COL_IMAGEN},
                 new int[] {R.id.lblNombre, R.id.lblDescripcion ,R.id.imgExercise} );//Sin la ultima columna si que se ejecuta, no consigue transformar bloc a string
 
-
         mainCursorAdapter.setViewBinder(new EjercicioViewBinder());
-
         this.lvEjercicios.setAdapter( this.mainCursorAdapter );
-
     }
 
     private void updateEjercicios()
@@ -110,28 +105,22 @@ public class ListaEjerciciosActivity extends AppCompatActivity  {
     {
         public boolean setViewValue(View view, Cursor cursor, int columnIndex)
         {
-           // try
-           // {
-                    if (view instanceof ImageView)
-                    {
-
-                        /*byte[] result = cursor.getBlob(cursor.getColumnIndex("imagen"));//my image is stored as blob in db at 3
-                        Bitmap bmp = BitmapFactory.decodeByteArray(result, 0, result.length);
-                        ImageView imgExercise=(ImageView)view.findViewById(R.id.imgExercise);
-                        imgExercise.setImageBitmap(bmp);*/
-                        String path = cursor.getString(cursor.getColumnIndex("imagen"));
-                        File imgFile = new File(path);
-                        Bitmap bm = BitmapFactory.decodeFile(imgFile.getPath());
-                        ImageView imgExercise = (ImageView) view.findViewById(R.id.imgExercise);
-                        imgExercise.setImageBitmap(bm);
-                        return true;
-                    }
-                //}
-          //  }
-          //  catch(Exception e)
-          //  {
-          //      Toast.makeText(ListaEjerciciosActivity.this, e.toString()+" err", Toast.LENGTH_LONG).show();
-         //   }
+            try
+            {
+                if (view instanceof ImageView)
+                {
+                    String path = cursor.getString(cursor.getColumnIndex("imagen"));
+                    File imgFile = new File(path);
+                    Bitmap bm = BitmapFactory.decodeFile(imgFile.getPath());
+                    ImageView imgExercise = (ImageView) view.findViewById(R.id.imgExercise);
+                    imgExercise.setImageBitmap(bm);
+                    return true;
+                }
+            }
+            catch(Exception e)
+            {
+                Toast.makeText(ListaEjerciciosActivity.this, e.toString()+" err", Toast.LENGTH_LONG).show();
+            }
             return false;
         }
     }
@@ -159,7 +148,6 @@ public class ListaEjerciciosActivity extends AppCompatActivity  {
                     subActividad.putExtra("nombre", cursor.getString(1));
                     subActividad.putExtra("descripcion", cursor.getString(2));
                     subActividad.putExtra("imagen", cursor.getString(3));
-                    Log.i("aqui", cursor.getString(3));
                     ListaEjerciciosActivity.this.startActivityForResult(subActividad, CODIGO_EDIT_EJERCICIO);
 
                 } else {

@@ -2,6 +2,7 @@ package com.fitgym.ui;
 
 import android.Manifest;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
@@ -29,6 +30,8 @@ import com.fitgym.R;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 
 
@@ -36,12 +39,9 @@ public class addEjerciciosActivity extends AppCompatActivity {
 
     final int REQUEST_CODE_GALLERY = 999;
     ImageView imagenView;
-    //ruta base de la SDcard: /storage/sdcard0/...
-    private final String ruta_fotos = Environment.getExternalStorageDirectory().
-            getAbsolutePath() +"/BitGym/images/";
-    private File file = new File(ruta_fotos);
+    File file;
+    String path;
 
-    Uri uri;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,14 +55,19 @@ public class addEjerciciosActivity extends AppCompatActivity {
         final EditText descripcion_nuevo_ejercicio = (EditText) this.findViewById( R.id.descripcion_nuevo_ejercicio);
         imagenView = (ImageView) findViewById(R.id.imageView);
 
+        String nombreDirectorioPrivado = "imagen";
+        file = crearDirectorioPrivado(this,nombreDirectorioPrivado);
+
         if (!file.exists()) {
             file.mkdir();
+            Log.i("direr","se creo -- " + Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES));
+        }else{
+            Log.i("direr","esta creado -- " + Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES));
         }
 
         Intent datosEnviados = this.getIntent();
         nombre_nuevo_ejercicio.setText( datosEnviados.getExtras().getString(( "nombre" ) ) );
         descripcion_nuevo_ejercicio.setText(datosEnviados.getExtras().getString(("descripcion")));
-
 
        btImagen.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -74,7 +79,6 @@ public class addEjerciciosActivity extends AppCompatActivity {
                 );
             }
         });
-
 
         btCancelar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -133,7 +137,6 @@ public class addEjerciciosActivity extends AppCompatActivity {
 
     }
 
-
     public static byte[] imageViewToByte(ImageView image) {
         Bitmap bitmap = ((BitmapDrawable)image.getDrawable()).getBitmap();
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
@@ -141,7 +144,6 @@ public class addEjerciciosActivity extends AppCompatActivity {
         byte[] byteArray = stream.toByteArray();
         return byteArray;
     }
-
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
@@ -157,10 +159,9 @@ public class addEjerciciosActivity extends AppCompatActivity {
             }
             return;
         }
-
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
-    String path;
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
@@ -172,10 +173,54 @@ public class addEjerciciosActivity extends AppCompatActivity {
             cursor.moveToFirst();
             path = cursor.getString(cursor.getColumnIndex(fillPath[0]));
             cursor.close();
+
             Bitmap bitmap = BitmapFactory.decodeFile(path);
+            SaveImage(bitmap);
             imagenView.setImageBitmap(bitmap);
         }
 
         super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    public File crearDirectorioPrivado(Context context, String nombreDirectorio) {
+       File directorio =new File(
+                context.getExternalFilesDir(Environment.DIRECTORY_PICTURES),
+                nombreDirectorio);
+        return directorio;
+    }
+
+    public void SaveImage( Bitmap ImageToSave) {
+
+        File dir = file;//Carpeta donde se guarda
+        File fichero = new File(path);//Fichero a guardar
+
+        if (!dir.exists()) {
+            dir.mkdirs();
+        }
+
+        File paraGuardar = new File(dir, fichero.getName());//Fichero donde se guarda
+
+        try {
+            FileOutputStream fOut = new FileOutputStream(paraGuardar);
+
+            ImageToSave.compress(Bitmap.CompressFormat.JPEG, 85, fOut);
+            fOut.flush();
+            fOut.close();
+            AbleToSave();
+        }
+        catch(FileNotFoundException e) {
+            UnableToSave();
+        }
+        catch(IOException e) {
+            UnableToSave();
+        }
+    }
+
+    private void UnableToSave() {
+        Toast.makeText(addEjerciciosActivity.this, "¡No se ha podido guardar la imagen!", Toast.LENGTH_SHORT).show();
+    }
+
+    private void AbleToSave() {
+        Toast.makeText(addEjerciciosActivity.this, "Imagen guardada", Toast.LENGTH_SHORT).show();
     }
 }

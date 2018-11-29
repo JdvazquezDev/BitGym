@@ -23,6 +23,8 @@ import com.fitgym.core.DBManager;
 
 import org.w3c.dom.Text;
 
+import java.io.File;
+
 public class addEjerciciosToRutinaActivity extends AppCompatActivity
 {
 
@@ -102,10 +104,11 @@ public class addEjerciciosToRutinaActivity extends AppCompatActivity
             {
                 if (view instanceof ImageView)
                 {
-                   /* byte[] result = cursor.getBlob(cursor.getColumnIndex("imagen"));//my image is stored as blob in db at 3
-                    Bitmap bmp = BitmapFactory.decodeByteArray(result, 0, result.length);
-                    ImageView imgExercise=(ImageView)view.findViewById(R.id.imgExercise);
-                    imgExercise.setImageBitmap(bmp);*/
+                    String path = cursor.getString(cursor.getColumnIndex("imagen"));
+                    File imgFile = new File(path);
+                    Bitmap bm = BitmapFactory.decodeFile(imgFile.getPath());
+                    ImageView imgExercise = (ImageView) view.findViewById(R.id.imgExercise);
+                    imgExercise.setImageBitmap(bm);
                     return true;
                 }
 

@@ -167,7 +167,6 @@ public class DBManager extends SQLiteOpenHelper {
     }
 
 
-
     /** Inserta un nuevo ejercicio.
      * @param nombre El nombre del ejercicio.
      * @param descripcion La descripcion del ejercicio.
@@ -183,6 +182,7 @@ public class DBManager extends SQLiteOpenHelper {
         values.put( EJERCICIO_COL_NOMBRE, nombre );
         values.put( EJERCICIO_COL_DESCRIPCION, descripcion );
         values.put( EJERCICIO_COL_IMAGEN,imagen);
+
         try {
             db.beginTransaction();
             cursor = db.query( TABLA_EJERCICIO,
@@ -190,13 +190,7 @@ public class DBManager extends SQLiteOpenHelper {
                     EJERCICIO_COL_NOMBRE + "=?",
                     new String[]{ nombre },
                     null, null, null, null );
-/*
-            if ( cursor.getCount() > 0 ) {
-                db.update( TABLA_EJERCICIO,
-                        values, EJERCICIO_COL_NOMBRE + "= ?", new String[]{ nombre } );
-            } else {*/
                 db.insert( TABLA_EJERCICIO, null, values );
-     //       }
 
             db.setTransactionSuccessful();
             toret = true;
@@ -270,10 +264,6 @@ public class DBManager extends SQLiteOpenHelper {
      */
     public boolean insertaEjercicioRutina(int nombre, String fecha, int numRepes,int  series, int peso, String infoExtra)
     {
-     //   Log.i("bd","nombre" + nombre);
-     //   Log.i("bd","fecha" + fecha);
-      //  Log.i("bd","numRepes " + String.valueOf(numRepes));
-
         Cursor cursor = null;
         boolean toret = false;
         SQLiteDatabase db = this.getWritableDatabase();
@@ -284,7 +274,6 @@ public class DBManager extends SQLiteOpenHelper {
         values.put( EJERCICIO_RUTINA_COL_SERIES,series);
         values.put( EJERCICIO_RUTINA_COL_PESO, peso);
         values.put(EJERCICIO_RUTINA_COL_INFO,infoExtra);
-
 
         try {
             db.beginTransaction();
@@ -322,7 +311,6 @@ public class DBManager extends SQLiteOpenHelper {
 
     public boolean editarEjercicioRutina(int id, String fecha, int numRepes,int  series, int peso, String infoExtra)
     {
-
         Cursor cursor = null;
         boolean toret = false;
         SQLiteDatabase db = this.getWritableDatabase();
@@ -397,9 +385,4 @@ public class DBManager extends SQLiteOpenHelper {
 
         return toret;
     }
-
-
-
-
-
 }

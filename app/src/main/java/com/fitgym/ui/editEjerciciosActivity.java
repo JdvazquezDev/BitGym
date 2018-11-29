@@ -2,6 +2,7 @@ package com.fitgym.ui;
 
 import android.Manifest;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
@@ -18,6 +19,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Base64;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -31,6 +33,8 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Blob;
 
@@ -38,11 +42,9 @@ import java.sql.Blob;
 public class editEjerciciosActivity extends AppCompatActivity {
 
     final int REQUEST_CODE_GALLERY = 999;
-
-    private final String ruta_fotos = Environment.getExternalStorageDirectory().
-            getAbsolutePath() +"/BitGym/images/";ImageView imagenView;
-    private File file = new File(ruta_fotos);
-
+    ImageView imagenView;
+    File file;
+    String path;
     int id;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,17 +60,19 @@ public class editEjerciciosActivity extends AppCompatActivity {
 
         imagenView = findViewById(R.id.imageView);
 
+        String nombreDirectorioPrivado = "imagen";
+        file = crearDirectorioPrivado(this,nombreDirectorioPrivado);
+
         Intent datosEnviados = this.getIntent();
         id = datosEnviados.getExtras().getInt("_id");
 
         nombre_nuevo_ejercicio.setText(datosEnviados.getExtras().getString(("nombre")));
         descripcion_nuevo_ejercicio.setText(datosEnviados.getExtras().getString(("descripcion")));
 
-      //Mostrar imagen guardada en la bd
-       /* byte[] byteArray = datosEnviados.getExtras().getByteArray("imagen");
-        Bitmap bm = BitmapFactory.decodeByteArray(byteArray, 0 ,byteArray.length);
-        imagenView.setImageBitmap(bm);
-*/
+        path = datosEnviados.getExtras().getString(("imagen"));
+        Bitmap bitmap = BitmapFactory.decodeFile(path);
+        imagenView.setImageBitmap(bitmap);
+
         btImagen.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -79,7 +83,6 @@ public class editEjerciciosActivity extends AppCompatActivity {
                 );
             }
         });
-
 
         btCancelar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -139,16 +142,6 @@ public class editEjerciciosActivity extends AppCompatActivity {
         });
     }
 
-
-    public static byte[] imageViewToByte(ImageView image) {
-        Bitmap bitmap = ((BitmapDrawable)image.getDrawable()).getBitmap();
-        ByteArrayOutputStream stream = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
-        byte[] byteArray = stream.toByteArray();
-        return byteArray;
-    }
-
-
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
 
@@ -166,30 +159,67 @@ public class editEjerciciosActivity extends AppCompatActivity {
 
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
-    String path;
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
         if(requestCode == REQUEST_CODE_GALLERY && resultCode == RESULT_OK && data != null ){
-            Uri uri = data.getData();
 
-          //  try {
-                if(requestCode == REQUEST_CODE_GALLERY && resultCode == RESULT_OK && data != null){
-                    Uri imagenSeleccionada = data.getData();
-                    String[] fillPath = {MediaStore.Images.Media.DATA};
-                    Cursor cursor = getContentResolver().query(imagenSeleccionada, fillPath, null, null, null);
-                    assert cursor != null;
-                    cursor.moveToFirst();
-                    path = cursor.getString(cursor.getColumnIndex(fillPath[0]));
-                    cursor.close();
-                    Bitmap bitmap = BitmapFactory.decodeFile(path);
-                    imagenView.setImageBitmap(bitmap);
-                }
-         //   } catch (FileNotFoundException e) {
-         //       e.printStackTrace();
-           // }
+            if(requestCode == REQUEST_CODE_GALLERY && resultCode == RESULT_OK && data != null){
+                Uri imagenSeleccionada = data.getData();
+                String[] fillPath = {MediaStore.Images.Media.DATA};
+                Cursor cursor = getContentResolver().query(imagenSeleccionada, fillPath, null, null, null);
+                assert cursor != null;
+                cursor.moveToFirst();
+                path = cursor.getString(cursor.getColumnIndex(fillPath[0]));
+                cursor.close();
+                Bitmap bitmap = BitmapFactory.decodeFile(path);
+                SaveImage(bitmap);
+                imagenView.setImageBitmap(bitmap);
+            }
         }
-
         super.onActivityResult(requestCode, resultCode, data);
     }
+
+    public File crearDirectorioPrivado(Context context, String nombreDirectorio) {
+        File directorio =new File(
+                context.getExternalFilesDir(Environment.DIRECTORY_PICTURES),
+                nombreDirectorio);
+        return directorio;
+    }
+
+    public void SaveImage( Bitmap ImageToSave) {
+
+        File dir = file;//Carpeta donde se guarda
+        File fichero = new File(path);//Fichero a guardar
+
+        if (!dir.exists()) {
+            dir.mkdirs();
+        }
+
+        File paraGuardar = new File(dir, fichero.getName());//Fichero donde se guarda
+
+        try {
+            FileOutputStream fOut = new FileOutputStream(paraGuardar);
+            ImageToSave.compress(Bitmap.CompressFormat.JPEG, 85, fOut);
+            fOut.flush();
+            fOut.close();
+            AbleToSave();
+        }
+        catch(FileNotFoundException e) {
+            UnableToSave();
+        }
+        catch(IOException e) {
+            UnableToSave();
+        }
+    }
+
+    private void UnableToSave() {
+        Toast.makeText(editEjerciciosActivity.this, "¡No se ha podido guardar la imagen!", Toast.LENGTH_SHORT).show();
+    }
+
+    private void AbleToSave() {
+        Toast.makeText(editEjerciciosActivity.this, "Imagen guardada", Toast.LENGTH_SHORT).show();
+    }
+
 }
