@@ -19,11 +19,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
+import android.widget.VideoView;
 
 import com.fitgym.R;
 
@@ -38,7 +41,9 @@ import java.io.InputStream;
 public class addEjerciciosActivity extends AppCompatActivity {
 
     final int REQUEST_CODE_GALLERY = 999;
+    final int REQUEST_CODE_GALLERY_VIDEO = 998;
     ImageView imagenView;
+    VideoView videoView;
     File file;
     String path;
 
@@ -50,13 +55,14 @@ public class addEjerciciosActivity extends AppCompatActivity {
         final Button btGuardarAdd = (Button) this.findViewById( R.id.btGuardarAdd );
         final Button btCancelar = (Button) this.findViewById( R.id.btCancelar );
         final Button btImagen = (Button) this.findViewById(R.id.btImagen);
+        final Button btVideo = (Button) this.findViewById(R.id.btVideo);
 
         final EditText nombre_nuevo_ejercicio = (EditText) this.findViewById( R.id.nombre_nuevo_ejercicio );
         final EditText descripcion_nuevo_ejercicio = (EditText) this.findViewById( R.id.descripcion_nuevo_ejercicio);
         imagenView = (ImageView) findViewById(R.id.imageView);
-
-        String nombreDirectorioPrivado = "imagen";
-        file = crearDirectorioPrivado(this,nombreDirectorioPrivado);
+        videoView = (VideoView) findViewById(R.id.videoView);
+        String nombreDirectorioPublico = "imagen";
+        file = crearDirectorioPublico(this,nombreDirectorioPublico);
 
         if (!file.exists()) {
             file.mkdir();
@@ -76,6 +82,17 @@ public class addEjerciciosActivity extends AppCompatActivity {
                         addEjerciciosActivity.this,
                         new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
                         REQUEST_CODE_GALLERY
+                );
+            }
+        });
+
+        btVideo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ActivityCompat.requestPermissions(
+                        addEjerciciosActivity.this,
+                        new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
+                        REQUEST_CODE_GALLERY_VIDEO
                 );
             }
         });
@@ -137,14 +154,6 @@ public class addEjerciciosActivity extends AppCompatActivity {
 
     }
 
-    public static byte[] imageViewToByte(ImageView image) {
-        Bitmap bitmap = ((BitmapDrawable)image.getDrawable()).getBitmap();
-        ByteArrayOutputStream stream = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
-        byte[] byteArray = stream.toByteArray();
-        return byteArray;
-    }
-
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
 
@@ -159,6 +168,19 @@ public class addEjerciciosActivity extends AppCompatActivity {
             }
             return;
         }
+
+        if(requestCode == REQUEST_CODE_GALLERY_VIDEO){
+            if(grantResults.length >0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
+                Intent intent = new Intent(Intent.ACTION_PICK,
+                        android.provider.MediaStore.Video.Media.EXTERNAL_CONTENT_URI);
+                startActivityForResult(intent, REQUEST_CODE_GALLERY);
+            }
+            else {
+                Toast.makeText(getApplicationContext(), "You don't have permission to access file location!", Toast.LENGTH_SHORT).show();
+            }
+            return;
+        }
+
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 
@@ -178,11 +200,23 @@ public class addEjerciciosActivity extends AppCompatActivity {
             SaveImage(bitmap);
             imagenView.setImageBitmap(bitmap);
         }
+        if(requestCode == REQUEST_CODE_GALLERY_VIDEO && resultCode == RESULT_OK && data != null){
+            Uri video = data.getData();
+            String[] fillPath = {MediaStore.Video.Media.DATA};
+            Cursor cursor = getContentResolver().query(video, fillPath, null, null, null);
+            assert cursor != null;
+            cursor.moveToFirst();
+            path = cursor.getString(cursor.getColumnIndex(fillPath[0]));
+            cursor.close();
 
+           // Bitmap bitmap = BitmapFactory.decodeFile(path);
+           // SaveImage(bitmap);
+
+        }
         super.onActivityResult(requestCode, resultCode, data);
     }
 
-    public File crearDirectorioPrivado(Context context, String nombreDirectorio) {
+    public File crearDirectorioPublico(Context context, String nombreDirectorio) {
        File directorio =new File(
                 context.getExternalFilesDir(Environment.DIRECTORY_PICTURES),
                 nombreDirectorio);
@@ -222,5 +256,23 @@ public class addEjerciciosActivity extends AppCompatActivity {
 
     private void AbleToSave() {
         Toast.makeText(addEjerciciosActivity.this, "Imagen guardada", Toast.LENGTH_SHORT).show();
+    }
+
+
+    public boolean onCreateOptionsMenu(Menu menu)
+    {
+        super.onCreateOptionsMenu( menu );
+        this.getMenuInflater().inflate( R.menu.activity_actions, menu );
+        return true;
+    }
+    public boolean onOptionsItemSelected(MenuItem menuItem)
+    {
+        boolean toret = false;
+        switch( menuItem.getItemId() ) {
+            case R.id.action_atras:
+                this.finish();
+                break;
+        }
+        return toret;
     }
 }

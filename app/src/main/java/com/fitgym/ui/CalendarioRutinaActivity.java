@@ -7,6 +7,8 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.CalendarView;
 
@@ -72,15 +74,27 @@ public class CalendarioRutinaActivity extends AppCompatActivity {
 
             } while (c.moveToNext());
         }
-    //    Log.i("calendar", String.valueOf(new GregorianCalendar().get(Calendar.YEAR)));
-    //    Log.i("calendar", String.valueOf(new GregorianCalendar().get(Calendar.MONTH)));
-    //    Log.i("calendar", String.valueOf(new GregorianCalendar().get(Calendar.DAY_OF_MONTH)));
 
         dlg.markDate(
                 new DateData(new GregorianCalendar().get(Calendar.YEAR)  - 1900, new GregorianCalendar().get(Calendar.MONTH) ,new GregorianCalendar().get(Calendar.DAY_OF_MONTH)).setMarkStyle(new MarkStyle(MarkStyle.LEFTSIDEBAR, Color.BLUE)));
 
     }
-
+    public boolean onCreateOptionsMenu(Menu menu)
+    {
+        super.onCreateOptionsMenu( menu );
+        this.getMenuInflater().inflate( R.menu.activity_actions, menu );
+        return true;
+    }
+    public boolean onOptionsItemSelected(MenuItem menuItem)
+    {
+        boolean toret = false;
+        switch( menuItem.getItemId() ) {
+            case R.id.action_atras:
+                this.finish();
+                break;
+        }
+        return toret;
+    }
     private DBManager dbManager;
 
 }

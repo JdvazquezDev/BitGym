@@ -20,6 +20,8 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Base64;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -60,8 +62,8 @@ public class editEjerciciosActivity extends AppCompatActivity {
 
         imagenView = findViewById(R.id.imageView);
 
-        String nombreDirectorioPrivado = "imagen";
-        file = crearDirectorioPrivado(this,nombreDirectorioPrivado);
+        String nombreDirectorioPublico = "imagen";
+        file = crearDirectorioPublico(this,nombreDirectorioPublico);
 
         Intent datosEnviados = this.getIntent();
         id = datosEnviados.getExtras().getInt("_id");
@@ -111,14 +113,10 @@ public class editEjerciciosActivity extends AppCompatActivity {
         nombre_nuevo_ejercicio.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
             }
-
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
             }
-
             @Override
             public void afterTextChanged(Editable editable) {
                 btGuardarEdit.setEnabled( nombre_nuevo_ejercicio.getText().toString().trim().length() > 0);
@@ -127,14 +125,10 @@ public class editEjerciciosActivity extends AppCompatActivity {
         descripcion_nuevo_ejercicio.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
             }
-
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
             }
-
             @Override
             public void afterTextChanged(Editable editable) {
                 btGuardarEdit.setEnabled( descripcion_nuevo_ejercicio.getText().toString().trim().length() > 0 );
@@ -156,7 +150,6 @@ public class editEjerciciosActivity extends AppCompatActivity {
             }
             return;
         }
-
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 
@@ -181,7 +174,7 @@ public class editEjerciciosActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
     }
 
-    public File crearDirectorioPrivado(Context context, String nombreDirectorio) {
+    public File crearDirectorioPublico(Context context, String nombreDirectorio) {
         File directorio =new File(
                 context.getExternalFilesDir(Environment.DIRECTORY_PICTURES),
                 nombreDirectorio);
@@ -220,6 +213,23 @@ public class editEjerciciosActivity extends AppCompatActivity {
 
     private void AbleToSave() {
         Toast.makeText(editEjerciciosActivity.this, "Imagen guardada", Toast.LENGTH_SHORT).show();
+    }
+
+    public boolean onCreateOptionsMenu(Menu menu)
+    {
+        super.onCreateOptionsMenu( menu );
+        this.getMenuInflater().inflate( R.menu.activity_actions, menu );
+        return true;
+    }
+    public boolean onOptionsItemSelected(MenuItem menuItem)
+    {
+        boolean toret = false;
+        switch( menuItem.getItemId() ) {
+            case R.id.action_atras:
+                this.finish();
+                break;
+        }
+        return toret;
     }
 
 }

@@ -6,7 +6,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.fitgym.ui.addEjerciciosToRutinaActivity">
+    tools:context="com.fitgym.ui.addEjerciciosToRutinaActivity"
+    android:padding="5dp">
 
     <ListView
 
@@ -14,15 +15,5 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight=".9"></ListView>
-
-
-
-        <!--    <TextView
-                android:text="0"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/lblNum"
-                android:layout_weight="1"
-                android:gravity="right|center_vertical" />-->
 
 </LinearLayout>

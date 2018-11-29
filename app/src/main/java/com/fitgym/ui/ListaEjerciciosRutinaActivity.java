@@ -1,14 +1,17 @@
 package com.fitgym.ui;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.ContextMenu;
+import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -127,6 +130,7 @@ public class ListaEjerciciosRutinaActivity extends AppCompatActivity {
                     String path = cursor.getString(cursor.getColumnIndex("imagen"));
                     File imgFile = new File(path);
                     Bitmap bm = BitmapFactory.decodeFile(imgFile.getPath());
+                    bm =resizeImage(ListaEjerciciosRutinaActivity.this,bm,400,250);
                     ImageView imgExercise = (ImageView) view.findViewById(R.id.imgExercise);
                     imgExercise.setImageBitmap(bm);
                     return true;
@@ -185,6 +189,50 @@ public class ListaEjerciciosRutinaActivity extends AppCompatActivity {
         }
     }
 
+    public Bitmap resizeImage(Context ctx, Bitmap BitmapOrg, int w, int h) {
+
+        int width = BitmapOrg.getWidth();
+        int height = BitmapOrg.getHeight();
+        int newWidth = w;
+        int newHeight = h;
+
+        // calculamos el escalado de la imagen destino
+        float scaleWidth = ((float) newWidth) / width;
+        float scaleHeight = ((float) newHeight) / height;
+
+        // para poder manipular la imagen
+        // debemos crear una matriz
+
+        Matrix matrix = new Matrix();
+        // resize the Bitmap
+        matrix.postScale(scaleWidth, scaleHeight);
+
+        // volvemos a crear la imagen con los nuevos valores
+        Bitmap resizedBitmap = Bitmap.createBitmap(BitmapOrg, 0, 0,
+                width, height, matrix, true);
+
+        // si queremos poder mostrar nuestra imagen tenemos que crear un
+        // objeto drawable y así asignarlo a un botón, imageview...
+        return resizedBitmap;
+
+    }
+
+    public boolean onCreateOptionsMenu(Menu menu)
+    {
+        super.onCreateOptionsMenu( menu );
+        this.getMenuInflater().inflate( R.menu.activity_actions, menu );
+        return true;
+    }
+    public boolean onOptionsItemSelected(MenuItem menuItem)
+    {
+        boolean toret = false;
+        switch( menuItem.getItemId() ) {
+            case R.id.action_atras:
+                this.finish();
+                break;
+        }
+        return toret;
+    }
     private SimpleCursorAdapter mainCursorAdapter;
     private DBManager dbManager;
 
