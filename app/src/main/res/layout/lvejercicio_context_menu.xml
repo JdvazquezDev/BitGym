@@ -12,23 +12,16 @@
         android:id="@+id/imgExercise"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:layout_weight="0.45"
+        android:layout_weight="0.5"
         android:contentDescription="@string/ImageDesc" />
 
     <TextView
         android:id="@+id/lblNombre"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:layout_weight="0.38"
+        android:layout_weight="0.5"
         android:gravity="center_vertical"
         android:textSize="16sp" />
 
-    <TextView
-        android:id="@+id/lblDescripcion"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_weight="0.17"
-        android:gravity="center_vertical"
-        android:textSize="16sp" />
 </LinearLayout>
 

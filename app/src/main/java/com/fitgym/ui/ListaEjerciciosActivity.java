@@ -58,6 +58,22 @@ public class ListaEjerciciosActivity extends AppCompatActivity  {
                     ListaEjerciciosActivity.this.startActivityForResult(subActividad, CODIGO_ADICION_EJERCICIO);
                 }
             });
+          /*  lvEjercicios.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                    Cursor cursor = ListaEjerciciosActivity.this.mainCursorAdapter.getCursor();
+                    if ( cursor.moveToPosition( position ) ) {
+
+                        Intent subActividad = new Intent(ListaEjerciciosActivity.this, viewEjerciciosActivity.class);
+                        startActivity(subActividad);
+                    }else{
+                        String errMsg = "Error en el ejercicio de " + ": " + position;
+                        Log.e( "main.modifyContact", errMsg );
+                        Toast.makeText( ListaEjerciciosActivity.this, errMsg, Toast.LENGTH_LONG ).show();
+                    }
+                }
+            });*/
         }
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data)
@@ -87,7 +103,7 @@ public class ListaEjerciciosActivity extends AppCompatActivity  {
                 R.layout.lvejercicio_context_menu,
                 this.dbManager.getAllEjercicios(),
                 new String[]{ dbManager.EJERCICIO_COL_NOMBRE, dbManager.EJERCICIO_COL_DESCRIPCION,dbManager.EJERCICIO_COL_IMAGEN},
-                new int[] {R.id.lblNombre, R.id.lblDescripcion ,R.id.imgExercise} );//Sin la ultima columna si que se ejecuta, no consigue transformar bloc a string
+                new int[] {R.id.lblNombre, R.id.imgExercise} );//Sin la ultima columna si que se ejecuta, no consigue transformar bloc a string
 
         mainCursorAdapter.setViewBinder(new EjercicioViewBinder());
         this.lvEjercicios.setAdapter( this.mainCursorAdapter );
@@ -119,7 +135,7 @@ public class ListaEjerciciosActivity extends AppCompatActivity  {
                     File imgFile = new File(path);
                     Bitmap bm = BitmapFactory.decodeFile(imgFile.getPath());
 
-                    bm =resizeImage(ListaEjerciciosActivity.this,bm,400,250);
+                    bm =resizeImage(ListaEjerciciosActivity.this,bm,450,300);
                     ImageView imgExercise = (ImageView) view.findViewById(R.id.imgExercise);
                     imgExercise.setImageBitmap(bm);
                     return true;

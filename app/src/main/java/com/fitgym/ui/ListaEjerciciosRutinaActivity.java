@@ -75,12 +75,12 @@ public class ListaEjerciciosRutinaActivity extends AppCompatActivity {
             int nombre = data.getExtras().getInt( "_id");
             fecha = data.getExtras().getString( "fecha");
 
-            int numRepes = data.getExtras().getInt("numRepes");
+            int repeticiones = data.getExtras().getInt("repeticiones");
             int series = data.getExtras().getInt("series");
             int peso = data.getExtras().getInt("peso");
             String info = data.getExtras().getString("infoExtra").toString();
 
-            this.dbManager.editarEjercicioRutina(nombre,fecha,numRepes,series,peso,info);
+            this.dbManager.editarEjercicioRutina(nombre,fecha,repeticiones,series,peso,info);
             this.updateRutina();
         }
         return;
@@ -97,7 +97,7 @@ public class ListaEjerciciosRutinaActivity extends AppCompatActivity {
         this.mainCursorAdapter = new SimpleCursorAdapter(ListaEjerciciosRutinaActivity.this,
                 R.layout.lvrutina_context_menu,
                 this.dbManager.getAllEjerRutina(fecha),
-                new String[]{"imagen","fecha", "nombre", "num_repeticiones"},
+                new String[]{"imagen","fecha", "nombre", "repeticiones"},
                 new int[]{R.id.imgExercise,R.id.lblNombre, R.id.lblNumRepeticion});
 
 
@@ -166,7 +166,7 @@ public class ListaEjerciciosRutinaActivity extends AppCompatActivity {
 
                     subActividad.putExtra("_id", cursor.getInt(cursor.getColumnIndex("_id")));
                     subActividad.putExtra("series", cursor.getInt(cursor.getColumnIndex("series")));
-                    subActividad.putExtra("repeticiones", cursor.getInt(cursor.getColumnIndex("num_repeticiones")));
+                    subActividad.putExtra("repeticiones", cursor.getInt(cursor.getColumnIndex("repeticiones")));
                     subActividad.putExtra("peso", cursor.getInt(cursor.getColumnIndex("peso")));
                     subActividad.putExtra("infoExtra", cursor.getString(cursor.getColumnIndex("infoExtra")));
                     subActividad.putExtra( "fecha", fecha );
