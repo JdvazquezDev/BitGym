@@ -51,6 +51,7 @@ public class editEjerciciosActivity extends AppCompatActivity {
     String path;
     int id;
     WebView mWebView;
+    Bitmap bitmap;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -66,6 +67,7 @@ public class editEjerciciosActivity extends AppCompatActivity {
         imagenView = findViewById(R.id.imageView);
         mWebView = (WebView) findViewById(R.id.webview);
 
+
         mWebView.getSettings().setJavaScriptEnabled(true);
 
 
@@ -80,7 +82,7 @@ public class editEjerciciosActivity extends AppCompatActivity {
         descripcion_nuevo_ejercicio.setText(datosEnviados.getExtras().getString(("descripcion")));
         urlVideo.setText(datosEnviados.getExtras().getString(("url")));
         path = datosEnviados.getExtras().getString(("imagen"));
-        Bitmap bitmap = BitmapFactory.decodeFile(path);
+        final Bitmap bitmap = BitmapFactory.decodeFile(path);
         imagenView.setImageBitmap(bitmap);
 
         btImagen.setOnClickListener(new View.OnClickListener() {
@@ -154,7 +156,7 @@ public class editEjerciciosActivity extends AppCompatActivity {
                 datosRetornar.putExtra( "descripcion", descripcion_nuevo_ejercicio.getText().toString() );
                 datosRetornar.putExtra( "imagen", path );
                 datosRetornar.putExtra("url", urlVideo.getText().toString());
-
+                SaveImage(bitmap);
                 editEjerciciosActivity.this.setResult( Activity.RESULT_OK, datosRetornar );
                 editEjerciciosActivity.this.finish();
             }
@@ -217,8 +219,8 @@ public class editEjerciciosActivity extends AppCompatActivity {
                 cursor.moveToFirst();
                 path = cursor.getString(cursor.getColumnIndex(fillPath[0]));
                 cursor.close();
-                Bitmap bitmap = BitmapFactory.decodeFile(path);
-                SaveImage(bitmap);
+                bitmap = BitmapFactory.decodeFile(path);
+
                 imagenView.setImageBitmap(bitmap);
             }
         }

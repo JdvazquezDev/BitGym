@@ -73,7 +73,7 @@ public class ListaEjerciciosRutinaActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable s) {
-//                mainCursorAdapter.getFilter().filter(s.toString());
+               mainCursorAdapter.getFilter().filter(s.toString());
             }
         });
     }
@@ -89,7 +89,8 @@ public class ListaEjerciciosRutinaActivity extends AppCompatActivity {
             int series = 0;
             int peso = 0;
             String info = "";
-            this.dbManager.insertaEjercicioRutina(id,fecha,numRepes,series,peso,info);
+            String tiempo = "";
+            this.dbManager.insertaEjercicioRutina(id,fecha,numRepes,series,peso,info,tiempo);
             this.updateRutina();
         }
         if ( requestCode == CODIGO_EDIT_EJERCICIO_TO_RUTINA
@@ -102,8 +103,8 @@ public class ListaEjerciciosRutinaActivity extends AppCompatActivity {
             int series = data.getExtras().getInt("series");
             int peso = data.getExtras().getInt("peso");
             String info = data.getExtras().getString("infoExtra").toString();
-
-            this.dbManager.editarEjercicioRutina(nombre,fecha,repeticiones,series,peso,info);
+            String tiempo = data.getExtras().getString("tiempo").toString();
+            this.dbManager.editarEjercicioRutina(nombre,fecha,repeticiones,series,peso,info,tiempo);
             this.updateRutina();
         }
         return;
@@ -197,6 +198,7 @@ public class ListaEjerciciosRutinaActivity extends AppCompatActivity {
                     subActividad.putExtra("repeticiones", cursor.getInt(cursor.getColumnIndex("repeticiones")));
                     subActividad.putExtra("peso", cursor.getInt(cursor.getColumnIndex("peso")));
                     subActividad.putExtra("infoExtra", cursor.getString(cursor.getColumnIndex("infoExtra")));
+                    subActividad.putExtra("tiempo", cursor.getString(cursor.getColumnIndex("tiempo")));
                     subActividad.putExtra( "fecha", fecha );
 
                     ListaEjerciciosRutinaActivity.this.startActivityForResult(subActividad, CODIGO_EDIT_EJERCICIO_TO_RUTINA);

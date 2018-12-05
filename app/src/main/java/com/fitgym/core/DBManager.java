@@ -30,6 +30,7 @@ public class DBManager extends SQLiteOpenHelper {
     public static final String EJERCICIO_RUTINA_COL_PESO;
     public static final String EJERCICIO_RUTINA_COL_INFO;
     public static final String EJERCICIO_RUTINA_COL_CLAVE;
+    public static final String EJERCICIO_RUTINA_COL_TIEMPO;
 
     private static DBManager dbManager;
 
@@ -49,6 +50,7 @@ public class DBManager extends SQLiteOpenHelper {
         EJERCICIO_RUTINA_COL_SERIES = "series";
         EJERCICIO_RUTINA_COL_PESO = "peso";
         EJERCICIO_RUTINA_COL_INFO ="infoExtra";
+        EJERCICIO_RUTINA_COL_TIEMPO = "tiempo";
     }
 
     private DBManager(Context context)
@@ -68,23 +70,22 @@ public class DBManager extends SQLiteOpenHelper {
                     + EJERCICIO_COL_CLAVE + " INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "
                     + EJERCICIO_COL_NOMBRE + " string(255) NOT NULL, "
                     + EJERCICIO_COL_DESCRIPCION + " string(255) NOT NULL, "
-                    + EJERCICIO_COL_IMAGEN + " string(255), "
-                    + EJERCICIO_COL_URL + " string(255) " +
+                    + EJERCICIO_COL_IMAGEN + " string(255) NULL, "
+                    + EJERCICIO_COL_URL + " string(255) NULL" +
                     ")");
 
             db.execSQL("CREATE TABLE IF NOT EXISTS " + TABLA_EJERCICIO_RUTINA + "( "
                     + EJERCICIO_RUTINA_COL_CLAVE + " INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "
                     + EJERCICIO_RUTINA_COL_FECHA + " string(255) NOT NULL, " +
-                     EJERCICIO_RUTINA_COL_EJERCICIO + " INTEGER NOT NULL, " +
+                    EJERCICIO_RUTINA_COL_EJERCICIO + " INTEGER NOT NULL, " +
                     EJERCICIO_RUTINA_COL_REPETICIONES + " int NOT NULL," +
                     EJERCICIO_RUTINA_COL_SERIES + " int NOT NULL, " +
                     EJERCICIO_RUTINA_COL_PESO + " int NOT NULL, " +
                     EJERCICIO_RUTINA_COL_INFO + " string(255) NULL, " +
+                    EJERCICIO_RUTINA_COL_TIEMPO + " string(255) NULL, " +
                     "FOREIGN KEY(" + EJERCICIO_RUTINA_COL_EJERCICIO + ") REFERENCES ejercicio(_id) " +
                     ")");
-
             db.setTransactionSuccessful();
-
         }
         catch(SQLException exc)
         {
@@ -142,7 +143,7 @@ public class DBManager extends SQLiteOpenHelper {
 
         String SELECT_QUERY;
 
-        SELECT_QUERY = "SELECT t1._id as _id, t2.imagen AS imagen, t1.fecha AS fecha , t2.nombre AS nombre ,t1.repeticiones  AS repeticiones, t1.series AS series, t1.peso AS peso, t1.infoExtra AS infoExtra" +
+        SELECT_QUERY = "SELECT t1._id as _id, t2.imagen AS imagen, t1.fecha AS fecha , t2.nombre AS nombre ,t1.repeticiones  AS repeticiones, t1.series AS series, t1.peso AS peso, t1.infoExtra AS infoExtra,t1.tiempo AS tiempo" +
         " FROM ejercicio t2 INNER JOIN ejercicioRutina t1 " +
         "ON t1.nombre = t2." + EJERCICIO_COL_CLAVE + " WHERE t1.fecha = ?"
         ;
@@ -267,7 +268,7 @@ public class DBManager extends SQLiteOpenHelper {
      * @param repeticiones El numero de repeticiones del ejercicio de la rutina
      * @return true si se pudo insertar (o modificar), false en otro caso.
      */
-    public boolean insertaEjercicioRutina(int nombre, String fecha, int repeticiones,int  series, int peso, String infoExtra)
+    public boolean insertaEjercicioRutina(int nombre, String fecha, int repeticiones,int  series, int peso, String infoExtra,String tiempo)
     {
         Cursor cursor = null;
         boolean toret = false;
@@ -279,7 +280,7 @@ public class DBManager extends SQLiteOpenHelper {
         values.put( EJERCICIO_RUTINA_COL_SERIES,series);
         values.put( EJERCICIO_RUTINA_COL_PESO, peso);
         values.put(EJERCICIO_RUTINA_COL_INFO, infoExtra);
-
+        values.put(EJERCICIO_RUTINA_COL_TIEMPO, tiempo);
         try {
             db.beginTransaction();
             cursor = db.query( TABLA_EJERCICIO_RUTINA,
@@ -314,7 +315,7 @@ public class DBManager extends SQLiteOpenHelper {
         return toret;
     }
 
-    public boolean editarEjercicioRutina(int id, String fecha, int repeticiones, int  series, int peso, String infoExtra)
+    public boolean editarEjercicioRutina(int id, String fecha, int repeticiones, int  series, int peso, String infoExtra,String tiempo)
     {
         Cursor cursor = null;
         boolean toret = false;
@@ -326,7 +327,7 @@ public class DBManager extends SQLiteOpenHelper {
         values.put( EJERCICIO_RUTINA_COL_SERIES,series);
         values.put( EJERCICIO_RUTINA_COL_PESO, peso);
         values.put( EJERCICIO_RUTINA_COL_INFO, infoExtra);
-
+        values.put( EJERCICIO_RUTINA_COL_TIEMPO, tiempo);
         try {
             db.beginTransaction();
 
