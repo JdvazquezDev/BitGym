@@ -64,22 +64,31 @@ public class ListaEjerciciosActivity extends AppCompatActivity  {
                     ListaEjerciciosActivity.this.startActivityForResult(subActividad, CODIGO_ADICION_EJERCICIO);
                 }
             });
-          /*  lvEjercicios.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+           lvEjercicios.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
                     Cursor cursor = ListaEjerciciosActivity.this.mainCursorAdapter.getCursor();
                     if ( cursor.moveToPosition( position ) ) {
 
-                        Intent subActividad = new Intent(ListaEjerciciosActivity.this, viewEjerciciosActivity.class);
-                        startActivity(subActividad);
+                        Intent subActividad = new Intent( ListaEjerciciosActivity.this, viewEjerciciosActivity.class );
+
+                        subActividad.putExtra( "_id", cursor.getInt(0) );
+                        subActividad.putExtra( "nombre", cursor.getString(1) );
+                        subActividad.putExtra( "descripcion", cursor.getString(2) );
+                        subActividad.putExtra( "imagen", cursor.getString(3) );
+                        subActividad.putExtra( "url", cursor.getString(4) );
+
+
+                        ListaEjerciciosActivity.this.startActivity( subActividad );
+
                     }else{
                         String errMsg = "Error en el ejercicio de " + ": " + position;
                         Log.e( "main.modifyContact", errMsg );
                         Toast.makeText( ListaEjerciciosActivity.this, errMsg, Toast.LENGTH_LONG ).show();
                     }
                 }
-            });*/
+            });
 
           edit.addTextChangedListener(new TextWatcher() {
               @Override
