@@ -20,6 +20,7 @@ public class DBManager extends SQLiteOpenHelper {
     public static final String EJERCICIO_COL_NOMBRE;
     public static final String EJERCICIO_COL_DESCRIPCION;
     public static final String EJERCICIO_COL_IMAGEN;
+    public static final String EJERCICIO_COL_URL;
 
 
     public static final String EJERCICIO_RUTINA_COL_EJERCICIO;
@@ -38,6 +39,7 @@ public class DBManager extends SQLiteOpenHelper {
         EJERCICIO_COL_NOMBRE = "nombre";
         EJERCICIO_COL_DESCRIPCION = "descripcion";
         EJERCICIO_COL_IMAGEN = "imagen";
+        EJERCICIO_COL_URL = "url";
 
         TABLA_EJERCICIO_RUTINA = "ejercicioRutina";
         EJERCICIO_RUTINA_COL_CLAVE = "_id";
@@ -65,8 +67,9 @@ public class DBManager extends SQLiteOpenHelper {
             db.execSQL( "CREATE TABLE IF NOT EXISTS " + TABLA_EJERCICIO + "( "
                     + EJERCICIO_COL_CLAVE + " INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "
                     + EJERCICIO_COL_NOMBRE + " string(255) NOT NULL, "
-                    + EJERCICIO_COL_DESCRIPCION + " string(255) NOT NULL,"
-                    + EJERCICIO_COL_IMAGEN + " string(255) " +
+                    + EJERCICIO_COL_DESCRIPCION + " string(255) NOT NULL, "
+                    + EJERCICIO_COL_IMAGEN + " string(255), "
+                    + EJERCICIO_COL_URL + " string(255) " +
                     ")");
 
             db.execSQL("CREATE TABLE IF NOT EXISTS " + TABLA_EJERCICIO_RUTINA + "( "
@@ -172,7 +175,7 @@ public class DBManager extends SQLiteOpenHelper {
      * @param descripcion La descripcion del ejercicio.
      * @return true si se pudo insertar (o modificar), false en otro caso.
      */
-    public boolean insertaEjercicio(String nombre, String descripcion, String imagen)
+    public boolean insertaEjercicio(String nombre, String descripcion, String imagen, String url)
     {
         Cursor cursor = null;
         boolean toret = false;
@@ -182,6 +185,7 @@ public class DBManager extends SQLiteOpenHelper {
         values.put( EJERCICIO_COL_NOMBRE, nombre );
         values.put( EJERCICIO_COL_DESCRIPCION, descripcion );
         values.put( EJERCICIO_COL_IMAGEN,imagen);
+        values.put( EJERCICIO_COL_URL, url);
 
         try {
             db.beginTransaction();
@@ -215,7 +219,7 @@ public class DBManager extends SQLiteOpenHelper {
      * @param descripcion La descripcion del ejercicio.
      * @return true si se pudo insertar (o modificar), false en otro caso.
      */
-    public boolean editEjercicio(int id,String nombre, String descripcion, String imagen)
+    public boolean editEjercicio(int id,String nombre, String descripcion, String imagen, String url)
     {
         Cursor cursor = null;
         boolean toret = false;
@@ -225,6 +229,7 @@ public class DBManager extends SQLiteOpenHelper {
         values.put( EJERCICIO_COL_NOMBRE, nombre );
         values.put( EJERCICIO_COL_DESCRIPCION, descripcion );
         values.put( EJERCICIO_COL_IMAGEN,imagen);
+        values.put(EJERCICIO_COL_URL, url);
         try {
             db.beginTransaction();
             cursor = db.query( TABLA_EJERCICIO,

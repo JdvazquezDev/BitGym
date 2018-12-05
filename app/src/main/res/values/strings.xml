@@ -24,4 +24,19 @@
     <string name="ImageDesc">Imagen del ejercicio</string>
     <string name="ListaEjercicios">Lista de ejercicios</string>
     <string name="add_video">Añadir vídeo</string>
+    <string name="parar">Parar</string>
+    <string name="empezar">Empezar</string>
+    <string name="cronometro">Cronometro</string>
+    <string name="anho">Año</string>
+    <string name="domingo">Domingo</string>
+    <string name="lunes">Lunes</string>
+    <string name="s_bado">Sábado</string>
+    <string name="viernes">Viernes</string>
+    <string name="jueves">Jueves</string>
+    <string name="miercoles">Miercoles</string>
+    <string name="martes">Martes</string>
+    <string name="mes">Mes</string>
+    <string name="searchview">Introduce el nombre del ejercicio a buscar</string>
+    <string name="linkyoutube">Enlace al vídeo de youtube</string>
+    <string name="addUrl">Añadir Enlace</string>
 </resources>

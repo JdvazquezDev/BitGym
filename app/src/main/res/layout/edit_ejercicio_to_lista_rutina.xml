@@ -5,202 +5,175 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
         android:padding="10dp">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="100dp"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.7"
-                android:text="@string/Series"
-                android:textColor="@color/colorAccent" />
-
-            <EditText
-                android:id="@+id/series"
-                style="@style/Widget.AppCompat.EditText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.3"
-                android:ems="10"
-                android:importantForAutofill="no"
-                android:inputType="number"
-                android:selectAllOnFocus="false"
-                android:singleLine="false"
-                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                tools:targetApi="o" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="100dp"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.7"
-                android:text="@string/Repeticiones"
-                android:textColor="@color/colorAccent" />
-
-            <EditText
-                android:id="@+id/repeticiones"
-                style="@style/Widget.AppCompat.EditText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.3"
-                android:ems="10"
-                android:importantForAutofill="no"
-                android:inputType="number"
-                android:selectAllOnFocus="false"
-                android:singleLine="false"
-                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                tools:targetApi="o" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="100dp"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.7"
-                android:text="@string/Peso"
-                android:textColor="@color/colorAccent" />
-
-            <EditText
-                android:id="@+id/peso"
-                style="@style/Widget.AppCompat.EditText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.3"
-                android:ems="10"
-                android:importantForAutofill="no"
-                android:inputType="number"
-                android:selectAllOnFocus="false"
-                android:singleLine="false"
-                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                tools:targetApi="o" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="30dp"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.7"
-                android:text="@string/informacion_extra"
-                android:textColor="@color/colorAccent" />
-
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="30dp"
-            android:orientation="horizontal">
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="0.7"
-                android:orientation="vertical">
+                android:layout_height="75dp"
+                android:orientation="horizontal">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="0.3"
-                    android:text="Cronometro"
+                    android:layout_weight="0.7"
+                    android:text="@string/Repeticiones"
                     android:textColor="@color/colorAccent" />
 
-                <TextView
-                    android:id="@+id/tiempo"
+                <EditText
+                    android:id="@+id/repeticiones"
+                    style="@style/Widget.AppCompat.EditText"
                     android:layout_width="wrap_content"
-                    android:layout_height="20dp"
-                    android:layout_weight="0.3"
-                    android:textColor="@color/colorAccent" />
-
-                <Button
-                    android:id="@+id/btEmpezar"
-                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:layout_weight="0.05"
-                    android:text="empezar"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Button" />
+                    android:layout_weight="0.3"
+                    android:ems="10"
+                    android:importantForAutofill="no"
+                    android:inputType="number"
+                    android:selectAllOnFocus="false"
+                    android:singleLine="false"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                    tools:targetApi="o" />
             </LinearLayout>
 
-        </LinearLayout>
-        <EditText
-            android:id="@+id/informacion_extra"
-            style="@style/Widget.AppCompat.EditText"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:ems="10"
-            android:importantForAutofill="no"
-            android:inputType="textMultiLine"
-            android:selectAllOnFocus="false"
-            android:singleLine="false"
-            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-            tools:targetApi="o" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="75dp"
+                android:orientation="horizontal">
 
-        <Button
-            android:id="@+id/btGuardarEdit"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:layout_weight="0.05"
-            android:text="@string/edit_ejercicio_rutina"
-            android:textAppearance="@style/TextAppearance.AppCompat.Button" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.7"
+                    android:text="@string/Series"
+                    android:textColor="@color/colorAccent" />
 
-        <Button
-            android:id="@+id/btCancelar2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.05"
-            android:text="@string/btCancelar"
-            android:textAppearance="@style/TextAppearance.AppCompat.Button" />
+                <EditText
+                    android:id="@+id/series"
+                    style="@style/Widget.AppCompat.EditText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.3"
+                    android:ems="10"
+                    android:importantForAutofill="no"
+                    android:inputType="number"
+                    android:selectAllOnFocus="false"
+                    android:singleLine="false"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                    tools:targetApi="o" />
+            </LinearLayout>
 
-        <TextView
-            android:id="@+id/textView9"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Cronometro" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="75dp"
+                android:orientation="horizontal">
 
-        <Chronometer
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="20sp"
-            android:id="@+id/cmTimer" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.7"
+                    android:text="@string/Peso"
+                    android:textColor="@color/colorAccent" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal">
+                <EditText
+                    android:id="@+id/peso"
+                    style="@style/Widget.AppCompat.EditText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.3"
+                    android:ems="10"
+                    android:importantForAutofill="no"
+                    android:inputType="number"
+                    android:selectAllOnFocus="false"
+                    android:singleLine="false"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                    tools:targetApi="o" />
+            </LinearLayout>
 
-            <Button
-                android:id="@+id/empezar"
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.7"
+                    android:text="@string/informacion_extra"
+                    android:textColor="@color/colorAccent" />
+
+            </LinearLayout>
+
+            <EditText
+                android:id="@+id/informacion_extra"
+                style="@style/Widget.AppCompat.EditText"
+                android:layout_width="match_parent"
+                android:layout_height="75dp"
+                android:layout_marginBottom="15dp"
+                android:layout_weight="1"
+                android:ems="10"
+                android:importantForAutofill="no"
+                android:inputType="textMultiLine"
+                android:selectAllOnFocus="false"
+                android:singleLine="false"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                tools:targetApi="o" />
+
+            <TextView
+                android:id="@+id/textView9"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/cronometro" />
+
+            <Chronometer
+                android:id="@+id/cmTimer"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Empezar" />
+                android:layout_marginBottom="5dp"
+                android:textSize="20sp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/empezar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/empezar"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+
+                <Button
+                    android:id="@+id/parar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/parar"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+            </LinearLayout>
 
             <Button
-                android:id="@+id/parar"
-                android:layout_width="wrap_content"
+                android:id="@+id/btGuardarEdit"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Parar" />
-        </LinearLayout>
+                android:layout_marginTop="10dp"
+                android:text="@string/edit_ejercicio_rutina"
+                android:textAppearance="@style/TextAppearance.AppCompat.Button" />
 
-    </LinearLayout>
+            <Button
+                android:id="@+id/btCancelar2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/btCancelar"
+                android:textAppearance="@style/TextAppearance.AppCompat.Button" />
+        </LinearLayout>
+    </ScrollView>
+
+
 </android.support.constraint.ConstraintLayout>

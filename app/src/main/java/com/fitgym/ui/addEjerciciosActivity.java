@@ -22,6 +22,8 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -29,6 +31,7 @@ import android.widget.Toast;
 import android.widget.VideoView;
 
 import com.fitgym.R;
+import com.google.android.youtube.player.YouTubePlayerView;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -43,10 +46,12 @@ public class addEjerciciosActivity extends AppCompatActivity {
     final int REQUEST_CODE_GALLERY = 999;
     final int REQUEST_CODE_GALLERY_VIDEO = 998;
     ImageView imagenView;
-    VideoView videoView;
+  //  VideoView videoView;
     File file;
     String path;
     Bitmap bitmap;
+    private WebView mWebView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,12 +60,19 @@ public class addEjerciciosActivity extends AppCompatActivity {
         final Button btGuardarAdd = (Button) this.findViewById( R.id.btGuardarAdd );
         final Button btCancelar = (Button) this.findViewById( R.id.btCancelar );
         final Button btImagen = (Button) this.findViewById(R.id.btImagen);
-        final Button btVideo = (Button) this.findViewById(R.id.btVideo);
 
         final EditText nombre_nuevo_ejercicio = (EditText) this.findViewById( R.id.nombre_nuevo_ejercicio );
         final EditText descripcion_nuevo_ejercicio = (EditText) this.findViewById( R.id.descripcion_nuevo_ejercicio);
+        final EditText urlVideo = (EditText) this.findViewById(R.id.urlvideo);
         imagenView = (ImageView) findViewById(R.id.imageView);
-        videoView = (VideoView) findViewById(R.id.videoView);
+      //  videoView = (VideoView) findViewById(R.id.videoView);
+
+        mWebView = (WebView) findViewById(R.id.webview);
+
+        mWebView.getSettings().setJavaScriptEnabled(true);
+
+
+
         String nombreDirectorioPublico = "imagen";
         file = crearDirectorioPublico(this,nombreDirectorioPublico);
 
@@ -85,8 +97,53 @@ public class addEjerciciosActivity extends AppCompatActivity {
                 );
             }
         });
+        String video = urlVideo.getText().toString();
 
-        btVideo.setOnClickListener(new View.OnClickListener() {
+        //Enlaces generados versión web youtube
+  /*      if(video.contains("v=")) {
+            String[] parts = video.split("v=");
+            String urlId = parts[1];
+            String playVideo = "<html><body> <iframe class=\"youtube-player\" type=\"text/html\" width=\"300\" height=\"250\" src=\"https://www.youtube.com/embed/" + urlId + "\" frameborder=\"0\"></body></html>";
+
+            mWebView.loadData(playVideo, "text/html", "utf-8");
+            mWebView.setWebViewClient(new WebViewClient() {
+                public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                    // YouTube video link
+                    if (url.startsWith("vnd.youtube:")) {
+                        int n = url.indexOf("?");
+                        if (n > 0) {
+                            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(String.format("http://www.youtube.com/v/%s", url.substring("vnd.youtube:".length(), n)))));
+                        }
+                        return (true);
+                    }
+
+                    return (false);
+                }
+            });
+        }
+            //Enlaces generados por la app de youtube
+        if(video.contains("be/")) {
+            String[] parts = video.split("be/");
+            String urlId = parts[1];
+            String playVideo = "<html><body> <iframe class=\"youtube-player\" type=\"text/html\" width=\"300\" height=\"250\" src=\"https://www.youtube.com/embed/" + urlId + "\" frameborder=\"0\"></body></html>";
+
+            mWebView.loadData(playVideo, "text/html", "utf-8");
+            mWebView.setWebViewClient(new WebViewClient() {
+                public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                    // YouTube video link
+                    if (url.startsWith("vnd.youtube:")) {
+                        int n = url.indexOf("?");
+                        if (n > 0) {
+                            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(String.format("http://www.youtube.com/v/%s", url.substring("vnd.youtube:".length(), n)))));
+                        }
+                        return (true);
+                    }
+
+                    return (false);
+                }
+            });
+        }
+         /*btVideo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 ActivityCompat.requestPermissions(
@@ -95,7 +152,7 @@ public class addEjerciciosActivity extends AppCompatActivity {
                         REQUEST_CODE_GALLERY_VIDEO
                 );
             }
-        });
+        });*/
 
         btCancelar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -112,6 +169,7 @@ public class addEjerciciosActivity extends AppCompatActivity {
                 datosRetornar.putExtra( "nombre", nombre_nuevo_ejercicio.getText().toString() );
                 datosRetornar.putExtra( "descripcion", descripcion_nuevo_ejercicio.getText().toString() );
                 datosRetornar.putExtra("imagen", path);
+                datosRetornar.putExtra("url", urlVideo.getText().toString());
                 SaveImage(bitmap);
                 addEjerciciosActivity.this.setResult( Activity.RESULT_OK, datosRetornar );
                 addEjerciciosActivity.this.finish();
@@ -131,6 +189,24 @@ public class addEjerciciosActivity extends AppCompatActivity {
                 btGuardarAdd.setEnabled( nombre_nuevo_ejercicio.getText().toString().trim().length() > 0 && nombre_nuevo_ejercicio.getText().toString().trim().length() > 0);
             }
         });
+
+        urlVideo.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                btGuardarAdd.setEnabled(urlVideo.getText().toString().trim().length() > 0 && urlVideo.getText().toString().trim().length() > 0);
+            }
+        });
+
         descripcion_nuevo_ejercicio.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}

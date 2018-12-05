@@ -23,6 +23,8 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -48,6 +50,7 @@ public class editEjerciciosActivity extends AppCompatActivity {
     File file;
     String path;
     int id;
+    WebView mWebView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,8 +62,13 @@ public class editEjerciciosActivity extends AppCompatActivity {
 
         final EditText nombre_nuevo_ejercicio = (EditText) this.findViewById( R.id.nombre_nuevo_ejercicio );
         final EditText descripcion_nuevo_ejercicio = (EditText) this.findViewById( R.id.descripcion_nuevo_ejercicio);
-
+        final EditText urlVideo = (EditText) this.findViewById(R.id.urlvideo);
         imagenView = findViewById(R.id.imageView);
+        mWebView = (WebView) findViewById(R.id.webview);
+
+        mWebView.getSettings().setJavaScriptEnabled(true);
+
+
 
         String nombreDirectorioPublico = "imagen";
         file = crearDirectorioPublico(this,nombreDirectorioPublico);
@@ -70,7 +78,7 @@ public class editEjerciciosActivity extends AppCompatActivity {
 
         nombre_nuevo_ejercicio.setText(datosEnviados.getExtras().getString(("nombre")));
         descripcion_nuevo_ejercicio.setText(datosEnviados.getExtras().getString(("descripcion")));
-
+        urlVideo.setText(datosEnviados.getExtras().getString(("url")));
         path = datosEnviados.getExtras().getString(("imagen"));
         Bitmap bitmap = BitmapFactory.decodeFile(path);
         imagenView.setImageBitmap(bitmap);
@@ -85,7 +93,49 @@ public class editEjerciciosActivity extends AppCompatActivity {
                 );
             }
         });
+        String video = urlVideo.getText().toString();
+        if(video.contains("v=")) {
+            String[] parts = video.split("v=");
+            String urlId = parts[1];
+            String playVideo = "<html><body> <iframe class=\"youtube-player\" type=\"text/html\" width=\"100%\" height=\"250\" src=\"https://www.youtube.com/embed/" + urlId + "\" frameborder=\"1\"></body></html>";
 
+            mWebView.loadData(playVideo, "text/html", "utf-8");
+            mWebView.setWebViewClient(new WebViewClient() {
+                public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                    // YouTube video link
+                    if (url.startsWith("vnd.youtube:")) {
+                        int n = url.indexOf("?");
+                        if (n > 0) {
+                            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(String.format("http://www.youtube.com/v/%s", url.substring("vnd.youtube:".length(), n)))));
+                        }
+                        return (true);
+                    }
+
+                    return (false);
+                }
+            });
+        }
+        if(video.contains("be/")) {
+            String[] parts = video.split("be/");
+            String urlId = parts[1];
+            String playVideo = "<html><body> <iframe class=\"youtube-player\" type=\"text/html\" width=\"100%\" height=\"250\" src=\"https://www.youtube.com/embed/" + urlId + "\" frameborder=\"0\"></body></html>";
+
+            mWebView.loadData(playVideo, "text/html", "utf-8");
+            mWebView.setWebViewClient(new WebViewClient() {
+                public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                    // YouTube video link
+                    if (url.startsWith("vnd.youtube:")) {
+                        int n = url.indexOf("?");
+                        if (n > 0) {
+                            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(String.format("http://www.youtube.com/v/%s", url.substring("vnd.youtube:".length(), n)))));
+                        }
+                        return (true);
+                    }
+
+                    return (false);
+                }
+            });
+        }
         btCancelar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -103,6 +153,7 @@ public class editEjerciciosActivity extends AppCompatActivity {
                 datosRetornar.putExtra( "nombre", nombre_nuevo_ejercicio.getText().toString() );
                 datosRetornar.putExtra( "descripcion", descripcion_nuevo_ejercicio.getText().toString() );
                 datosRetornar.putExtra( "imagen", path );
+                datosRetornar.putExtra("url", urlVideo.getText().toString());
 
                 editEjerciciosActivity.this.setResult( Activity.RESULT_OK, datosRetornar );
                 editEjerciciosActivity.this.finish();

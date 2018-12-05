@@ -71,10 +71,29 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:gravity="center_horizontal"
+                android:orientation="vertical">
+
+                <EditText
+                    android:id="@+id/urlvideo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="5dp"
+                    android:ems="10"
+                    android:hint="@string/linkyoutube"
+                    android:inputType="text"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:layout_marginTop="25dp"
                 android:orientation="horizontal">
 
-                <VideoView
+             <!--<VideoView
                     android:id="@+id/videoView"
                     android:layout_width="175dp"
                     android:layout_height="175dp"
@@ -90,8 +109,12 @@
                     android:layout_marginTop="65dp"
                     android:padding="5dp"
                     android:text="@string/add_video"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
+                    android:textAppearance="@style/TextAppearance.AppCompat.Body2" />-->
 
+                <WebView
+                    android:id="@+id/webview"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
             </LinearLayout>
 
             <LinearLayout

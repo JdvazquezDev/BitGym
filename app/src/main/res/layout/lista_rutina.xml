@@ -13,9 +13,10 @@
         android:id="@+id/editView"
         android:layout_width="match_parent"
         android:layout_height="35dp"
+        android:hint="@string/searchview"
         android:inputType="text"
         android:textAppearance="@style/TextAppearance.AppCompat.Body2"
-        android:hint="Introduce el nombre del ejercicio a buscar..."/>
+        android:importantForAutofill="no" />
 
     <TextView
         android:layout_width="match_parent"

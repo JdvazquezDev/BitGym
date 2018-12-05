@@ -104,13 +104,13 @@ public class ListaEjerciciosActivity extends AppCompatActivity  {
         if ( requestCode == CODIGO_ADICION_EJERCICIO
                 && resultCode == Activity.RESULT_OK)
         {
-            this.dbManager.insertaEjercicio( data.getExtras().getString( "nombre").toString(), data.getExtras().getString( "descripcion").toString(),data.getExtras().getString("imagen"));
+            this.dbManager.insertaEjercicio( data.getExtras().getString( "nombre").toString(), data.getExtras().getString( "descripcion").toString(),data.getExtras().getString("imagen").toString(), data.getExtras().getString( "url").toString());
             this.updateEjercicios();
         }
         if ( requestCode == CODIGO_EDIT_EJERCICIO
                 && resultCode == Activity.RESULT_OK )
         {
-            this.dbManager.editEjercicio( data.getExtras().getInt( "_id"),data.getExtras().getString( "nombre").toString(), data.getExtras().getString( "descripcion").toString(),data.getExtras().getString("imagen"));
+            this.dbManager.editEjercicio( data.getExtras().getInt( "_id"),data.getExtras().getString( "nombre").toString(), data.getExtras().getString( "descripcion").toString(),data.getExtras().getString("imagen"), data.getExtras().getString("url").toString());
             this.updateEjercicios();
         }
         return;
@@ -125,8 +125,8 @@ public class ListaEjerciciosActivity extends AppCompatActivity  {
         this.mainCursorAdapter = new SimpleCursorAdapter( ListaEjerciciosActivity.this,
                 R.layout.lvejercicio_context_menu,
                 this.dbManager.getAllEjercicios(),
-                new String[]{ dbManager.EJERCICIO_COL_NOMBRE, dbManager.EJERCICIO_COL_DESCRIPCION,dbManager.EJERCICIO_COL_IMAGEN},
-                new int[] {R.id.lblNombre, R.id.imgExercise} );//Sin la ultima columna si que se ejecuta, no consigue transformar bloc a string
+                new String[]{ dbManager.EJERCICIO_COL_NOMBRE,dbManager.EJERCICIO_COL_IMAGEN},
+                new int[] {R.id.lblNombre, R.id.imgExercise} );
 
         mainCursorAdapter.setViewBinder(new EjercicioViewBinder());
         this.lvEjercicios.setAdapter( this.mainCursorAdapter );
@@ -202,6 +202,7 @@ public class ListaEjerciciosActivity extends AppCompatActivity  {
                     subActividad.putExtra("nombre", cursor.getString(1));
                     subActividad.putExtra("descripcion", cursor.getString(2));
                     subActividad.putExtra("imagen", cursor.getString(3));
+                    subActividad.putExtra("url",cursor.getString(4));
                     ListaEjerciciosActivity.this.startActivityForResult(subActividad, CODIGO_EDIT_EJERCICIO);
 
                 } else {

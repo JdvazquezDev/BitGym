@@ -9,109 +9,164 @@
     android:padding="10dp"
     tools:context="com.fitgym.ui.editEjerciciosActivity">
 
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="40dp"
-            android:layout_weight="0.5"
-            android:text="@string/nombre_ejercicio"
-            android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
-
-        <EditText
-            android:id="@+id/nombre_nuevo_ejercicio"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.5"
-            android:autofillHints=""
-            android:ems="10"
-            android:inputType="text"
-            android:textAppearance="@style/TextAppearance.AppCompat.Body2"
-            tools:targetApi="o" />
-    </LinearLayout>
-
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="25dp"
-        android:orientation="horizontal">
-
-        <ImageView
-            android:id="@+id/imageView"
-            android:layout_width="175dp"
-            android:layout_height="175dp"
-            android:contentDescription="@string/ImageDesc"
-            app:srcCompat="@drawable/bitgymlogo" />
-
-        <Button
-            android:id="@+id/btImagen"
-            style="@style/Widget.AppCompat.Button.Small"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="50dp"
-            android:layout_marginTop="65dp"
-            android:padding="5dp"
-            android:text="@string/add_image"
-            android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:orientation="vertical">
+        android:layout_height="match_parent">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="25dp"
-            android:orientation="horizontal">
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
 
-            <TextView
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:layout_weight="0.5"
+                    android:text="@string/nombre_ejercicio"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
+
+                <EditText
+                    android:id="@+id/nombre_nuevo_ejercicio"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.5"
+                    android:autofillHints=""
+                    android:ems="10"
+                    android:inputType="text"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+                    tools:targetApi="o" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="25dp"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/imageView"
+                    android:layout_width="175dp"
+                    android:layout_height="175dp"
+                    android:contentDescription="@string/ImageDesc"
+                    app:srcCompat="@drawable/bitgymlogo" />
+
+                <Button
+                    android:id="@+id/btImagen"
+                    style="@style/Widget.AppCompat.Button.Small"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="50dp"
+                    android:layout_marginTop="65dp"
+                    android:padding="5dp"
+                    android:text="@string/add_image"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center_horizontal"
+                android:orientation="vertical">
+
+                <EditText
+                    android:id="@+id/urlvideo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="5dp"
+                    android:ems="10"
+                    android:hint="@string/linkyoutube"
+                    android:inputType="text"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="25dp"
+                android:orientation="horizontal">
+
+                <!--<VideoView
+                       android:id="@+id/videoView"
+                       android:layout_width="175dp"
+                       android:layout_height="175dp"
+                       android:contentDescription="@string/ImageDesc"
+                       app:srcCompat="@drawable/bitgymlogo" />
+
+                   <Button
+                       android:id="@+id/btVideo"
+                       style="@style/Widget.AppCompat.Button.Small"
+                       android:layout_width="wrap_content"
+                       android:layout_height="wrap_content"
+                       android:layout_marginStart="50dp"
+                       android:layout_marginTop="65dp"
+                       android:padding="5dp"
+                       android:text="@string/add_video"
+                       android:textAppearance="@style/TextAppearance.AppCompat.Body2" />-->
+
+                <WebView
+                    android:id="@+id/webview"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="20dp"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="20dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/descripcion_nuevo_ejercicio"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
+                </LinearLayout>
+
+                <EditText
+                    android:id="@+id/descripcion_nuevo_ejercicio"
+                    android:layout_width="match_parent"
+                    android:layout_height="80dp"
+                    android:layout_marginBottom="10dp"
+                    android:autofillHints=""
+                    android:ems="10"
+                    android:inputType="text|textMultiLine|textPersonName"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+                    tools:targetApi="o" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/descripcion_nuevo_ejercicio"
-                android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
+                android:orientation="vertical">
+
+                <Button
+                    android:id="@+id/btGuardarEdit"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:text="@string/btGuardar"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Button" />
+
+                <Button
+                    android:id="@+id/btCancelar"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:text="@string/btCancelar"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Button" />
+            </LinearLayout>
         </LinearLayout>
-
-        <EditText
-            android:id="@+id/descripcion_nuevo_ejercicio"
-            android:layout_width="match_parent"
-            android:layout_height="100dp"
-            android:layout_marginTop="5dp"
-            android:autofillHints=""
-            android:ems="10"
-            android:inputType="text|textMultiLine|textPersonName"
-            android:textAppearance="@style/TextAppearance.AppCompat.Body2"
-            tools:targetApi="o" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="30dp"
-        android:orientation="vertical">
-
-        <Button
-            android:id="@+id/btGuardarEdit"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.4"
-            android:text="@string/btGuardar"
-            android:textAppearance="@style/TextAppearance.AppCompat.Button" />
-
-        <Button
-            android:id="@+id/btCancelar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.4"
-            android:text="@string/btCancelar"
-            android:textAppearance="@style/TextAppearance.AppCompat.Button" />
-    </LinearLayout>
-
+    </ScrollView>
 </LinearLayout>

@@ -7,7 +7,7 @@
     <string name="calendario_rutina_msg">Seleccione el día para ver o crear una rutina</string>
     <string name="Series">Número de series:</string>
     <string name="Repeticiones">Número de repeticiones:</string>
-    <string name="Peso">Peso (kg)</string>
+    <string name="Peso">Peso(kg)</string>
     <string name="informacion_extra">Información extra:</string>
     <string name="msg_image">Inserta una imagen</string>
     <string name="descripcion_nuevo_ejercicio">Descripción:</string>
@@ -19,9 +19,25 @@
     <string name="btGurdar">Guardar</string>
     <string name="btCancelar">Cancelar</string>
     <string name="btGuardar">Guardar</string>
-    <string name="logo">logo</string>
+    <string name="logo">Logo</string>
     <string name="menu_edit">Editar</string>
     <string name="menu_Eliminar">Eliminar</string>
     <string name="ImageDesc">Imagen del ejercicio</string>
     <string name="ListaEjercicios">Lista de ejercicios</string>
+    <string name="add_video">Añadir vídeo</string>
+    <string name="parar">Parar</string>
+    <string name="empezar">Empezar</string>
+    <string name="cronometro">Cronómetro</string>
+    <string name="anho">Año</string>
+    <string name="domingo">Domingo</string>
+    <string name="lunes">Lunes</string>
+    <string name="s_bado">Sábado</string>
+    <string name="viernes">Viernes</string>
+    <string name="jueves">Jueves</string>
+    <string name="miercoles">Miércoles</string>
+    <string name="martes">Martes</string>
+    <string name="mes">Mes</string>
+    <string name="searchview">Introduce el nombre del ejercicio a buscar</string>
+    <string name="linkyoutube">Enlace al vídeo de youtube</string>
+    <string name="addUrl">Añadir Enlace</string>
 </resources>

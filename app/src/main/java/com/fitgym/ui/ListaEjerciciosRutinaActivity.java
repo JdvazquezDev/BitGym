@@ -73,7 +73,7 @@ public class ListaEjerciciosRutinaActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable s) {
-                mainCursorAdapter.getFilter().filter(s.toString());
+//                mainCursorAdapter.getFilter().filter(s.toString());
             }
         });
     }

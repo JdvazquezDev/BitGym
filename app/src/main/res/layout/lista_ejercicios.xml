@@ -13,9 +13,9 @@
         android:id="@+id/editView"
         android:layout_width="match_parent"
         android:layout_height="35dp"
+        android:hint="@string/searchview"
         android:inputType="text"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body2"
-        android:hint="Introduce el nombre del ejercicio a buscar..."/>
+        android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
 
     <TextView
         android:layout_width="match_parent"
@@ -47,11 +47,8 @@
             style="@style/Widget.AppCompat.Button"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:gravity="end"
             android:text="@string/addExercise"
-            android:textAlignment="center"
-            android:textAppearance="@style/TextAppearance.AppCompat.Button"
-            android:textSize="24sp" />
+            android:textAppearance="@style/TextAppearance.AppCompat.Headline" />
     </LinearLayout>
 
 </LinearLayout>
