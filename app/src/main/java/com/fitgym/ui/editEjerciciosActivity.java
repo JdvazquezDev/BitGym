@@ -69,7 +69,6 @@ public class editEjerciciosActivity extends AppCompatActivity {
         mWebView.getSettings().setJavaScriptEnabled(true);
 
 
-
         String nombreDirectorioPublico = "imagen";
         file = crearDirectorioPublico(this,nombreDirectorioPublico);
 
