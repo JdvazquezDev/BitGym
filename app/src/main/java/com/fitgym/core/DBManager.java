@@ -385,4 +385,71 @@ public class DBManager extends SQLiteOpenHelper {
 
         return toret;
     }
+
+
+    public Cursor searchExercise(String nombre){
+
+
+        Cursor mCursor = null;
+        SQLiteDatabase db = this.getReadableDatabase();
+        if (nombre == null  ||  nombre.length () == 0)  {
+            mCursor = db.query(TABLA_EJERCICIO, null,
+                    null, null, null, null, null);
+
+        }
+        else {
+            mCursor = db.query(true, TABLA_EJERCICIO, null,
+                    EJERCICIO_COL_NOMBRE + " like '%" + nombre + "%'", null,
+                    null, null, null, null);
+        }
+        if (mCursor != null) {
+            mCursor.moveToFirst();
+        }
+        return mCursor;
+    }
+
+    public Cursor searchExerciseNotInRutina(String nombre,String fecha){
+
+        Cursor mCursor = null;
+        SQLiteDatabase db = this.getReadableDatabase();
+        if (nombre == null  ||  nombre.length () == 0)  {
+            mCursor = db.query(true, TABLA_EJERCICIO, null,
+                    "( " + EJERCICIO_COL_CLAVE + " NOT IN( SELECT t1.nombre FROM ejercicioRutina t1 WHERE t1.fecha = " + fecha  + "))", null,
+                    null, null, null, null);
+        }
+        else {
+            mCursor = db.query(true, TABLA_EJERCICIO, null,
+                    "( " + EJERCICIO_COL_CLAVE + " NOT IN( SELECT t1.nombre FROM ejercicioRutina t1 WHERE t1.fecha = " + fecha  + ")) AND nombre like '%" + nombre + "%'", null,
+                    null, null, null, null);
+        }
+        if (mCursor != null) {
+            mCursor.moveToFirst();
+        }
+        return mCursor;
+    }
+
+    public Cursor searchRutina(String nombre,String fecha){
+
+        Cursor mCursor = null;
+        SQLiteDatabase db = this.getReadableDatabase();
+        if (nombre == null  ||  nombre.length () == 0)  {
+            String SELECT_QUERY = "SELECT t1._id as _id, t2.imagen AS imagen, t1.fecha AS fecha , t2.nombre AS nombre ,t1.repeticiones  AS repeticiones, t1.series AS series, t1.peso AS peso, t1.infoExtra AS infoExtra" +
+                    " FROM ejercicio t2 INNER JOIN ejercicioRutina t1 " +
+                    "ON t1.nombre = t2." + EJERCICIO_COL_CLAVE + " WHERE t1.fecha = ?"
+            ;
+            mCursor = db.rawQuery(SELECT_QUERY, new String[]{fecha});
+        }
+        else {
+            String SELECT_QUERY = "SELECT t1._id as _id, t2.imagen AS imagen, t1.fecha AS fecha , t2.nombre AS nombre ,t1.repeticiones  AS repeticiones, t1.series AS series, t1.peso AS peso, t1.infoExtra AS infoExtra" +
+                    " FROM ejercicio t2 INNER JOIN ejercicioRutina t1 " +
+                    "ON t1.nombre = t2." + EJERCICIO_COL_CLAVE + " WHERE t1.fecha = ? AND t2.nombre like '%" + nombre + "%'"
+                    ;
+            mCursor = db.rawQuery(SELECT_QUERY, new String[]{fecha});
+        }
+        if (mCursor != null) {
+            mCursor.moveToFirst();
+        }
+
+        return mCursor;
+    }
 }

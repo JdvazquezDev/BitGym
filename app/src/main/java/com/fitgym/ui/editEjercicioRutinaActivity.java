@@ -4,12 +4,19 @@ package com.fitgym.ui;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.CountDownTimer;
+import android.os.SystemClock;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Chronometer;
 import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.Toast;
+
 import com.fitgym.R;
 
 
@@ -67,6 +74,51 @@ public class editEjercicioRutinaActivity extends AppCompatActivity {
             }
         });
 
+        Button empezar = (Button) this.findViewById(R.id.empezar);
+        Button parar = (Button) this.findViewById(R.id.parar);
+        cmTimer = (Chronometer) findViewById(R.id.cmTimer);
+        empezar.setOnClickListener(new View.OnClickListener(){
+
+
+            @Override
+            public void onClick(View v) {
+
+                if (!resume) {
+                    cmTimer.setBase(SystemClock.elapsedRealtime());
+                    cmTimer.start();
+                } else {
+                    cmTimer.start();
+                }
+            }
+        });
+
+        parar.setOnClickListener(new View.OnClickListener(){
+
+
+            @Override
+            public void onClick(View v) {
+
+                cmTimer.stop();
+                resume = true;
+
+            }
+        });
+        // example setOnChronometerTickListener
+        cmTimer.setOnChronometerTickListener(new Chronometer.OnChronometerTickListener() {
+            public void onChronometerTick(Chronometer arg0) {
+                if (!resume) {
+                    long minutes = ((SystemClock.elapsedRealtime() - cmTimer.getBase())/1000) / 60;
+                    long seconds = ((SystemClock.elapsedRealtime() - cmTimer.getBase())/1000) % 60;
+                    elapsedTime = SystemClock.elapsedRealtime();
+                    Log.d("asd", "onChronometerTick: " + minutes + " : " + seconds);
+                } else {
+                    long minutes = ((elapsedTime - cmTimer.getBase())/1000) / 60;
+                    long seconds = ((elapsedTime - cmTimer.getBase())/1000) % 60;
+                    elapsedTime = elapsedTime + 1000;
+                    Log.d("asd", "onChronometerTick: " + minutes + " : " + seconds);
+                }
+            }
+        });
 
     }
 
@@ -86,4 +138,18 @@ public class editEjercicioRutinaActivity extends AppCompatActivity {
         }
         return toret;
     }
+
+
+
+
+
+    // Variable que indicará si la aplicación está o no en marcha.
+    private boolean working;
+    private int  tiempo,brewTime;
+    // Cronómetro de la aplicación.
+    private CountDownTimer timer;
+    Boolean resume = false;
+    private TextView tiempoT;
+    Chronometer cmTimer;
+    long elapsedTime;
 }

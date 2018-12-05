@@ -11,6 +11,8 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.ContextMenu;
 import android.view.Menu;
@@ -19,6 +21,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.FilterQueryProvider;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
@@ -35,6 +39,7 @@ public class ListaEjerciciosActivity extends AppCompatActivity  {
     protected static final int CODIGO_EDIT_EJERCICIO= 101;
 
     protected  ListView lvEjercicios;
+    protected EditText edit;
         @Override
         protected void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
@@ -42,6 +47,7 @@ public class ListaEjerciciosActivity extends AppCompatActivity  {
 
             this.dbManager = DBManager.get();
 
+            edit = (EditText) this.findViewById(R.id.editView);
             lvEjercicios = (ListView) this.findViewById( R.id.lvEjercicios );
             Button btNuevo = (Button) this.findViewById( R.id.btNuevo );
             lvEjercicios.setAdapter(mainCursorAdapter);
@@ -74,6 +80,23 @@ public class ListaEjerciciosActivity extends AppCompatActivity  {
                     }
                 }
             });*/
+
+          edit.addTextChangedListener(new TextWatcher() {
+              @Override
+              public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+              }
+
+              @Override
+              public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+              }
+
+              @Override
+              public void afterTextChanged(Editable s) {
+                    mainCursorAdapter.getFilter().filter(s.toString());
+              }
+          });
         }
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data)
@@ -107,6 +130,13 @@ public class ListaEjerciciosActivity extends AppCompatActivity  {
 
         mainCursorAdapter.setViewBinder(new EjercicioViewBinder());
         this.lvEjercicios.setAdapter( this.mainCursorAdapter );
+
+        mainCursorAdapter.setFilterQueryProvider(new FilterQueryProvider() {
+            @Override
+            public Cursor runQuery(CharSequence constraint) {
+                return dbManager.searchExercise(constraint.toString());
+            }
+        });
     }
 
     private void updateEjercicios()

@@ -9,26 +9,23 @@
     android:padding="10dp"
     tools:context="com.fitgym.ui.ListaEjerciciosActivity">
 
+    <EditText
+        android:id="@+id/editView"
+        android:layout_width="match_parent"
+        android:layout_height="35dp"
+        android:inputType="text"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+        android:hint="Introduce el nombre del ejercicio a buscar..."/>
+
     <TextView
         android:layout_width="match_parent"
-        android:layout_height="25dp"
+        android:layout_height="30sp"
         android:gravity="center_vertical|center_horizontal"
         android:text="@string/ListaEjercicios"
         android:textAllCaps="true"
         android:textColor="@color/colorAccent"
         android:textSize="18sp"
         android:textStyle="bold" />
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="2dp"
-        android:layout_marginLeft="0dp"
-        android:layout_marginTop="5dp"
-        android:layout_marginRight="0dp"
-        android:layout_marginBottom="5dp"
-        android:background="@color/colorAccent"
-        android:orientation="horizontal"
-        tools:background="@color/colorAccent"></LinearLayout>
 
     <ListView
 
@@ -50,9 +47,11 @@
             style="@style/Widget.AppCompat.Button"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:gravity="center"
+            android:gravity="end"
             android:text="@string/addExercise"
-            android:textAppearance="@style/TextAppearance.AppCompat.Button" />
+            android:textAlignment="center"
+            android:textAppearance="@style/TextAppearance.AppCompat.Button"
+            android:textSize="24sp" />
     </LinearLayout>
 
 </LinearLayout>

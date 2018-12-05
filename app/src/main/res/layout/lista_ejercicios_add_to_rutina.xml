@@ -9,6 +9,15 @@
     tools:context="com.fitgym.ui.addEjerciciosToRutinaActivity"
     android:padding="5dp">
 
+
+    <EditText
+        android:id="@+id/editView"
+        android:layout_width="match_parent"
+        android:layout_height="35dp"
+        android:inputType="text"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+        android:hint="Introduce el nombre del ejercicio a buscar..."/>
+
     <ListView
 
         android:id="@+id/list_ejercicios_to_add_rutina"

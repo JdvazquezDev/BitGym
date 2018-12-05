@@ -9,6 +9,8 @@ import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.ContextMenu;
 import android.view.Menu;
@@ -17,6 +19,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.FilterQueryProvider;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
@@ -26,20 +30,26 @@ import com.fitgym.R;
 import com.fitgym.core.DBManager;
 
 import java.io.File;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 
 public class ListaEjerciciosRutinaActivity extends AppCompatActivity {
 
     protected static final int CODIGO_ADICION_EJERCICIO_TO_RUTINA = 105;
     protected static final int CODIGO_EDIT_EJERCICIO_TO_RUTINA = 106;
-
     protected ListView lvRutina;
     protected String fecha;
+    protected EditText edit;
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.lista_rutina);
 
         this.dbManager = DBManager.get();
-
+        edit = (EditText) this.findViewById(R.id.editView);
         lvRutina = (ListView) this.findViewById( R.id.lvRutina );
         Button btNuevo = (Button) this.findViewById( R.id.btNuevo );
         registerForContextMenu(lvRutina);
@@ -51,6 +61,19 @@ public class ListaEjerciciosRutinaActivity extends AppCompatActivity {
                 subActividad.putExtra( "_id", "" );
                 subActividad.putExtra( "fecha", fecha );
                 ListaEjerciciosRutinaActivity.this.startActivityForResult( subActividad, CODIGO_ADICION_EJERCICIO_TO_RUTINA );
+            }
+        });
+
+        edit.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {}
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                mainCursorAdapter.getFilter().filter(s.toString());
             }
         });
     }
@@ -100,11 +123,16 @@ public class ListaEjerciciosRutinaActivity extends AppCompatActivity {
                 new String[]{"imagen","fecha", "nombre", "repeticiones"},
                 new int[]{R.id.imgExercise,R.id.lblNombre, R.id.lblNumRepeticion});
 
-
         mainCursorAdapter.setViewBinder(new RutinaViewBinder());
 
         this.lvRutina.setAdapter(this.mainCursorAdapter);
 
+        mainCursorAdapter.setFilterQueryProvider(new FilterQueryProvider() {
+            @Override
+            public Cursor runQuery(CharSequence constraint) {
+                return dbManager.searchRutina(constraint.toString(),fecha);
+            }
+        });
     }
 
     private void updateRutina()
@@ -183,6 +211,19 @@ public class ListaEjerciciosRutinaActivity extends AppCompatActivity {
                 int id = cursor.getInt(cursor.getColumnIndex("_id"));
                 dbManager.eliminaEjercicioRutina(id,fecha);
                 updateRutina();
+                if(mainCursorAdapter.getCount() == 0){
+                    SimpleDateFormat formatoDelTexto = new SimpleDateFormat("yyyy-MM-dd");
+                    Date aux = null;
+                    try {
+                        aux = formatoDelTexto.parse(fecha);
+                    } catch (ParseException ex) {
+                        ex.printStackTrace();
+                    }
+                    Calendar calendar = new GregorianCalendar();
+                    calendar.setTime(aux);
+                    CalendarioRutinaActivity.dlg.unMarkDate(calendar.get(Calendar.YEAR),calendar.get(Calendar.MONTH) + 1,calendar.get(Calendar.DAY_OF_MONTH));
+                }
+
                 return true;
             default:
                 return super.onContextItemSelected(item);
@@ -202,7 +243,6 @@ public class ListaEjerciciosRutinaActivity extends AppCompatActivity {
 
         // para poder manipular la imagen
         // debemos crear una matriz
-
         Matrix matrix = new Matrix();
         // resize the Bitmap
         matrix.postScale(scaleWidth, scaleHeight);
@@ -214,7 +254,6 @@ public class ListaEjerciciosRutinaActivity extends AppCompatActivity {
         // si queremos poder mostrar nuestra imagen tenemos que crear un
         // objeto drawable y así asignarlo a un botón, imageview...
         return resizedBitmap;
-
     }
 
     public boolean onCreateOptionsMenu(Menu menu)
@@ -235,6 +274,5 @@ public class ListaEjerciciosRutinaActivity extends AppCompatActivity {
     }
     private SimpleCursorAdapter mainCursorAdapter;
     private DBManager dbManager;
-
 
 }

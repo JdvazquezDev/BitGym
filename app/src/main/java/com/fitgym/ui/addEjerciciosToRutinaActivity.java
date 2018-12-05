@@ -9,12 +9,16 @@ import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.FilterQueryProvider;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
@@ -34,6 +38,7 @@ public class addEjerciciosToRutinaActivity extends AppCompatActivity
 
     protected ListView list_ejercicios_to_add_rutina;
     private String fecha;
+    protected EditText edit;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +46,7 @@ public class addEjerciciosToRutinaActivity extends AppCompatActivity
         setContentView(R.layout.lista_ejercicios_add_to_rutina);
         this.dbManager = DBManager.get();
 
+        edit = (EditText) this.findViewById(R.id.editView);
         list_ejercicios_to_add_rutina = (ListView) this.findViewById( R.id.list_ejercicios_to_add_rutina );
 
         list_ejercicios_to_add_rutina.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -67,10 +73,23 @@ public class addEjerciciosToRutinaActivity extends AppCompatActivity
             }
         });
 
+        edit.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
+            }
 
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                mainCursorAdapter.getFilter().filter(s.toString());
+            }
+        });
     }
-
 
     @Override
     protected void onResume()
@@ -90,6 +109,13 @@ public class addEjerciciosToRutinaActivity extends AppCompatActivity
         mainCursorAdapter.setViewBinder(new addEjerciciosToRutinaActivity.EjercicioViewBinder());
 
         this.list_ejercicios_to_add_rutina.setAdapter( this.mainCursorAdapter );
+
+        mainCursorAdapter.setFilterQueryProvider(new FilterQueryProvider() {
+            @Override
+            public Cursor runQuery(CharSequence constraint) {
+                return dbManager.searchExerciseNotInRutina(constraint.toString(),fecha);
+            }
+        });
     }
 
     @Override
@@ -117,7 +143,6 @@ public class addEjerciciosToRutinaActivity extends AppCompatActivity
                     imgExercise.setImageBitmap(bm);
                     return true;
                 }
-
             }
             catch(Exception e)
             {

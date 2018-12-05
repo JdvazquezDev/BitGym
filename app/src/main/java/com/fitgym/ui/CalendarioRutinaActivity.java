@@ -11,6 +11,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.CalendarView;
+import android.widget.TextView;
 
 
 import com.fitgym.R;
@@ -27,18 +28,31 @@ import java.util.Locale;
 import sun.bob.mcalendarview.MCalendarView;
 import sun.bob.mcalendarview.MarkStyle;
 import sun.bob.mcalendarview.listeners.OnDateClickListener;
+import sun.bob.mcalendarview.listeners.OnMonthChangeListener;
 import sun.bob.mcalendarview.vo.DateData;
 
 
 public class CalendarioRutinaActivity extends AppCompatActivity {
 
-    private MCalendarView dlg;
+    public static MCalendarView dlg;
+    private TextView yearV;
+    private TextView monthV;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.calendario_rutina);
 
-        //CalendarView c = (CalendarView)this.findViewById(R.id.calendarView);
+        yearV = (TextView) findViewById(R.id.anho);
+        monthV = (TextView) findViewById(R.id.mes);
+
+        Date date = new Date();
+        Calendar calendar = new GregorianCalendar();
+        calendar.setTime(date);
+
+        yearV.setText(String.valueOf(calendar.get(Calendar.YEAR)));
+        monthV.setText(String.valueOf(calendar.get(Calendar.MONTH) + 1));
 
         dlg = ((MCalendarView) findViewById(R.id.calendarView));
         dlg.hasTitle(false);
@@ -75,8 +89,15 @@ public class CalendarioRutinaActivity extends AppCompatActivity {
             } while (c.moveToNext());
         }
 
-        dlg.markDate(
-                new DateData(new GregorianCalendar().get(Calendar.YEAR)  - 1900, new GregorianCalendar().get(Calendar.MONTH) ,new GregorianCalendar().get(Calendar.DAY_OF_MONTH)).setMarkStyle(new MarkStyle(MarkStyle.LEFTSIDEBAR, Color.BLUE)));
+    dlg.setOnMonthChangeListener(new OnMonthChangeListener() {
+        @Override
+        public void onMonthChange(int y, int m) {
+            yearV.setText(String.valueOf(y));
+            monthV.setText(String.valueOf(m));
+        }
+    });
+       /* dlg.markDate(
+                new DateData(new GregorianCalendar().get(Calendar.YEAR)  - 1900, new GregorianCalendar().get(Calendar.MONTH) ,new GregorianCalendar().get(Calendar.DAY_OF_MONTH)).setMarkStyle(new MarkStyle(MarkStyle.LEFTSIDEBAR, Color.BLUE)));*/
 
     }
     public boolean onCreateOptionsMenu(Menu menu)

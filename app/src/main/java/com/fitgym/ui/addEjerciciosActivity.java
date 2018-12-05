@@ -46,7 +46,7 @@ public class addEjerciciosActivity extends AppCompatActivity {
     VideoView videoView;
     File file;
     String path;
-
+    Bitmap bitmap;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -112,7 +112,7 @@ public class addEjerciciosActivity extends AppCompatActivity {
                 datosRetornar.putExtra( "nombre", nombre_nuevo_ejercicio.getText().toString() );
                 datosRetornar.putExtra( "descripcion", descripcion_nuevo_ejercicio.getText().toString() );
                 datosRetornar.putExtra("imagen", path);
-
+                SaveImage(bitmap);
                 addEjerciciosActivity.this.setResult( Activity.RESULT_OK, datosRetornar );
                 addEjerciciosActivity.this.finish();
             }
@@ -121,14 +121,10 @@ public class addEjerciciosActivity extends AppCompatActivity {
 
         nombre_nuevo_ejercicio.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
 
             @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
 
             @Override
             public void afterTextChanged(Editable editable) {
@@ -137,14 +133,10 @@ public class addEjerciciosActivity extends AppCompatActivity {
         });
         descripcion_nuevo_ejercicio.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
 
             @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
 
             @Override
             public void afterTextChanged(Editable editable) {
@@ -196,8 +188,8 @@ public class addEjerciciosActivity extends AppCompatActivity {
             path = cursor.getString(cursor.getColumnIndex(fillPath[0]));
             cursor.close();
 
-            Bitmap bitmap = BitmapFactory.decodeFile(path);
-            SaveImage(bitmap);
+            bitmap = BitmapFactory.decodeFile(path);
+
             imagenView.setImageBitmap(bitmap);
         }
         if(requestCode == REQUEST_CODE_GALLERY_VIDEO && resultCode == RESULT_OK && data != null){
