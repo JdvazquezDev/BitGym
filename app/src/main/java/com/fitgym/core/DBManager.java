@@ -70,8 +70,8 @@ public class DBManager extends SQLiteOpenHelper {
                     + EJERCICIO_COL_CLAVE + " INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "
                     + EJERCICIO_COL_NOMBRE + " string(255) NOT NULL, "
                     + EJERCICIO_COL_DESCRIPCION + " string(255) NOT NULL, "
-                    + EJERCICIO_COL_IMAGEN + " string(255) NULL, "
-                    + EJERCICIO_COL_URL + " string(255) NULL" +
+                    + EJERCICIO_COL_IMAGEN + " string(255), "
+                    + EJERCICIO_COL_URL + " string(255)" +
                     ")");
 
             db.execSQL("CREATE TABLE IF NOT EXISTS " + TABLA_EJERCICIO_RUTINA + "( "
