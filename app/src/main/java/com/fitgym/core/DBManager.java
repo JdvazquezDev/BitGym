@@ -70,7 +70,7 @@ public class DBManager extends SQLiteOpenHelper {
                     + EJERCICIO_COL_CLAVE + " INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "
                     + EJERCICIO_COL_NOMBRE + " string(255) NOT NULL, "
                     + EJERCICIO_COL_DESCRIPCION + " string(255) NOT NULL, "
-                    + EJERCICIO_COL_IMAGEN + " string(255) NULL, "
+                    + EJERCICIO_COL_IMAGEN + " string(255) NOT  NULL, "
                     + EJERCICIO_COL_URL + " string(255) NULL" +
                     ")");
 
@@ -81,8 +81,8 @@ public class DBManager extends SQLiteOpenHelper {
                     EJERCICIO_RUTINA_COL_REPETICIONES + " int NOT NULL," +
                     EJERCICIO_RUTINA_COL_SERIES + " int NOT NULL, " +
                     EJERCICIO_RUTINA_COL_PESO + " int NOT NULL, " +
-                    EJERCICIO_RUTINA_COL_INFO + " string(255) NULL, " +
-                    EJERCICIO_RUTINA_COL_TIEMPO + " string(255) NULL, " +
+                    EJERCICIO_RUTINA_COL_INFO + " string(255) NOT NULL, " +
+                    EJERCICIO_RUTINA_COL_TIEMPO + " string(255) NOT NULL, " +
                     "FOREIGN KEY(" + EJERCICIO_RUTINA_COL_EJERCICIO + ") REFERENCES ejercicio(_id) " +
                     ")");
             db.setTransactionSuccessful();

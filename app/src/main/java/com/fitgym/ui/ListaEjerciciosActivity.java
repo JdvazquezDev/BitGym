@@ -79,7 +79,6 @@ public class ListaEjerciciosActivity extends AppCompatActivity  {
                         subActividad.putExtra( "imagen", cursor.getString(3) );
                         subActividad.putExtra( "url", cursor.getString(4) );
 
-
                         ListaEjerciciosActivity.this.startActivity( subActividad );
 
                     }else{
@@ -113,7 +112,7 @@ public class ListaEjerciciosActivity extends AppCompatActivity  {
         if ( requestCode == CODIGO_ADICION_EJERCICIO
                 && resultCode == Activity.RESULT_OK)
         {
-            this.dbManager.insertaEjercicio( data.getExtras().getString( "nombre").toString(), data.getExtras().getString( "descripcion").toString(),data.getExtras().getString("imagen").toString(), data.getExtras().getString( "url").toString());
+            this.dbManager.insertaEjercicio( data.getExtras().getString( "nombre").toString(), data.getExtras().getString( "descripcion").toString(),data.getExtras().getString("imagen"), data.getExtras().getString( "url").toString());
             this.updateEjercicios();
         }
         if ( requestCode == CODIGO_EDIT_EJERCICIO
@@ -168,13 +167,14 @@ public class ListaEjerciciosActivity extends AppCompatActivity  {
         {
             try
             {
-                if (view instanceof ImageView)
-                {
+                if (view instanceof ImageView) {
+
                     String path = cursor.getString(cursor.getColumnIndex("imagen"));
+
                     File imgFile = new File(path);
                     Bitmap bm = BitmapFactory.decodeFile(imgFile.getPath());
 
-                    bm =resizeImage(ListaEjerciciosActivity.this,bm,450,300);
+                    bm = resizeImage(ListaEjerciciosActivity.this, bm, 450, 300);
                     ImageView imgExercise = (ImageView) view.findViewById(R.id.imgExercise);
                     imgExercise.setImageBitmap(bm);
                     return true;

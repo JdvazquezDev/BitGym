@@ -46,11 +46,12 @@ public class addEjerciciosActivity extends AppCompatActivity {
     final int REQUEST_CODE_GALLERY = 999;
     final int REQUEST_CODE_GALLERY_VIDEO = 998;
     ImageView imagenView;
-  //  VideoView videoView;
+
     File file;
     String path;
     Bitmap bitmap;
     private WebView mWebView;
+    boolean estaImagen;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,13 +66,10 @@ public class addEjerciciosActivity extends AppCompatActivity {
         final EditText descripcion_nuevo_ejercicio = (EditText) this.findViewById( R.id.descripcion_nuevo_ejercicio);
         final EditText urlVideo = (EditText) this.findViewById(R.id.urlvideo);
         imagenView = (ImageView) findViewById(R.id.imageView);
-      //  videoView = (VideoView) findViewById(R.id.videoView);
-
+        estaImagen = false;
         mWebView = (WebView) findViewById(R.id.webview);
 
         mWebView.getSettings().setJavaScriptEnabled(true);
-
-
 
         String nombreDirectorioPublico = "imagen";
         file = crearDirectorioPublico(this,nombreDirectorioPublico);
@@ -143,16 +141,7 @@ public class addEjerciciosActivity extends AppCompatActivity {
                 }
             });
         }
-         /*btVideo.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                ActivityCompat.requestPermissions(
-                        addEjerciciosActivity.this,
-                        new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
-                        REQUEST_CODE_GALLERY_VIDEO
-                );
-            }
-        });*/
+        */
 
         btCancelar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -168,9 +157,10 @@ public class addEjerciciosActivity extends AppCompatActivity {
                 Intent datosRetornar = new Intent();
                 datosRetornar.putExtra( "nombre", nombre_nuevo_ejercicio.getText().toString() );
                 datosRetornar.putExtra( "descripcion", descripcion_nuevo_ejercicio.getText().toString() );
+                SaveImage(bitmap);
                 datosRetornar.putExtra("imagen", path);
                 datosRetornar.putExtra("url", urlVideo.getText().toString());
-                SaveImage(bitmap);
+
                 addEjerciciosActivity.this.setResult( Activity.RESULT_OK, datosRetornar );
                 addEjerciciosActivity.this.finish();
             }
@@ -179,21 +169,25 @@ public class addEjerciciosActivity extends AppCompatActivity {
 
         nombre_nuevo_ejercicio.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                btGuardarAdd.setEnabled(nombre_nuevo_ejercicio.getText().toString().trim().length() > 0 &&   descripcion_nuevo_ejercicio.getText().toString().trim().length() > 0 && estaImagen
+                );
+            }
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
 
             @Override
             public void afterTextChanged(Editable editable) {
-                btGuardarAdd.setEnabled( nombre_nuevo_ejercicio.getText().toString().trim().length() > 0 && nombre_nuevo_ejercicio.getText().toString().trim().length() > 0);
+                btGuardarAdd.setEnabled(  nombre_nuevo_ejercicio.getText().toString().trim().length() > 0 && descripcion_nuevo_ejercicio.getText().toString().trim().length() > 0 && estaImagen);
             }
         });
 
         urlVideo.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
+                btGuardarAdd.setEnabled(
+                        nombre_nuevo_ejercicio.getText().toString().trim().length() > 0 &&   descripcion_nuevo_ejercicio.getText().toString().trim().length() > 0 && estaImagen);
             }
 
             @Override
@@ -203,20 +197,23 @@ public class addEjerciciosActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable s) {
-                btGuardarAdd.setEnabled(urlVideo.getText().toString().trim().length() > 0 && urlVideo.getText().toString().trim().length() > 0);
+                btGuardarAdd.setEnabled( nombre_nuevo_ejercicio.getText().toString().trim().length() > 0 &&  descripcion_nuevo_ejercicio.getText().toString().trim().length() > 0 && estaImagen);
             }
         });
 
+
         descripcion_nuevo_ejercicio.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                btGuardarAdd.setEnabled(nombre_nuevo_ejercicio.getText().toString().trim().length() > 0   &&  descripcion_nuevo_ejercicio.getText().toString().trim().length() > 0 && estaImagen);
+            }
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
 
             @Override
             public void afterTextChanged(Editable editable) {
-                btGuardarAdd.setEnabled( descripcion_nuevo_ejercicio.getText().toString().trim().length() > 0  &&  descripcion_nuevo_ejercicio.getText().toString().trim().length() > 0);
+                btGuardarAdd.setEnabled(nombre_nuevo_ejercicio.getText().toString().trim().length() > 0 &&  descripcion_nuevo_ejercicio.getText().toString().trim().length() > 0 && estaImagen);
             }
         });
 
@@ -263,24 +260,11 @@ public class addEjerciciosActivity extends AppCompatActivity {
             cursor.moveToFirst();
             path = cursor.getString(cursor.getColumnIndex(fillPath[0]));
             cursor.close();
-
             bitmap = BitmapFactory.decodeFile(path);
-
             imagenView.setImageBitmap(bitmap);
+            estaImagen = true;
         }
-        if(requestCode == REQUEST_CODE_GALLERY_VIDEO && resultCode == RESULT_OK && data != null){
-            Uri video = data.getData();
-            String[] fillPath = {MediaStore.Video.Media.DATA};
-            Cursor cursor = getContentResolver().query(video, fillPath, null, null, null);
-            assert cursor != null;
-            cursor.moveToFirst();
-            path = cursor.getString(cursor.getColumnIndex(fillPath[0]));
-            cursor.close();
 
-           // Bitmap bitmap = BitmapFactory.decodeFile(path);
-           // SaveImage(bitmap);
-
-        }
         super.onActivityResult(requestCode, resultCode, data);
     }
 

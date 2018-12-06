@@ -70,7 +70,6 @@ public class editEjerciciosActivity extends AppCompatActivity {
 
         mWebView.getSettings().setJavaScriptEnabled(true);
 
-
         String nombreDirectorioPublico = "imagen";
         file = crearDirectorioPublico(this,nombreDirectorioPublico);
 
@@ -149,7 +148,6 @@ public class editEjerciciosActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent datosRetornar = new Intent();
-
                 datosRetornar.putExtra( "_id", id );
                 datosRetornar.putExtra( "nombre", nombre_nuevo_ejercicio.getText().toString() );
                 datosRetornar.putExtra( "descripcion", descripcion_nuevo_ejercicio.getText().toString() );
@@ -160,30 +158,51 @@ public class editEjerciciosActivity extends AppCompatActivity {
                 editEjerciciosActivity.this.finish();
             }
         });
-        btGuardarEdit.setEnabled( false );
+        btGuardarEdit.setEnabled( true );
 
         nombre_nuevo_ejercicio.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                btGuardarEdit.setEnabled( nombre_nuevo_ejercicio.getText().toString().trim().length() > 0  &&  descripcion_nuevo_ejercicio.getText().toString().trim().length() > 0);
             }
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
             }
             @Override
             public void afterTextChanged(Editable editable) {
-                btGuardarEdit.setEnabled( nombre_nuevo_ejercicio.getText().toString().trim().length() > 0);
+                btGuardarEdit.setEnabled( nombre_nuevo_ejercicio.getText().toString().trim().length() > 0  &&  descripcion_nuevo_ejercicio.getText().toString().trim().length() > 0);
             }
         });
+
+        urlVideo.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                btGuardarEdit.setEnabled(
+                        nombre_nuevo_ejercicio.getText().toString().trim().length() > 0 &&   descripcion_nuevo_ejercicio.getText().toString().trim().length() > 0 );
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                btGuardarEdit.setEnabled( nombre_nuevo_ejercicio.getText().toString().trim().length() > 0 &&  descripcion_nuevo_ejercicio.getText().toString().trim().length() > 0 );
+            }
+        });
+
         descripcion_nuevo_ejercicio.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                btGuardarEdit.setEnabled( nombre_nuevo_ejercicio.getText().toString().trim().length() > 0  &&  descripcion_nuevo_ejercicio.getText().toString().trim().length() > 0);
             }
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
             }
             @Override
             public void afterTextChanged(Editable editable) {
-                btGuardarEdit.setEnabled( descripcion_nuevo_ejercicio.getText().toString().trim().length() > 0 );
+                btGuardarEdit.setEnabled( descripcion_nuevo_ejercicio.getText().toString().trim().length() > 0 &&  descripcion_nuevo_ejercicio.getText().toString().trim().length() > 0 );
             }
         });
     }
@@ -219,7 +238,6 @@ public class editEjerciciosActivity extends AppCompatActivity {
                 path = cursor.getString(cursor.getColumnIndex(fillPath[0]));
                 cursor.close();
                 bitmap = BitmapFactory.decodeFile(path);
-
                 imagenView.setImageBitmap(bitmap);
             }
         }
