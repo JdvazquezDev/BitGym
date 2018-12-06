@@ -46,7 +46,7 @@ public class viewEjerciciosActivity extends AppCompatActivity {
         descripcion_nuevo_ejercicio.setText(datosEnviados.getExtras().getString(("descripcion")));
         urlvideo.setText(datosEnviados.getExtras().getString(("url")));
         path = datosEnviados.getExtras().getString(("imagen"));
-        Bitmap bitmap = BitmapFactory.decodeFile(path);
+        final Bitmap bitmap = BitmapFactory.decodeFile(path);
         imagenView.setImageBitmap(bitmap);
 
         btAtras.setOnClickListener(new View.OnClickListener() {
