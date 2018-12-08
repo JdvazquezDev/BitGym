@@ -63,7 +63,32 @@ public class ListaEjerciciosRutinaActivity extends AppCompatActivity {
                 ListaEjerciciosRutinaActivity.this.startActivityForResult( subActividad, CODIGO_ADICION_EJERCICIO_TO_RUTINA );
             }
         });
+        lvRutina.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
+                Cursor cursor = ListaEjerciciosRutinaActivity.this.mainCursorAdapter.getCursor();
+                if ( cursor.moveToPosition( position ) ) {
+
+                    Intent subActividad = new Intent( ListaEjerciciosRutinaActivity.this, viewEjerciciosRutinaActivity.class );
+
+                    subActividad.putExtra("_id", cursor.getInt(cursor.getColumnIndex("_id")));
+                    subActividad.putExtra("series", cursor.getInt(cursor.getColumnIndex("series")));
+                    subActividad.putExtra("repeticiones", cursor.getInt(cursor.getColumnIndex("repeticiones")));
+                    subActividad.putExtra("peso", cursor.getInt(cursor.getColumnIndex("peso")));
+                    subActividad.putExtra("infoExtra", cursor.getString(cursor.getColumnIndex("infoExtra")));
+                    subActividad.putExtra("tiempo", cursor.getString(cursor.getColumnIndex("tiempo")));
+                    subActividad.putExtra( "fecha", fecha );
+
+                    ListaEjerciciosRutinaActivity.this.startActivity( subActividad );
+
+                }else{
+                    String errMsg = "Error en el ejercicio de " + ": " + position;
+                    Log.e( "main.modifyContact", errMsg );
+                    Toast.makeText( ListaEjerciciosRutinaActivity.this, errMsg, Toast.LENGTH_LONG ).show();
+                }
+            }
+        });
         edit.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
@@ -144,7 +169,7 @@ public class ListaEjerciciosRutinaActivity extends AppCompatActivity {
     public void onPause()
     {
         super.onPause();
-        // this.mainCursorAdapter.getCursor().close();
+        this.mainCursorAdapter.getCursor().close();
         this.dbManager.close();
     }
 

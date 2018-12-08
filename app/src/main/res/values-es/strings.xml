@@ -40,4 +40,5 @@
     <string name="searchview">Introduce el nombre del ejercicio a buscar</string>
     <string name="linkyoutube">Enlace al vídeo de youtube</string>
     <string name="addUrl">Añadir Enlace</string>
+    <string name="eglinkmobile">e.g. https://youtu.be/31j4DlpgY9U</string>
 </resources>

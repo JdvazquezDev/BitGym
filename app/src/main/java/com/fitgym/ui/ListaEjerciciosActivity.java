@@ -64,6 +64,7 @@ public class ListaEjerciciosActivity extends AppCompatActivity  {
                     ListaEjerciciosActivity.this.startActivityForResult(subActividad, CODIGO_ADICION_EJERCICIO);
                 }
             });
+
            lvEjercicios.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -156,7 +157,7 @@ public class ListaEjerciciosActivity extends AppCompatActivity  {
     public void onPause()
     {
         super.onPause();
-     //   this.mainCursorAdapter.getCursor().close();
+        this.mainCursorAdapter.getCursor().close();
         this.dbManager.close();
     }
 

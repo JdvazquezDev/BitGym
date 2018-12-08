@@ -74,6 +74,16 @@
                 android:gravity="center_horizontal"
                 android:orientation="vertical">
 
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/egLink" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/eglinkmobile" />
+
                 <EditText
                     android:id="@+id/urlvideo"
                     android:layout_width="match_parent"
@@ -92,24 +102,6 @@
                 android:layout_height="match_parent"
                 android:layout_marginTop="25dp"
                 android:orientation="horizontal">
-
-             <!--<VideoView
-                    android:id="@+id/videoView"
-                    android:layout_width="175dp"
-                    android:layout_height="175dp"
-                    android:contentDescription="@string/ImageDesc"
-                    app:srcCompat="@drawable/bitgymlogo" />
-
-                <Button
-                    android:id="@+id/btVideo"
-                    style="@style/Widget.AppCompat.Button.Small"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="50dp"
-                    android:layout_marginTop="65dp"
-                    android:padding="5dp"
-                    android:text="@string/add_video"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Body2" />-->
 
                 <WebView
                     android:id="@+id/webview"
