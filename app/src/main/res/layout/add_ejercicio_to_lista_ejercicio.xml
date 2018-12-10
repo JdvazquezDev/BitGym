@@ -5,6 +5,7 @@
     android:id="@+id/add_ejercicio_to_lista_ejercicio"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="@color/color2"
     android:orientation="vertical"
     android:padding="10dp"
     tools:context="com.fitgym.ui.addEjerciciosActivity">
@@ -16,7 +17,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical" >
+            android:orientation="vertical">
 
             <LinearLayout
                 android:layout_width="match_parent"

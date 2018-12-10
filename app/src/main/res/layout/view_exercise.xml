@@ -5,6 +5,7 @@
     android:id="@+id/view_exercise"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/color2"
     android:orientation="vertical"
     android:padding="10dp"
     tools:context="com.fitgym.ui.viewEjerciciosActivity">
@@ -16,32 +17,33 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical" >
+            android:orientation="vertical">
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="35dp"
                 android:orientation="horizontal">
 
                 <TextView
                     android:layout_width="wrap_content"
-                    android:layout_height="40dp"
-                    android:layout_weight="0.5"
+                    android:layout_height="match_parent "
+                    android:layout_weight=".1"
                     android:text="@string/nombre_ejercicio"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
+                    android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 
                 <TextView
                     android:id="@+id/nombre_nuevo_ejercicio"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="0.5"
-                    android:text="TextView" />
+                    android:layout_weight="0.9"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginTop="25dp"
+                android:gravity="center_vertical|center_horizontal"
                 android:orientation="horizontal">
 
                 <ImageView
@@ -56,6 +58,8 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
                 android:gravity="center_horizontal"
                 android:orientation="vertical">
 
@@ -83,11 +87,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginTop="20dp"
+                android:layout_marginBottom="10dp"
                 android:orientation="vertical">
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="20dp"
+                    android:layout_height="0dp"
+                    android:layout_weight="0.3"
                     android:orientation="horizontal">
 
                     <TextView
@@ -101,21 +107,21 @@
                 <TextView
                     android:id="@+id/descripcion_nuevo_ejercicio"
                     android:layout_width="match_parent"
-                    android:layout_height="80sp"
-                    android:layout_weight="1" />
+                    android:layout_height="80dp" />
 
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:gravity="bottom"
                 android:orientation="vertical">
 
                 <Button
                     android:id="@+id/btAtras"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
-                    android:text="Atras"
+                    android:text="@string/btCancelar"
                     android:textAppearance="@style/TextAppearance.AppCompat.Button" />
             </LinearLayout>
         </LinearLayout>

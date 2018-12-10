@@ -97,52 +97,6 @@ public class addEjerciciosActivity extends AppCompatActivity {
         });
         String video = urlVideo.getText().toString();
 
-        //Enlaces generados versión web youtube
-  /*      if(video.contains("v=")) {
-            String[] parts = video.split("v=");
-            String urlId = parts[1];
-            String playVideo = "<html><body> <iframe class=\"youtube-player\" type=\"text/html\" width=\"300\" height=\"250\" src=\"https://www.youtube.com/embed/" + urlId + "\" frameborder=\"0\"></body></html>";
-
-            mWebView.loadData(playVideo, "text/html", "utf-8");
-            mWebView.setWebViewClient(new WebViewClient() {
-                public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                    // YouTube video link
-                    if (url.startsWith("vnd.youtube:")) {
-                        int n = url.indexOf("?");
-                        if (n > 0) {
-                            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(String.format("http://www.youtube.com/v/%s", url.substring("vnd.youtube:".length(), n)))));
-                        }
-                        return (true);
-                    }
-
-                    return (false);
-                }
-            });
-        }
-            //Enlaces generados por la app de youtube
-        if(video.contains("be/")) {
-            String[] parts = video.split("be/");
-            String urlId = parts[1];
-            String playVideo = "<html><body> <iframe class=\"youtube-player\" type=\"text/html\" width=\"300\" height=\"250\" src=\"https://www.youtube.com/embed/" + urlId + "\" frameborder=\"0\"></body></html>";
-
-            mWebView.loadData(playVideo, "text/html", "utf-8");
-            mWebView.setWebViewClient(new WebViewClient() {
-                public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                    // YouTube video link
-                    if (url.startsWith("vnd.youtube:")) {
-                        int n = url.indexOf("?");
-                        if (n > 0) {
-                            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(String.format("http://www.youtube.com/v/%s", url.substring("vnd.youtube:".length(), n)))));
-                        }
-                        return (true);
-                    }
-
-                    return (false);
-                }
-            });
-        }
-        */
-
         btCancelar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

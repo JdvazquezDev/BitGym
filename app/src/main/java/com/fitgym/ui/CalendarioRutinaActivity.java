@@ -11,6 +11,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.CalendarView;
+import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
 
 
@@ -71,7 +72,7 @@ public class CalendarioRutinaActivity extends AppCompatActivity {
         });
     }
 
-    protected void onResume() {
+   protected void onResume() {
 
         super.onResume();
 
@@ -88,18 +89,15 @@ public class CalendarioRutinaActivity extends AppCompatActivity {
 
             } while (c.moveToNext());
         }
-
-    dlg.setOnMonthChangeListener(new OnMonthChangeListener() {
-        @Override
-        public void onMonthChange(int y, int m) {
-            yearV.setText(String.valueOf(y));
-            monthV.setText(String.valueOf(m));
-        }
-    });
-       /* dlg.markDate(
-                new DateData(new GregorianCalendar().get(Calendar.YEAR)  - 1900, new GregorianCalendar().get(Calendar.MONTH) ,new GregorianCalendar().get(Calendar.DAY_OF_MONTH)).setMarkStyle(new MarkStyle(MarkStyle.LEFTSIDEBAR, Color.BLUE)));*/
-
-    }
+    
+        dlg.setOnMonthChangeListener(new OnMonthChangeListener() {
+            @Override
+            public void onMonthChange(int y, int m) {
+                yearV.setText(String.valueOf(y));
+                monthV.setText(String.valueOf(m));
+            }
+        });
+          }
     public boolean onCreateOptionsMenu(Menu menu)
     {
         super.onCreateOptionsMenu( menu );
@@ -116,6 +114,8 @@ public class CalendarioRutinaActivity extends AppCompatActivity {
         }
         return toret;
     }
+
+    private SimpleCursorAdapter mainCursorAdapter;
     private DBManager dbManager;
 
 }

@@ -6,7 +6,7 @@
     <string name="calendario_rutina_msg">Seleccione el día para ver o crear una rutina</string>
     <string name="Series">Número de series:</string>
     <string name="Repeticiones">Número de repeticiones:</string>
-    <string name="Peso">Peso (kg)</string>
+    <string name="Peso">Peso (kg):</string>
     <string name="informacion_extra">Información extra:</string>
     <string name="msg_image">Inserta una imagen</string>
     <string name="descripcion_nuevo_ejercicio">Descripción:</string>
