@@ -150,7 +150,7 @@ public class ListaEjerciciosRutinaActivity extends AppCompatActivity {
         this.mainCursorAdapter = new SimpleCursorAdapter(ListaEjerciciosRutinaActivity.this,
                 R.layout.lvrutina_context_menu,
                 this.dbManager.getAllEjerRutina(fecha),
-                new String[]{"imagen","nombre" },
+                new String[]{"imagen", "nombre"},
                 new int[]{R.id.imgExercise,R.id.lblNombre});
 
         mainCursorAdapter.setViewBinder(new RutinaViewBinder());
@@ -242,7 +242,7 @@ public class ListaEjerciciosRutinaActivity extends AppCompatActivity {
                 int id = cursor.getInt(cursor.getColumnIndex("_id"));
                 dbManager.eliminaEjercicioRutina(id,fecha);
                 updateRutina();
-                Log.i("main", String.valueOf(mainCursorAdapter.getCount()));
+
                 if(mainCursorAdapter.getCount() == 0){
                     SimpleDateFormat formatoDelTexto = new SimpleDateFormat("yyyy-MM-dd");
                     Date aux = null;
@@ -253,11 +253,7 @@ public class ListaEjerciciosRutinaActivity extends AppCompatActivity {
                     }
                     Calendar calendar = new GregorianCalendar();
                     calendar.setTime(aux);
-                    Log.i("año", String.valueOf(calendar.get(Calendar.YEAR)));
-                    Log.i("mes", String.valueOf(calendar.get(Calendar.MONTH) + 1));
-                    Log.i("dia", String.valueOf(calendar.get(Calendar.DAY_OF_MONTH)));
-
-                    CalendarioRutinaActivity.dlg.unMarkDate(new DateData(calendar.get(Calendar.YEAR),calendar.get(Calendar.MONTH) + 1,calendar.get(Calendar.DAY_OF_MONTH)));
+                    CalendarioRutinaActivity.dlg.unMarkDate(calendar.get(Calendar.YEAR),calendar.get(Calendar.MONTH) + 1,calendar.get(Calendar.DAY_OF_MONTH));
                 }
 
                 return true;

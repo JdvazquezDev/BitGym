@@ -81,7 +81,6 @@ private Cursor c;
         dlg = ((MCalendarView) findViewById(R.id.calendarView));
 
         if(c !=null) {
-            Log.i("asd", String.valueOf(c.getCount()));
             if (c.moveToFirst()) {
                 do {
                     String aux = c.getString(c.getColumnIndex("fecha"));
