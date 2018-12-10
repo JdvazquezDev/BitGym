@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.graphics.Matrix;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -35,6 +36,9 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+
+import sun.bob.mcalendarview.MarkStyle;
+import sun.bob.mcalendarview.vo.DateData;
 
 public class ListaEjerciciosRutinaActivity extends AppCompatActivity {
 
@@ -238,6 +242,7 @@ public class ListaEjerciciosRutinaActivity extends AppCompatActivity {
                 int id = cursor.getInt(cursor.getColumnIndex("_id"));
                 dbManager.eliminaEjercicioRutina(id,fecha);
                 updateRutina();
+                Log.i("main", String.valueOf(mainCursorAdapter.getCount()));
                 if(mainCursorAdapter.getCount() == 0){
                     SimpleDateFormat formatoDelTexto = new SimpleDateFormat("yyyy-MM-dd");
                     Date aux = null;
@@ -248,7 +253,11 @@ public class ListaEjerciciosRutinaActivity extends AppCompatActivity {
                     }
                     Calendar calendar = new GregorianCalendar();
                     calendar.setTime(aux);
-                    CalendarioRutinaActivity.dlg.unMarkDate(calendar.get(Calendar.YEAR),calendar.get(Calendar.MONTH) + 1,calendar.get(Calendar.DAY_OF_MONTH));
+                    Log.i("año", String.valueOf(calendar.get(Calendar.YEAR)));
+                    Log.i("mes", String.valueOf(calendar.get(Calendar.MONTH) + 1));
+                    Log.i("dia", String.valueOf(calendar.get(Calendar.DAY_OF_MONTH)));
+
+                    CalendarioRutinaActivity.dlg.unMarkDate(new DateData(calendar.get(Calendar.YEAR),calendar.get(Calendar.MONTH) + 1,calendar.get(Calendar.DAY_OF_MONTH)));
                 }
 
                 return true;

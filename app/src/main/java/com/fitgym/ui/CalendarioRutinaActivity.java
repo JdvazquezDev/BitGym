@@ -37,7 +37,7 @@ public class CalendarioRutinaActivity extends AppCompatActivity {
     public static MCalendarView dlg;
     private TextView yearV;
     private TextView monthV;
-
+private Cursor c;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,8 +76,26 @@ public class CalendarioRutinaActivity extends AppCompatActivity {
         super.onResume();
 
         this.dbManager = DBManager.get();
-        Cursor c = this.dbManager.getAllDatesRutina();
 
+        dlg = ((MCalendarView) findViewById(R.id.calendarView));
+
+        if(c !=null) {
+            Log.i("asd", String.valueOf(c.getCount()));
+            if (c.moveToFirst()) {
+                do {
+                    String aux = c.getString(c.getColumnIndex("fecha"));
+
+                    String[] aux2 = aux.split("-");
+                    dlg.unMarkDate(
+                            new DateData(Integer.parseInt(aux2[0]), Integer.parseInt(aux2[1]), Integer.parseInt(aux2[2])));
+
+                } while (c.moveToNext());
+            }
+        }
+
+        c = this.dbManager.getAllDatesRutina();
+
+        Log.i("asd", String.valueOf(c.getCount()));
         if (c.moveToFirst()) {
             do {
                 String aux = c.getString(c.getColumnIndex("fecha"));
@@ -89,15 +107,13 @@ public class CalendarioRutinaActivity extends AppCompatActivity {
             } while (c.moveToNext());
         }
 
-    dlg.setOnMonthChangeListener(new OnMonthChangeListener() {
-        @Override
-        public void onMonthChange(int y, int m) {
-            yearV.setText(String.valueOf(y));
-            monthV.setText(String.valueOf(m));
-        }
-    });
-       /* dlg.markDate(
-                new DateData(new GregorianCalendar().get(Calendar.YEAR)  - 1900, new GregorianCalendar().get(Calendar.MONTH) ,new GregorianCalendar().get(Calendar.DAY_OF_MONTH)).setMarkStyle(new MarkStyle(MarkStyle.LEFTSIDEBAR, Color.BLUE)));*/
+        dlg.setOnMonthChangeListener(new OnMonthChangeListener() {
+            @Override
+            public void onMonthChange(int y, int m) {
+                yearV.setText(String.valueOf(y));
+                monthV.setText(String.valueOf(m));
+            }
+        });
 
     }
     public boolean onCreateOptionsMenu(Menu menu)
