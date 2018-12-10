@@ -6,6 +6,7 @@ import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
+import android.widget.Toast;
 
 
 /** Maneja el acceso a la base de datos. */
@@ -363,9 +364,8 @@ public class DBManager extends SQLiteOpenHelper {
 
         try {
             db.beginTransaction();
-                db.delete( TABLA_EJERCICIO, EJERCICIO_COL_CLAVE + "=?", new String[]{String.valueOf(id)} );
+            db.delete(TABLA_EJERCICIO, EJERCICIO_COL_CLAVE + "=?", new String[]{String.valueOf(id)});
             db.setTransactionSuccessful();
-            toret = true;
         } catch(SQLException exc) {
             Log.e( "DBManager.elimina", exc.getMessage() );
         } finally {
@@ -375,6 +375,44 @@ public class DBManager extends SQLiteOpenHelper {
 
         return toret;
     }
+    public boolean estaEjercicioRutina( int id){
+        String SELECT_QUERY;
+        SELECT_QUERY = "SELECT *" + "FROM ejercicioRutina WHERE nombre=?";
+        Cursor c = this.getReadableDatabase().rawQuery(SELECT_QUERY,new String[]{String.valueOf(id)});
+        if(c.getCount() == 0){
+            return false;
+        }else {
+            return true;
+        }
+    }
+/*
+
+    public boolean estaEjercicioRutina(int id) {
+        boolean toret = false;
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = null;
+        try {
+            db.beginTransaction();
+            cursor = db.query(true, TABLA_EJERCICIO, null,
+                    "( " + EJERCICIO_COL_CLAVE + " NOT IN( SELECT t1.nombre FROM ejercicioRutina t1 ))", null,
+                    null, null, null, null);
+            db.setTransactionSuccessful();
+            toret = true;
+        } catch(SQLException exc) {
+            Log.e( "estaEjercicio", exc.getMessage() );
+        } finally {
+            db.endTransaction();
+        }
+
+        if ( cursor.getColumnIndex("id") == id){
+            toret = true;
+        }
+        else {
+            toret = false;
+        }
+        return toret;
+    }
+*/
     public boolean eliminaEjercicioRutina(int id,String fecha)
     {
         boolean toret = false;
@@ -382,7 +420,7 @@ public class DBManager extends SQLiteOpenHelper {
 
         try {
             db.beginTransaction();
-            db.delete( TABLA_EJERCICIO_RUTINA, EJERCICIO_RUTINA_COL_CLAVE + "= ? AND " + EJERCICIO_RUTINA_COL_FECHA + "= ?", new String[]{String.valueOf(id),fecha} );
+               db.delete( TABLA_EJERCICIO_RUTINA, EJERCICIO_RUTINA_COL_CLAVE + "= ? AND " + EJERCICIO_RUTINA_COL_FECHA + "= ?", new String[]{String.valueOf(id),fecha} );
             db.setTransactionSuccessful();
             toret = true;
         } catch(SQLException exc) {
@@ -396,7 +434,6 @@ public class DBManager extends SQLiteOpenHelper {
 
 
     public Cursor searchExercise(String nombre){
-
 
         Cursor mCursor = null;
         SQLiteDatabase db = this.getReadableDatabase();

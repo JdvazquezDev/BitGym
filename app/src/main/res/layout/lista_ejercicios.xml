@@ -24,8 +24,8 @@
         android:id="@+id/editView"
         android:layout_width="match_parent"
         android:layout_height="35dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
         android:hint="@string/searchview"
         android:inputType="text"
         android:textAppearance="@style/TextAppearance.AppCompat.Body2" />

@@ -41,4 +41,5 @@
     <string name="addUrl">Añadir Enlace</string>
     <string name="egLink">e.g. https://www.youtube.com/watch?v=9bZkp7q19f0</string>
     <string name="eglinkmobile">e.g. https://youtu.be/31j4DlpgY9U</string>
+    <string name="toast_eliminar">This exercise cannot be eliminated because it is being used in one or more routines.</string>
 </resources>

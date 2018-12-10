@@ -38,6 +38,8 @@ import java.util.GregorianCalendar;
 
 import sun.bob.mcalendarview.vo.DateData;
 
+import static com.BitGym.ui.ListaEjerciciosRutinaActivity.*;
+
 public class ListaEjerciciosActivity extends AppCompatActivity  {
 
     protected static final int CODIGO_ADICION_EJERCICIO = 100;
@@ -207,6 +209,8 @@ public class ListaEjerciciosActivity extends AppCompatActivity  {
         int position = ((AdapterView.AdapterContextMenuInfo) item.getMenuInfo()).position;
         Cursor cursor = ListaEjerciciosActivity.this.mainCursorAdapter.getCursor();
 
+
+
         switch (item.getItemId()) {
             case R.id.menu_editar:
                 if (cursor.moveToPosition(position)) {
@@ -228,9 +232,14 @@ public class ListaEjerciciosActivity extends AppCompatActivity  {
 
             case R.id.menu_Eliminar:
                 int id = cursor.getInt(0);
+                String nombre = cursor.getColumnName(1);
 
-                dbManager.eliminaEjercicio(id);
-                updateEjercicios();
+                if (dbManager.estaEjercicioRutina(id)){
+                    Toast.makeText(ListaEjerciciosActivity.this, R.string.toast_eliminar, Toast.LENGTH_LONG).show();
+                }else {
+                    dbManager.eliminaEjercicio(id);
+                    updateEjercicios();
+                }
 
                 return true;
             default:

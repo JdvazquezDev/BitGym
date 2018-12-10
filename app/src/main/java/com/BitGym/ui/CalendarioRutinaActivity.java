@@ -74,7 +74,7 @@ public class CalendarioRutinaActivity extends AppCompatActivity {
     protected void onResume() {
 
         super.onResume();
-
+       
         this.dbManager = DBManager.get();
 
         dlg = ((MCalendarView) findViewById(R.id.calendarView));

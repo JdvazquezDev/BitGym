@@ -151,7 +151,7 @@ public class ListaEjerciciosRutinaActivity extends AppCompatActivity {
         this.mainCursorAdapter = new SimpleCursorAdapter(ListaEjerciciosRutinaActivity.this,
                 R.layout.lvrutina_context_menu,
                 this.dbManager.getAllEjerRutina(fecha),
-                new String[]{"imagen","fecha", "nombre"},
+                new String[]{"imagen","nombre","fecha" },
                 new int[]{R.id.imgExercise,R.id.lblNombre});
 
         mainCursorAdapter.setViewBinder(new RutinaViewBinder());
@@ -213,7 +213,6 @@ public class ListaEjerciciosRutinaActivity extends AppCompatActivity {
 
     @Override
     public boolean onContextItemSelected(MenuItem item) {
-
         int position = ((AdapterView.AdapterContextMenuInfo) item.getMenuInfo()).position;
         Cursor cursor = ListaEjerciciosRutinaActivity.this.mainCursorAdapter.getCursor();
 
@@ -243,7 +242,6 @@ public class ListaEjerciciosRutinaActivity extends AppCompatActivity {
                 int id = cursor.getInt(cursor.getColumnIndex("_id"));
                 dbManager.eliminaEjercicioRutina(id,fecha);
                 updateRutina();
-
                 return true;
             default:
                 return super.onContextItemSelected(item);
@@ -292,7 +290,7 @@ public class ListaEjerciciosRutinaActivity extends AppCompatActivity {
         }
         return toret;
     }
-    private SimpleCursorAdapter mainCursorAdapter;
+    public static SimpleCursorAdapter mainCursorAdapter;
     private DBManager dbManager;
 
 }
