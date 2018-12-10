@@ -1,4 +1,4 @@
-package com.fitgym;
+package com.BitGym;
 
 import org.junit.Test;
 

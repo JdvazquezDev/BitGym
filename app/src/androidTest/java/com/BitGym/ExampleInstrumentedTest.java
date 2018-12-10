@@ -1,4 +1,4 @@
-package com.fitgym;
+package com.BitGym;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;

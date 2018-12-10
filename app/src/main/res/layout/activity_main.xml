@@ -8,7 +8,7 @@
     android:background="@color/color2"
     android:orientation="vertical"
     android:padding="10dp"
-    tools:context="com.fitgym.ui.MainActivity">
+    tools:context=".ui.MainActivity">
 
 
     <LinearLayout

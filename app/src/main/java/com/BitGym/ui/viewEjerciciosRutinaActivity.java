@@ -1,23 +1,16 @@
-package com.fitgym.ui;
+package com.BitGym.ui;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.webkit.WebView;
-import android.webkit.WebViewClient;
 import android.widget.Button;
 import android.widget.Chronometer;
-import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.fitgym.R;
+import com.BitGym.R;
 
 public class viewEjerciciosRutinaActivity extends AppCompatActivity {
     Boolean resume = false;

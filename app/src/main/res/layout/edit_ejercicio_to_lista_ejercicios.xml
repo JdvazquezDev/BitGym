@@ -8,7 +8,7 @@
     android:background="@color/color2"
     android:orientation="vertical"
     android:padding="10dp"
-    tools:context="com.fitgym.ui.editEjerciciosActivity">
+    tools:context=".ui.editEjerciciosActivity">
 
     <ScrollView
         android:layout_width="match_parent"
