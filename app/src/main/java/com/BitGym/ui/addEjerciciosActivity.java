@@ -46,18 +46,21 @@ public class addEjerciciosActivity extends AppCompatActivity {
     Bitmap bitmap;
     private WebView mWebView;
     boolean estaImagen;
+    Button btGuardarAdd;
+    EditText nombre_nuevo_ejercicio;
+    EditText descripcion_nuevo_ejercicio;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.add_ejercicio_to_lista_ejercicio);
 
-        final Button btGuardarAdd = (Button) this.findViewById( R.id.btGuardarAdd );
+        btGuardarAdd = (Button) this.findViewById( R.id.btGuardarAdd );
         final Button btCancelar = (Button) this.findViewById( R.id.btCancelar );
         final Button btImagen = (Button) this.findViewById(R.id.btImagen);
 
-        final EditText nombre_nuevo_ejercicio = (EditText) this.findViewById( R.id.nombre_nuevo_ejercicio );
-        final EditText descripcion_nuevo_ejercicio = (EditText) this.findViewById( R.id.descripcion_nuevo_ejercicio);
+        nombre_nuevo_ejercicio = (EditText) this.findViewById( R.id.nombre_nuevo_ejercicio );
+        descripcion_nuevo_ejercicio = (EditText) this.findViewById( R.id.descripcion_nuevo_ejercicio);
         final EditText urlVideo = (EditText) this.findViewById(R.id.urlvideo);
         imagenView = (ImageView) findViewById(R.id.imageView);
         estaImagen = false;
@@ -211,6 +214,9 @@ public class addEjerciciosActivity extends AppCompatActivity {
             bitmap = BitmapFactory.decodeFile(path);
             imagenView.setImageBitmap(bitmap);
             estaImagen = true;
+
+            btGuardarAdd.setEnabled(nombre_nuevo_ejercicio.getText().toString().trim().length() > 0 &&  descripcion_nuevo_ejercicio.getText().toString().trim().length() > 0 && estaImagen);
+
         }
 
         super.onActivityResult(requestCode, resultCode, data);
