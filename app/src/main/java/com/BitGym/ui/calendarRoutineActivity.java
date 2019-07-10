@@ -6,11 +6,9 @@ import android.database.Cursor;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.CalendarView;
 import android.widget.TextView;
 
 
@@ -18,12 +16,10 @@ import com.BitGym.R;
 import com.BitGym.core.DBManager;
 
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
-import java.util.Locale;
 
 import sun.bob.mcalendarview.MCalendarView;
 import sun.bob.mcalendarview.MarkStyle;
@@ -32,7 +28,7 @@ import sun.bob.mcalendarview.listeners.OnMonthChangeListener;
 import sun.bob.mcalendarview.vo.DateData;
 
 
-public class CalendarioRutinaActivity extends AppCompatActivity {
+public class calendarRoutineActivity extends AppCompatActivity {
 
     public MCalendarView dlg;
     private TextView yearV;
@@ -64,9 +60,9 @@ public class CalendarioRutinaActivity extends AppCompatActivity {
                 SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
                 String selectedDate = sdf.format(new Date(date.getYear() - 1900, date.getMonth() - 1, date.getDay()));
 
-                Intent subActividad = new Intent(CalendarioRutinaActivity.this, ListaEjerciciosRutinaActivity.class);
+                Intent subActividad = new Intent(calendarRoutineActivity.this, listExercisesRoutineActivity.class);
                 subActividad.putExtra("fecha", selectedDate);
-                CalendarioRutinaActivity.this.startActivity(subActividad);
+                calendarRoutineActivity.this.startActivity(subActividad);
             }
         });
     }

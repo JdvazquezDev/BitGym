@@ -12,14 +12,14 @@ import android.widget.TextView;
 
 import com.BitGym.R;
 
-public class viewEjerciciosRutinaActivity extends AppCompatActivity {
+public class viewExercisesRoutineActivity extends AppCompatActivity {
     Boolean resume = false;
     long elapsedTime;
     Chronometer cmTimer;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.view_exercise_rutina);
+        setContentView(R.layout.view_exercise_routine);
 
         final Button btCancelar = (Button) this.findViewById(R.id.btCancelar2);
 
@@ -43,7 +43,7 @@ public class viewEjerciciosRutinaActivity extends AppCompatActivity {
         btCancelar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                viewEjerciciosRutinaActivity.this.finish();
+                viewExercisesRoutineActivity.this.finish();
             }
         });
 
