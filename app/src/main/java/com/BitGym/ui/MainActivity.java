@@ -22,14 +22,14 @@ public class MainActivity extends AppCompatActivity {
         btEjercicios.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent subActividad = new Intent(MainActivity.this, ListaEjerciciosActivity.class);
+                Intent subActividad = new Intent(MainActivity.this, listExercisesActivity.class);
                 MainActivity.this.startActivity(subActividad);
             }
         });
         btRutina.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent subActividad = new Intent( MainActivity.this, CalendarioRutinaActivity.class );
+                Intent subActividad = new Intent( MainActivity.this, calendarRoutineActivity.class );
                 MainActivity.this.startActivity(subActividad);
             }
         });

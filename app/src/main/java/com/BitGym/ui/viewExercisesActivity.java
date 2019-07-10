@@ -17,7 +17,7 @@ import android.widget.TextView;
 
 import com.BitGym.R;
 
-public class viewEjerciciosActivity extends AppCompatActivity {
+public class viewExercisesActivity extends AppCompatActivity {
     ImageView imagenView;
     TextView nombre_nuevo_ejercicio;
     TextView urlvideo;
@@ -50,7 +50,7 @@ public class viewEjerciciosActivity extends AppCompatActivity {
         btAtras.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                viewEjerciciosActivity.this.finish();
+                viewExercisesActivity.this.finish();
             }
         });
 

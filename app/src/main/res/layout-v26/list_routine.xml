@@ -2,19 +2,17 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/lista_ejercicios_to_add_rutina"
+    android:id="@+id/lista_rutina"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/color2"
     android:orientation="vertical"
-    android:padding="10dp"
-    tools:context=".ui.addEjerciciosToRutinaActivity">
-
+    android:padding="5dp"
+    tools:context=".ui.listExercisesRoutineActivity">
 
     <TextView
-        android:id="@+id/textView"
         android:layout_width="match_parent"
-        android:layout_height="30sp"
+        android:layout_height="25dp"
         android:gravity="center_vertical|center_horizontal"
         android:text="@string/ListaEjercicios"
         android:textAllCaps="true"
@@ -25,20 +23,37 @@
     <EditText
         android:id="@+id/editView"
         android:layout_width="match_parent"
-        android:layout_height="35dp"
-        android:autofillHints=""
-        android:hint="Introduce el nombre del ejercicio a buscar..."
+        android:layout_height="40dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:hint="@string/searchview"
+        android:importantForAutofill="no"
         android:inputType="text"
-        android:paddingTop="10dp"
-        android:paddingBottom="10dp"
-        android:text="@string/searchview"
         android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
 
     <ListView
 
-        android:id="@+id/list_ejercicios_to_add_rutina"
+        android:id="@+id/lvRutina"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight=".9"></ListView>
+
+
+    <LinearLayout
+
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:gravity="end"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/btNuevo"
+            style="@style/Widget.AppCompat.Button"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="@string/addExercise"
+            android:textAppearance="@style/TextAppearance.AppCompat.Button" />
+    </LinearLayout>
 
 </LinearLayout>

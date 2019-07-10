@@ -35,7 +35,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 
 
-public class addEjerciciosActivity extends AppCompatActivity {
+public class addExercisesActivity extends AppCompatActivity {
 
     final int REQUEST_CODE_GALLERY = 999;
     final int REQUEST_CODE_GALLERY_VIDEO = 998;
@@ -53,7 +53,7 @@ public class addEjerciciosActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.add_ejercicio_to_lista_ejercicio);
+        setContentView(R.layout.add_exercise_to_list_exercises);
 
         btGuardarAdd = (Button) this.findViewById( R.id.btGuardarAdd );
         final Button btCancelar = (Button) this.findViewById( R.id.btCancelar );
@@ -86,7 +86,7 @@ public class addEjerciciosActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 ActivityCompat.requestPermissions(
-                        addEjerciciosActivity.this,
+                        addExercisesActivity.this,
                         new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
                         REQUEST_CODE_GALLERY
                 );
@@ -97,8 +97,8 @@ public class addEjerciciosActivity extends AppCompatActivity {
         btCancelar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                addEjerciciosActivity.this.setResult( Activity.RESULT_CANCELED );
-                addEjerciciosActivity.this.finish();
+                addExercisesActivity.this.setResult( Activity.RESULT_CANCELED );
+                addExercisesActivity.this.finish();
             }
         });
 
@@ -112,8 +112,8 @@ public class addEjerciciosActivity extends AppCompatActivity {
                 datosRetornar.putExtra("imagen", path);
                 datosRetornar.putExtra("url", urlVideo.getText().toString());
 
-                addEjerciciosActivity.this.setResult( Activity.RESULT_OK, datosRetornar );
-                addEjerciciosActivity.this.finish();
+                addExercisesActivity.this.setResult( Activity.RESULT_OK, datosRetornar );
+                addExercisesActivity.this.finish();
             }
         });
         btGuardarAdd.setEnabled( false );
@@ -257,11 +257,11 @@ public class addEjerciciosActivity extends AppCompatActivity {
     }
 
     private void UnableToSave() {
-        Toast.makeText(addEjerciciosActivity.this, "¡No se ha podido guardar la imagen!", Toast.LENGTH_SHORT).show();
+        Toast.makeText(addExercisesActivity.this, "¡No se ha podido guardar la imagen!", Toast.LENGTH_SHORT).show();
     }
 
     private void AbleToSave() {
-        Toast.makeText(addEjerciciosActivity.this, "Imagen guardada", Toast.LENGTH_SHORT).show();
+        Toast.makeText(addExercisesActivity.this, "Imagen guardada", Toast.LENGTH_SHORT).show();
     }
 
 

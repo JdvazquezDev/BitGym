@@ -7,7 +7,6 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Color;
 import android.graphics.Matrix;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -32,16 +31,8 @@ import com.BitGym.R;
 import com.BitGym.core.DBManager;
 
 import java.io.File;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
 
-import sun.bob.mcalendarview.MarkStyle;
-import sun.bob.mcalendarview.vo.DateData;
-
-public class ListaEjerciciosRutinaActivity extends AppCompatActivity {
+public class listExercisesRoutineActivity extends AppCompatActivity {
 
     protected static final int CODIGO_ADICION_EJERCICIO_TO_RUTINA = 105;
     protected static final int CODIGO_EDIT_EJERCICIO_TO_RUTINA = 106;
@@ -51,7 +42,7 @@ public class ListaEjerciciosRutinaActivity extends AppCompatActivity {
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.lista_rutina);
+        setContentView(R.layout.list_routine);
 
         this.dbManager = DBManager.get();
         edit = (EditText) this.findViewById(R.id.editView);
@@ -62,20 +53,20 @@ public class ListaEjerciciosRutinaActivity extends AppCompatActivity {
         btNuevo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent subActividad = new Intent( ListaEjerciciosRutinaActivity.this, addEjerciciosToRutinaActivity.class );
+                Intent subActividad = new Intent( listExercisesRoutineActivity.this, addExercisesToRoutineActivity.class );
                 subActividad.putExtra( "_id", "" );
                 subActividad.putExtra( "fecha", fecha );
-                ListaEjerciciosRutinaActivity.this.startActivityForResult( subActividad, CODIGO_ADICION_EJERCICIO_TO_RUTINA );
+                listExercisesRoutineActivity.this.startActivityForResult( subActividad, CODIGO_ADICION_EJERCICIO_TO_RUTINA );
             }
         });
         lvRutina.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-                Cursor cursor = ListaEjerciciosRutinaActivity.this.mainCursorAdapter.getCursor();
+                Cursor cursor = listExercisesRoutineActivity.this.mainCursorAdapter.getCursor();
                 if ( cursor.moveToPosition( position ) ) {
 
-                    Intent subActividad = new Intent( ListaEjerciciosRutinaActivity.this, viewEjerciciosRutinaActivity.class );
+                    Intent subActividad = new Intent( listExercisesRoutineActivity.this, viewExercisesRoutineActivity.class );
 
                     subActividad.putExtra("_id", cursor.getInt(cursor.getColumnIndex("_id")));
                     subActividad.putExtra("series", cursor.getInt(cursor.getColumnIndex("series")));
@@ -85,12 +76,12 @@ public class ListaEjerciciosRutinaActivity extends AppCompatActivity {
                     subActividad.putExtra("tiempo", cursor.getString(cursor.getColumnIndex("tiempo")));
                     subActividad.putExtra( "fecha", fecha );
 
-                    ListaEjerciciosRutinaActivity.this.startActivity( subActividad );
+                    listExercisesRoutineActivity.this.startActivity( subActividad );
 
                 }else{
                     String errMsg = "Error en el ejercicio de " + ": " + position;
                     Log.e( "main.modifyContact", errMsg );
-                    Toast.makeText( ListaEjerciciosRutinaActivity.this, errMsg, Toast.LENGTH_LONG ).show();
+                    Toast.makeText( listExercisesRoutineActivity.this, errMsg, Toast.LENGTH_LONG ).show();
                 }
             }
         });
@@ -148,8 +139,8 @@ public class ListaEjerciciosRutinaActivity extends AppCompatActivity {
         fecha = (String) datosEnviados.getExtras().get("fecha");
 
         this.lvRutina = this.findViewById(R.id.lvRutina);
-        this.mainCursorAdapter = new SimpleCursorAdapter(ListaEjerciciosRutinaActivity.this,
-                R.layout.lvrutina_context_menu,
+        this.mainCursorAdapter = new SimpleCursorAdapter(listExercisesRoutineActivity.this,
+                R.layout.lvroutine_context_menu,
                 this.dbManager.getAllEjerRutina(fecha),
                 new String[]{"imagen","nombre","fecha" },
                 new int[]{R.id.imgExercise,R.id.lblNombre});
@@ -189,7 +180,7 @@ public class ListaEjerciciosRutinaActivity extends AppCompatActivity {
                     String path = cursor.getString(cursor.getColumnIndex("imagen"));
                     File imgFile = new File(path);
                     Bitmap bm = BitmapFactory.decodeFile(imgFile.getPath());
-                    bm =resizeImage(ListaEjerciciosRutinaActivity.this,bm,400,250);
+                    bm =resizeImage(listExercisesRoutineActivity.this,bm,400,250);
                     ImageView imgExercise = (ImageView) view.findViewById(R.id.imgExercise);
                     imgExercise.setImageBitmap(bm);
                     return true;
@@ -197,7 +188,7 @@ public class ListaEjerciciosRutinaActivity extends AppCompatActivity {
             }
             catch(Exception e)
             {
-                Toast.makeText(ListaEjerciciosRutinaActivity.this, e.toString()+" err", Toast.LENGTH_LONG).show();
+                Toast.makeText(listExercisesRoutineActivity.this, e.toString()+" err", Toast.LENGTH_LONG).show();
             }
             return false;
         }
@@ -214,13 +205,13 @@ public class ListaEjerciciosRutinaActivity extends AppCompatActivity {
     @Override
     public boolean onContextItemSelected(MenuItem item) {
         int position = ((AdapterView.AdapterContextMenuInfo) item.getMenuInfo()).position;
-        Cursor cursor = ListaEjerciciosRutinaActivity.this.mainCursorAdapter.getCursor();
+        Cursor cursor = listExercisesRoutineActivity.this.mainCursorAdapter.getCursor();
 
         switch (item.getItemId()) {
             case R.id.menu_editar:
                 if (cursor.moveToPosition(position)) {
 
-                    Intent subActividad = new Intent(ListaEjerciciosRutinaActivity.this, editEjercicioRutinaActivity.class);
+                    Intent subActividad = new Intent(listExercisesRoutineActivity.this, editExerciseRoutineActivity.class);
 
                     subActividad.putExtra("_id", cursor.getInt(cursor.getColumnIndex("_id")));
                     subActividad.putExtra("series", cursor.getInt(cursor.getColumnIndex("series")));
@@ -230,7 +221,7 @@ public class ListaEjerciciosRutinaActivity extends AppCompatActivity {
                     subActividad.putExtra("tiempo", cursor.getString(cursor.getColumnIndex("tiempo")));
                     subActividad.putExtra( "fecha", fecha );
 
-                    ListaEjerciciosRutinaActivity.this.startActivityForResult(subActividad, CODIGO_EDIT_EJERCICIO_TO_RUTINA);
+                    listExercisesRoutineActivity.this.startActivityForResult(subActividad, CODIGO_EDIT_EJERCICIO_TO_RUTINA);
 
                 } else {
                     String errMsg = "Error en el ejercicio de " + ": " + position;

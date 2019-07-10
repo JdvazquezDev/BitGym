@@ -17,7 +17,7 @@ import com.BitGym.R;
 
 
 
-public class editEjercicioRutinaActivity extends AppCompatActivity {
+public class editExerciseRoutineActivity extends AppCompatActivity {
 
     Boolean resume = false;
     long elapsedTime;
@@ -26,7 +26,7 @@ public class editEjercicioRutinaActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.edit_ejercicio_to_lista_rutina);
+        setContentView(R.layout.edit_exercise_to_list_routine);
 
         final Button btGuardar = (Button) this.findViewById( R.id.btGuardarEdit );
         final Button btCancelar = (Button) this.findViewById( R.id.btCancelar2 );
@@ -53,8 +53,8 @@ public class editEjercicioRutinaActivity extends AppCompatActivity {
             public void onClick(View view) {
                 cmTimer.stop();
                 resume = true;
-                editEjercicioRutinaActivity.this.setResult( Activity.RESULT_CANCELED );
-                editEjercicioRutinaActivity.this.finish();
+                editExerciseRoutineActivity.this.setResult( Activity.RESULT_CANCELED );
+                editExerciseRoutineActivity.this.finish();
             }
         });
 
@@ -75,8 +75,8 @@ public class editEjercicioRutinaActivity extends AppCompatActivity {
                 datosRetornar.putExtra( "tiempo", cmTimer.getText().toString());
                 datosRetornar.putExtra("fecha",fecha);
 
-                editEjercicioRutinaActivity.this.setResult( Activity.RESULT_OK, datosRetornar );
-                editEjercicioRutinaActivity.this.finish();
+                editExerciseRoutineActivity.this.setResult( Activity.RESULT_OK, datosRetornar );
+                editExerciseRoutineActivity.this.finish();
             }
         });
 
