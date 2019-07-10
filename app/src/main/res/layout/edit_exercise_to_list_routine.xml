@@ -24,7 +24,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.7"
-                    android:text="@string/Repeticiones"
+                    android:text="@string/reps"
                     android:textColor="@color/colorAccent" />
 
                 <EditText
@@ -51,7 +51,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.7"
-                    android:text="@string/Series"
+                    android:text="@string/sets"
                     android:textColor="@color/colorAccent" />
 
                 <EditText
@@ -78,7 +78,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.7"
-                    android:text="@string/Peso"
+                    android:text="@string/weight"
                     android:textColor="@color/colorAccent" />
 
                 <EditText
@@ -105,7 +105,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.7"
-                    android:text="@string/informacion_extra"
+                    android:text="@string/extra_information"
                     android:textColor="@color/colorAccent" />
 
             </LinearLayout>
@@ -129,7 +129,7 @@
                 android:id="@+id/textView9"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/cronometro" />
+                android:text="@string/cronometer" />
 
             <Chronometer
                 android:id="@+id/cmTimer"
@@ -147,14 +147,14 @@
                     android:id="@+id/empezar"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/empezar"
+                    android:text="@string/start"
                     android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 
                 <Button
                     android:id="@+id/parar"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/parar"
+                    android:text="@string/stop"
                     android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
             </LinearLayout>
 
@@ -163,14 +163,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:text="@string/edit_ejercicio_rutina"
+                android:text="@string/edit_exercise_routine"
                 android:textAppearance="@style/TextAppearance.AppCompat.Button" />
 
             <Button
                 android:id="@+id/btCancelar2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/btCancelar"
+                android:text="@string/btCancel"
                 android:textAppearance="@style/TextAppearance.AppCompat.Button" />
         </LinearLayout>
     </ScrollView>

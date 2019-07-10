@@ -45,31 +45,31 @@ public class addExercisesActivity extends AppCompatActivity {
     String path;
     Bitmap bitmap;
     private WebView mWebView;
-    boolean estaImagen;
-    Button btGuardarAdd;
-    EditText nombre_nuevo_ejercicio;
-    EditText descripcion_nuevo_ejercicio;
+    boolean isImage;
+    Button btSaveAdd;
+    EditText name_new_exercise;
+    EditText description_new_exercise;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.add_exercise_to_list_exercises);
 
-        btGuardarAdd = (Button) this.findViewById( R.id.btGuardarAdd );
-        final Button btCancelar = (Button) this.findViewById( R.id.btCancelar );
-        final Button btImagen = (Button) this.findViewById(R.id.btImagen);
+        btSaveAdd = (Button) this.findViewById( R.id.btSaveAdd );
+        final Button btCancel = (Button) this.findViewById( R.id.btCancel );
+        final Button btImage = (Button) this.findViewById(R.id.btImage);
 
-        nombre_nuevo_ejercicio = (EditText) this.findViewById( R.id.nombre_nuevo_ejercicio );
-        descripcion_nuevo_ejercicio = (EditText) this.findViewById( R.id.descripcion_nuevo_ejercicio);
+        name_new_exercise = (EditText) this.findViewById( R.id.nombre_nuevo_ejercicio );
+        description_new_exercise = (EditText) this.findViewById( R.id.descripcion_nuevo_ejercicio);
         final EditText urlVideo = (EditText) this.findViewById(R.id.urlvideo);
         imagenView = (ImageView) findViewById(R.id.imageView);
-        estaImagen = false;
+        isImage = false;
         mWebView = (WebView) findViewById(R.id.webview);
 
         mWebView.getSettings().setJavaScriptEnabled(true);
 
-        String nombreDirectorioPublico = "imagen";
-        file = crearDirectorioPublico(this,nombreDirectorioPublico);
+        String publicDirectoryName = "imagen";
+        file = createPublicDirectory(this,publicDirectoryName);
 
         if (!file.exists()) {
             file.mkdir();
@@ -79,10 +79,10 @@ public class addExercisesActivity extends AppCompatActivity {
         }
 
         Intent datosEnviados = this.getIntent();
-        nombre_nuevo_ejercicio.setText( datosEnviados.getExtras().getString(( "nombre" ) ) );
-        descripcion_nuevo_ejercicio.setText(datosEnviados.getExtras().getString(("descripcion")));
+        name_new_exercise.setText( datosEnviados.getExtras().getString(( "nombre" ) ) );
+        description_new_exercise.setText(datosEnviados.getExtras().getString(("descripcion")));
 
-       btImagen.setOnClickListener(new View.OnClickListener() {
+       btImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 ActivityCompat.requestPermissions(
@@ -94,7 +94,7 @@ public class addExercisesActivity extends AppCompatActivity {
         });
         String video = urlVideo.getText().toString();
 
-        btCancelar.setOnClickListener(new View.OnClickListener() {
+        btCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 addExercisesActivity.this.setResult( Activity.RESULT_CANCELED );
@@ -102,12 +102,12 @@ public class addExercisesActivity extends AppCompatActivity {
             }
         });
 
-        btGuardarAdd.setOnClickListener(new View.OnClickListener() {
+        btSaveAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent datosRetornar = new Intent();
-                datosRetornar.putExtra( "nombre", nombre_nuevo_ejercicio.getText().toString() );
-                datosRetornar.putExtra( "descripcion", descripcion_nuevo_ejercicio.getText().toString() );
+                datosRetornar.putExtra( "nombre", name_new_exercise.getText().toString() );
+                datosRetornar.putExtra( "descripcion", description_new_exercise.getText().toString() );
                 SaveImage(bitmap);
                 datosRetornar.putExtra("imagen", path);
                 datosRetornar.putExtra("url", urlVideo.getText().toString());
@@ -116,12 +116,12 @@ public class addExercisesActivity extends AppCompatActivity {
                 addExercisesActivity.this.finish();
             }
         });
-        btGuardarAdd.setEnabled( false );
+        btSaveAdd.setEnabled( false );
 
-        nombre_nuevo_ejercicio.addTextChangedListener(new TextWatcher() {
+        name_new_exercise.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                btGuardarAdd.setEnabled(nombre_nuevo_ejercicio.getText().toString().trim().length() > 0 &&   descripcion_nuevo_ejercicio.getText().toString().trim().length() > 0 && estaImagen
+                btSaveAdd.setEnabled(name_new_exercise.getText().toString().trim().length() > 0 &&   description_new_exercise.getText().toString().trim().length() > 0 && isImage
                 );
             }
 
@@ -130,15 +130,15 @@ public class addExercisesActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable editable) {
-                btGuardarAdd.setEnabled(  nombre_nuevo_ejercicio.getText().toString().trim().length() > 0 && descripcion_nuevo_ejercicio.getText().toString().trim().length() > 0 && estaImagen);
+                btSaveAdd.setEnabled(  name_new_exercise.getText().toString().trim().length() > 0 && description_new_exercise.getText().toString().trim().length() > 0 && isImage);
             }
         });
 
         urlVideo.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                btGuardarAdd.setEnabled(
-                        nombre_nuevo_ejercicio.getText().toString().trim().length() > 0 &&   descripcion_nuevo_ejercicio.getText().toString().trim().length() > 0 && estaImagen);
+                btSaveAdd.setEnabled(
+                        name_new_exercise.getText().toString().trim().length() > 0 &&   description_new_exercise.getText().toString().trim().length() > 0 && isImage);
             }
 
             @Override
@@ -148,15 +148,15 @@ public class addExercisesActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable s) {
-                btGuardarAdd.setEnabled( nombre_nuevo_ejercicio.getText().toString().trim().length() > 0 &&  descripcion_nuevo_ejercicio.getText().toString().trim().length() > 0 && estaImagen);
+                btSaveAdd.setEnabled( name_new_exercise.getText().toString().trim().length() > 0 &&  description_new_exercise.getText().toString().trim().length() > 0 && isImage);
             }
         });
 
 
-        descripcion_nuevo_ejercicio.addTextChangedListener(new TextWatcher() {
+        description_new_exercise.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                btGuardarAdd.setEnabled(nombre_nuevo_ejercicio.getText().toString().trim().length() > 0   &&  descripcion_nuevo_ejercicio.getText().toString().trim().length() > 0 && estaImagen);
+                btSaveAdd.setEnabled(name_new_exercise.getText().toString().trim().length() > 0   &&  description_new_exercise.getText().toString().trim().length() > 0 && isImage);
             }
 
             @Override
@@ -164,7 +164,7 @@ public class addExercisesActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable editable) {
-                btGuardarAdd.setEnabled(nombre_nuevo_ejercicio.getText().toString().trim().length() > 0 &&  descripcion_nuevo_ejercicio.getText().toString().trim().length() > 0 && estaImagen);
+                btSaveAdd.setEnabled(name_new_exercise.getText().toString().trim().length() > 0 &&  description_new_exercise.getText().toString().trim().length() > 0 && isImage);
             }
         });
 
@@ -213,16 +213,16 @@ public class addExercisesActivity extends AppCompatActivity {
             cursor.close();
             bitmap = BitmapFactory.decodeFile(path);
             imagenView.setImageBitmap(bitmap);
-            estaImagen = true;
+            isImage = true;
 
-            btGuardarAdd.setEnabled(nombre_nuevo_ejercicio.getText().toString().trim().length() > 0 &&  descripcion_nuevo_ejercicio.getText().toString().trim().length() > 0 && estaImagen);
+            btSaveAdd.setEnabled(name_new_exercise.getText().toString().trim().length() > 0 &&  description_new_exercise.getText().toString().trim().length() > 0 && isImage);
 
         }
 
         super.onActivityResult(requestCode, resultCode, data);
     }
 
-    public File crearDirectorioPublico(Context context, String nombreDirectorio) {
+    public File createPublicDirectory(Context context, String nombreDirectorio) {
        File directorio =new File(
                 context.getExternalFilesDir(Environment.DIRECTORY_PICTURES),
                 nombreDirectorio);

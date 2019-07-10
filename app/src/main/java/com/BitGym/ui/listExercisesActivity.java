@@ -226,7 +226,7 @@ public class listExercisesActivity extends AppCompatActivity  {
                 String nombre = cursor.getColumnName(1);
 
                 if (dbManager.estaEjercicioRutina(id)){
-                    Toast.makeText(listExercisesActivity.this, R.string.toast_eliminar, Toast.LENGTH_LONG).show();
+                    Toast.makeText(listExercisesActivity.this, R.string.toast_delete, Toast.LENGTH_LONG).show();
                 }else {
                     dbManager.eliminaEjercicio(id);
                     updateEjercicios();

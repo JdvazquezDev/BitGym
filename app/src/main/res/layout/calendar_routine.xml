@@ -26,7 +26,7 @@
             android:layout_height="match_parent"
             android:layout_marginBottom="5dp"
             android:padding="10dp"
-            android:text="@string/calendario_rutina_msg"
+            android:text="@string/calendar_routine_msg"
             android:textAppearance="@style/TextAppearance.AppCompat.Display1"
             android:textSize="24sp" />
 
@@ -48,7 +48,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="@string/anho"
+                android:text="@string/year"
                 android:textAlignment="center"
                 android:textColor="@color/colorAccent"
                 android:textSize="24sp" />
@@ -58,7 +58,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
                 android:layout_weight="1"
-                android:text="@string/mes"
+                android:text="@string/month"
                 android:textAlignment="center"
                 android:textAllCaps="false"
                 android:textColor="@color/colorAccent"
@@ -111,7 +111,7 @@
             android:layout_marginStart="5dp"
             android:layout_marginEnd="5dp"
             android:layout_weight="0.1"
-            android:text="@string/domingo"
+            android:text="@string/sunday"
             android:textColor="@color/colorAccent"
             android:textSize="11sp" />
 
@@ -121,7 +121,7 @@
             android:layout_marginStart="5dp"
             android:layout_marginEnd="5dp"
             android:layout_weight="0.1"
-            android:text="@string/lunes"
+            android:text="@string/monday"
             android:textColor="@color/colorAccent"
             android:textSize="11sp" />
 
@@ -131,7 +131,7 @@
             android:layout_marginStart="5dp"
             android:layout_marginEnd="5dp"
             android:layout_weight="0.1"
-            android:text="@string/martes"
+            android:text="@string/tuesday"
             android:textColor="@color/colorAccent"
             android:textSize="11sp" />
 
@@ -141,7 +141,7 @@
             android:layout_marginStart="5dp"
             android:layout_marginEnd="5dp"
             android:layout_weight="0.1"
-            android:text="@string/miercoles"
+            android:text="@string/wednesday"
             android:textColor="@color/colorAccent"
             android:textSize="11sp" />
 
@@ -151,7 +151,7 @@
             android:layout_marginStart="5dp"
             android:layout_marginEnd="5dp"
             android:layout_weight="0.1"
-            android:text="@string/jueves"
+            android:text="@string/thursday"
             android:textColor="@color/colorAccent"
             android:textSize="11sp" />
 
@@ -161,7 +161,7 @@
             android:layout_marginStart="5dp"
             android:layout_marginEnd="5dp"
             android:layout_weight="0.1"
-            android:text="@string/viernes"
+            android:text="@string/friday"
             android:textColor="@color/colorAccent"
             android:textSize="11sp" />
 
@@ -171,7 +171,7 @@
             android:layout_marginStart="5dp"
             android:layout_marginEnd="5dp"
             android:layout_weight="0.1"
-            android:text="@string/s_bado"
+            android:text="@string/saturday"
             android:textColor="@color/colorAccent"
             android:textSize="11sp" />
     </LinearLayout>

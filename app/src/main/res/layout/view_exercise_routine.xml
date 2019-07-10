@@ -29,7 +29,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.1"
-                    android:text="@string/Repeticiones"
+                    android:text="@string/reps"
                     android:textColor="@color/colorAccent" />
 
                 <TextView
@@ -50,7 +50,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.1"
-                    android:text="@string/Series"
+                    android:text="@string/sets"
                     android:textColor="@color/colorAccent" />
 
                 <TextView
@@ -71,7 +71,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.1"
-                    android:text="@string/Peso"
+                    android:text="@string/weight"
                     android:textColor="@color/colorAccent" />
 
                 <TextView
@@ -91,7 +91,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.7"
-                    android:text="@string/informacion_extra"
+                    android:text="@string/extra_information"
                     android:textColor="@color/colorAccent" />
 
             </LinearLayout>
@@ -108,7 +108,7 @@
                 android:id="@+id/textView9"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/cronometro" />
+                android:text="@string/cronometer" />
 
             <TextView
                 android:id="@+id/cmTimer"
@@ -121,7 +121,7 @@
                 android:id="@+id/btCancelar2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/btCancelar"
+                android:text="@string/btCancel"
                 android:textAppearance="@style/TextAppearance.AppCompat.Button" />
         </LinearLayout>
     </ScrollView>

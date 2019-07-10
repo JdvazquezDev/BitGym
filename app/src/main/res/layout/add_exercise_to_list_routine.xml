@@ -26,7 +26,7 @@
             android:id="@+id/button_add_ejercicio_rutina"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/button_add_ejercicio_rutina"
+            android:text="@string/add_exercise"
             tools:layout_editor_absoluteY="567dp" />
 
     </LinearLayout>

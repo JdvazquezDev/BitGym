@@ -16,7 +16,7 @@
         android:layout_width="match_parent"
         android:layout_height="30sp"
         android:gravity="center_vertical|center_horizontal"
-        android:text="@string/ListaEjercicios"
+        android:text="@string/list_exercises"
         android:textAllCaps="true"
         android:textColor="@color/colorAccent"
         android:textSize="18sp"
@@ -31,7 +31,7 @@
         android:inputType="text"
         android:paddingTop="10dp"
         android:paddingBottom="10dp"
-        android:text="@string/searchview"
+        android:text="@string/search_view"
         android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
 
     <ListView

@@ -28,7 +28,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="40dp"
                     android:layout_weight="0.5"
-                    android:text="@string/nombre_ejercicio"
+                    android:text="@string/name_exercise"
                     android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
 
                 <EditText
@@ -53,7 +53,7 @@
                     android:id="@+id/imageView"
                     android:layout_width="175dp"
                     android:layout_height="175dp"
-                    android:contentDescription="@string/ImageDesc"
+                    android:contentDescription="@string/image_exercise"
                     app:srcCompat="@drawable/bitgymlogo" />
 
                 <Button
@@ -78,12 +78,12 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/egLink" />
+                    android:text="@string/eg_link" />
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/eglinkmobile" />
+                    android:text="@string/eg_linkmobile" />
 
                 <EditText
                     android:id="@+id/urlvideo"
@@ -92,7 +92,7 @@
                     android:layout_marginTop="10dp"
                     android:layout_marginBottom="5dp"
                     android:ems="10"
-                    android:hint="@string/linkyoutube"
+                    android:hint="@string/link_youtube"
                     android:inputType="text"
                     android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 
@@ -124,7 +124,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/descripcion_nuevo_ejercicio"
+                        android:text="@string/description_new_exercise"
                         android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
                 </LinearLayout>
 
@@ -150,14 +150,14 @@
                     android:id="@+id/btGuardarEdit"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
-                    android:text="@string/btGuardar"
+                    android:text="@string/btSave"
                     android:textAppearance="@style/TextAppearance.AppCompat.Button" />
 
                 <Button
                     android:id="@+id/btCancelar"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
-                    android:text="@string/btCancelar"
+                    android:text="@string/btCancel"
                     android:textAppearance="@style/TextAppearance.AppCompat.Button" />
             </LinearLayout>
         </LinearLayout>

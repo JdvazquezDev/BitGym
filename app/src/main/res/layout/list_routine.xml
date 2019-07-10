@@ -14,7 +14,7 @@
         android:layout_width="match_parent"
         android:layout_height="25dp"
         android:gravity="center_vertical|center_horizontal"
-        android:text="@string/ListaEjercicios"
+        android:text="@string/list_exercises"
         android:textAllCaps="true"
         android:textColor="@color/colorAccent"
         android:textSize="18sp"
@@ -26,7 +26,7 @@
         android:layout_height="40dp"
         android:layout_marginTop="10dp"
         android:layout_marginBottom="10dp"
-        android:hint="@string/searchview"
+        android:hint="@string/search_view"
         android:importantForAutofill="no"
         android:inputType="text"
         android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
@@ -52,7 +52,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center"
-            android:text="@string/addExercise"
+            android:text="@string/add_exercise"
             android:textAppearance="@style/TextAppearance.AppCompat.Button" />
     </LinearLayout>
 
