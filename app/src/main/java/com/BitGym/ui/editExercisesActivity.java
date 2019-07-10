@@ -47,7 +47,7 @@ public class editExercisesActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.edit_ejercicio_to_lista_ejercicios);
+        setContentView(R.layout.edit_exercise_to_list_exercises);
 
         final Button btGuardarEdit = (Button) this.findViewById( R.id.btGuardarEdit );
         final Button btCancelar = (Button) this.findViewById( R.id.btCancelar );

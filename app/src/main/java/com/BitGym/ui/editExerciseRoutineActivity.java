@@ -26,7 +26,7 @@ public class editExerciseRoutineActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.edit_ejercicio_to_lista_rutina);
+        setContentView(R.layout.edit_exercise_to_list_routine);
 
         final Button btGuardar = (Button) this.findViewById( R.id.btGuardarEdit );
         final Button btCancelar = (Button) this.findViewById( R.id.btCancelar2 );

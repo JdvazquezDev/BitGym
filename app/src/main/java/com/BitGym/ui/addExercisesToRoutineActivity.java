@@ -39,7 +39,7 @@ public class addExercisesToRoutineActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.lista_ejercicios_add_to_rutina);
+        setContentView(R.layout.list_exercises_add_to_routine);
         this.dbManager = DBManager.get();
 
         edit = (EditText) this.findViewById(R.id.editView);
@@ -97,7 +97,7 @@ public class addExercisesToRoutineActivity extends AppCompatActivity
 
         this.list_ejercicios_to_add_rutina = this.findViewById( R.id.list_ejercicios_to_add_rutina );
         this.mainCursorAdapter = new SimpleCursorAdapter( addExercisesToRoutineActivity.this,
-                R.layout.lvejercicio_context_menu,
+                R.layout.lvexercise_context_menu,
                 this.dbManager.getAllEjerciciosNotInRutina(fecha),
                 new String[]{dbManager.EJERCICIO_COL_NOMBRE, dbManager.EJERCICIO_COL_DESCRIPCION,dbManager.EJERCICIO_COL_IMAGEN},
                 new int[] { R.id.lblNombre, R.id.imgExercise} );

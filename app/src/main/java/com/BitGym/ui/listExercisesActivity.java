@@ -41,7 +41,7 @@ public class listExercisesActivity extends AppCompatActivity  {
         @Override
         protected void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
-            setContentView(R.layout.lista_ejercicios);
+            setContentView(R.layout.list_exercises);
 
             this.dbManager = DBManager.get();
 
@@ -130,7 +130,7 @@ public class listExercisesActivity extends AppCompatActivity  {
 
         this.lvEjercicios = this.findViewById( R.id.lvEjercicios );
         this.mainCursorAdapter = new SimpleCursorAdapter( listExercisesActivity.this,
-                R.layout.lvejercicio_context_menu,
+                R.layout.lvexercise_context_menu,
                 this.dbManager.getAllEjercicios(),
                 new String[]{ dbManager.EJERCICIO_COL_NOMBRE,dbManager.EJERCICIO_COL_IMAGEN},
                 new int[] {R.id.lblNombre, R.id.imgExercise} );

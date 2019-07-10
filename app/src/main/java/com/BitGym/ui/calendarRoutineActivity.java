@@ -38,7 +38,7 @@ public class calendarRoutineActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.calendario_rutina);
+        setContentView(R.layout.calendar_routine);
 
         yearV = (TextView) findViewById(R.id.anho);
         monthV = (TextView) findViewById(R.id.mes);

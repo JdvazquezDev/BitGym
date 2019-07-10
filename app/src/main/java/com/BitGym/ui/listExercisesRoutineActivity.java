@@ -42,7 +42,7 @@ public class listExercisesRoutineActivity extends AppCompatActivity {
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.lista_rutina);
+        setContentView(R.layout.list_routine);
 
         this.dbManager = DBManager.get();
         edit = (EditText) this.findViewById(R.id.editView);
@@ -140,7 +140,7 @@ public class listExercisesRoutineActivity extends AppCompatActivity {
 
         this.lvRutina = this.findViewById(R.id.lvRutina);
         this.mainCursorAdapter = new SimpleCursorAdapter(listExercisesRoutineActivity.this,
-                R.layout.lvrutina_context_menu,
+                R.layout.lvroutine_context_menu,
                 this.dbManager.getAllEjerRutina(fecha),
                 new String[]{"imagen","nombre","fecha" },
                 new int[]{R.id.imgExercise,R.id.lblNombre});
